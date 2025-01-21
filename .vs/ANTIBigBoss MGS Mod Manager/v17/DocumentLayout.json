@@ -1,0 +1,143 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\mainmenuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mainmenuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\source\\repos\\antibigboss mgs mod manager\\mainmenuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mainmenuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\modresources.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:modresources.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\mgs1moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mgs1moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\mg2moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mg2moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\mg1moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mg1moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\mgs3moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mgs3moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\mgs2moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mgs2moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ModResources.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\ModResources.cs",
+              "RelativeDocumentMoniker": "ModResources.cs",
+              "ToolTip": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\ModResources.cs [Design]",
+              "RelativeToolTip": "ModResources.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-20T18:09:42.923Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainMenuForm.cs",
+              "DocumentMoniker": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MainMenuForm.cs",
+              "RelativeDocumentMoniker": "MainMenuForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MainMenuForm.cs",
+              "RelativeToolTip": "MainMenuForm.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAMwBMAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-20T18:03:41.818Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainMenuForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MainMenuForm.cs",
+              "RelativeDocumentMoniker": "MainMenuForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MainMenuForm.cs [Design]",
+              "RelativeToolTip": "MainMenuForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-14T19:20:03.993Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MG1ModdingForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MG1ModdingForm.cs",
+              "RelativeDocumentMoniker": "MG1ModdingForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MG1ModdingForm.cs [Design]",
+              "RelativeToolTip": "MG1ModdingForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-25T21:56:21.789Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MG2ModdingForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MG2ModdingForm.cs",
+              "RelativeDocumentMoniker": "MG2ModdingForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MG2ModdingForm.cs [Design]",
+              "RelativeToolTip": "MG2ModdingForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-25T21:56:00.821Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MGS1ModdingForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MGS1ModdingForm.cs",
+              "RelativeDocumentMoniker": "MGS1ModdingForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MGS1ModdingForm.cs [Design]",
+              "RelativeToolTip": "MGS1ModdingForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-25T21:55:44.513Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "MGS2ModdingForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MGS2ModdingForm.cs",
+              "RelativeDocumentMoniker": "MGS2ModdingForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MGS2ModdingForm.cs [Design]",
+              "RelativeToolTip": "MGS2ModdingForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-25T21:55:24.759Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "MGS3ModdingForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MGS3ModdingForm.cs",
+              "RelativeDocumentMoniker": "MGS3ModdingForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MGS3ModdingForm.cs [Design]",
+              "RelativeToolTip": "MGS3ModdingForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-25T21:31:03.121Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+C:\Users\Mitch\source\repos\ANTIBigBoss MGS Mod Manager\bin\Debug\ANTIBigBoss MGS Mod Manager.exe.config
+C:\Users\Mitch\source\repos\ANTIBigBoss MGS Mod Manager\bin\Debug\ANTIBigBoss MGS Mod Manager.exe
+C:\Users\Mitch\source\repos\ANTIBigBoss MGS Mod Manager\bin\Debug\ANTIBigBoss MGS Mod Manager.pdb
+C:\Users\Mitch\source\repos\ANTIBigBoss MGS Mod Manager\obj\Debug\ANTIBigBoss MGS Mod Manager.csproj.AssemblyReference.cache
+C:\Users\Mitch\source\repos\ANTIBigBoss MGS Mod Manager\obj\Debug\ANTIBigBoss_MGS_Mod_Manager.MainMenuForm.resources
+C:\Users\Mitch\source\repos\ANTIBigBoss MGS Mod Manager\obj\Debug\ANTIBigBoss_MGS_Mod_Manager.Properties.Resources.resources
+C:\Users\Mitch\source\repos\ANTIBigBoss MGS Mod Manager\obj\Debug\ANTIBigBoss MGS Mod Manager.csproj.GenerateResource.cache
+C:\Users\Mitch\source\repos\ANTIBigBoss MGS Mod Manager\obj\Debug\ANTIBigBoss MGS Mod Manager.csproj.CoreCompileInputs.cache
+C:\Users\Mitch\source\repos\ANTIBigBoss MGS Mod Manager\obj\Debug\ANTIBigBoss MGS Mod Manager.exe
+C:\Users\Mitch\source\repos\ANTIBigBoss MGS Mod Manager\obj\Debug\ANTIBigBoss MGS Mod Manager.pdb
