@@ -1,38 +1,42 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\",
+  "WorkspaceRootPath": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\source\\repos\\antibigboss mgs mod manager\\mainmenuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mainmenuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\modresourcesform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:modresourcesform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\source\\repos\\antibigboss mgs mod manager\\mainmenuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\mgs3moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mgs3moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\mgs2moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mgs2moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\mgs1moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mgs1moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\mg2moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mg2moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\mg1moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mg1moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\mainmenuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mainmenuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\source\\repos\\antibigboss mgs mod manager\\modresources.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:modresources.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\guimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:guimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\mgs1moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mgs1moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\mg2moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\mg2moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mg2moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\mg1moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mg1moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\mgs3moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mgs3moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\mgs2moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mgs2moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,99 +46,123 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ModResources.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\ModResources.cs",
-              "RelativeDocumentMoniker": "ModResources.cs",
-              "ToolTip": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\ModResources.cs [Design]",
-              "RelativeToolTip": "ModResources.cs [Design]",
+              "DocumentIndex": 7,
+              "Title": "GuiManager.cs",
+              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\GuiManager.cs",
+              "RelativeDocumentMoniker": "GuiManager.cs",
+              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\GuiManager.cs",
+              "RelativeToolTip": "GuiManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-20T18:09:42.923Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-01-29T17:25:13.443Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "MainMenuForm.cs",
+              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MainMenuForm.cs",
+              "RelativeDocumentMoniker": "MainMenuForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MainMenuForm.cs",
+              "RelativeToolTip": "MainMenuForm.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAA1wBoAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-28T20:49:09.48Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MG1ModdingForm.cs",
+              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MG1ModdingForm.cs",
+              "RelativeDocumentMoniker": "MG1ModdingForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MG1ModdingForm.cs",
+              "RelativeToolTip": "MG1ModdingForm.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAxwBoAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-29T17:15:29.437Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MG2ModdingForm.cs",
+              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MG2ModdingForm.cs",
+              "RelativeDocumentMoniker": "MG2ModdingForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MG2ModdingForm.cs",
+              "RelativeToolTip": "MG2ModdingForm.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAxwB0AAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-29T17:15:08.019Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MGS1ModdingForm.cs",
+              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MGS1ModdingForm.cs",
+              "RelativeDocumentMoniker": "MGS1ModdingForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MGS1ModdingForm.cs",
+              "RelativeToolTip": "MGS1ModdingForm.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAxwBsAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-29T17:14:57.49Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MGS2ModdingForm.cs",
+              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MGS2ModdingForm.cs",
+              "RelativeDocumentMoniker": "MGS2ModdingForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MGS2ModdingForm.cs",
+              "RelativeToolTip": "MGS2ModdingForm.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAwwBsAAABQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-29T17:07:51.787Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "MainMenuForm.cs",
-              "DocumentMoniker": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MainMenuForm.cs",
-              "RelativeDocumentMoniker": "MainMenuForm.cs",
-              "ToolTip": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MainMenuForm.cs",
-              "RelativeToolTip": "MainMenuForm.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAvwC4AAAAAAAAAAAAAAA==",
+              "Title": "MGS3ModdingForm.cs",
+              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MGS3ModdingForm.cs",
+              "RelativeDocumentMoniker": "MGS3ModdingForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MGS3ModdingForm.cs",
+              "RelativeToolTip": "MGS3ModdingForm.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAxwBwAAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-20T18:03:41.818Z",
+              "WhenOpened": "2025-01-22T17:57:57.272Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "MainMenuForm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MainMenuForm.cs",
-              "RelativeDocumentMoniker": "MainMenuForm.cs",
-              "ToolTip": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MainMenuForm.cs [Design]",
-              "RelativeToolTip": "MainMenuForm.cs [Design]",
+              "Title": "ModResourcesForm.cs",
+              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\ModResourcesForm.cs",
+              "RelativeDocumentMoniker": "ModResourcesForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\ModResourcesForm.cs",
+              "RelativeToolTip": "ModResourcesForm.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAxwBoAAABTAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-14T19:20:03.993Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-01-29T17:15:42.786Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "MG1ModdingForm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MG1ModdingForm.cs",
-              "RelativeDocumentMoniker": "MG1ModdingForm.cs",
-              "ToolTip": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MG1ModdingForm.cs [Design]",
-              "RelativeToolTip": "MG1ModdingForm.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-25T21:56:21.789Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "MG2ModdingForm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MG2ModdingForm.cs",
+              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MG2ModdingForm.cs",
               "RelativeDocumentMoniker": "MG2ModdingForm.cs",
-              "ToolTip": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MG2ModdingForm.cs [Design]",
+              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MG2ModdingForm.cs [Design]",
               "RelativeToolTip": "MG2ModdingForm.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-25T21:56:00.821Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MGS1ModdingForm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MGS1ModdingForm.cs",
-              "RelativeDocumentMoniker": "MGS1ModdingForm.cs",
-              "ToolTip": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MGS1ModdingForm.cs [Design]",
-              "RelativeToolTip": "MGS1ModdingForm.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-25T21:55:44.513Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "MGS2ModdingForm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MGS2ModdingForm.cs",
-              "RelativeDocumentMoniker": "MGS2ModdingForm.cs",
-              "ToolTip": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MGS2ModdingForm.cs [Design]",
-              "RelativeToolTip": "MGS2ModdingForm.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-25T21:55:24.759Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "MGS3ModdingForm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MGS3ModdingForm.cs",
-              "RelativeDocumentMoniker": "MGS3ModdingForm.cs",
-              "ToolTip": "C:\\Users\\Mitch\\source\\repos\\ANTIBigBoss MGS Mod Manager\\MGS3ModdingForm.cs [Design]",
-              "RelativeToolTip": "MGS3ModdingForm.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-25T21:31:03.121Z"
+              "WhenOpened": "2025-01-29T17:32:10.194Z",
+              "EditorCaption": " [Design]"
             }
           ]
         }

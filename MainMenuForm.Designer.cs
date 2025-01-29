@@ -151,6 +151,7 @@
             this.DoubleBuffered = true;
             this.Name = "MainMenuForm";
             this.Text = "MGS Mod Manager Main Menu";
+            this.Load += new System.EventHandler(this.MainMenuForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

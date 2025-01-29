@@ -32,12 +32,13 @@
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.BackButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button4
             // 
             this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            this.button4.Location = new System.Drawing.Point(12, 352);
+            this.button4.Location = new System.Drawing.Point(884, 296);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(205, 53);
             this.button4.TabIndex = 6;
@@ -47,7 +48,7 @@
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            this.button3.Location = new System.Drawing.Point(12, 266);
+            this.button3.Location = new System.Drawing.Point(884, 210);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(205, 53);
             this.button3.TabIndex = 5;
@@ -57,12 +58,23 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            this.button1.Location = new System.Drawing.Point(12, 182);
+            this.button1.Location = new System.Drawing.Point(884, 126);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(205, 53);
             this.button1.TabIndex = 4;
             this.button1.Text = "Texture Mods";
             this.button1.UseVisualStyleBackColor = true;
+            // 
+            // BackButton
+            // 
+            this.BackButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            this.BackButton.Location = new System.Drawing.Point(12, 12);
+            this.BackButton.Name = "BackButton";
+            this.BackButton.Size = new System.Drawing.Size(205, 53);
+            this.BackButton.TabIndex = 7;
+            this.BackButton.Text = "Back";
+            this.BackButton.UseVisualStyleBackColor = true;
+            this.BackButton.Click += new System.EventHandler(this.BackButton_Click);
             // 
             // MG1ModdingForm
             // 
@@ -71,11 +83,13 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1101, 642);
+            this.Controls.Add(this.BackButton);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button1);
             this.Name = "MG1ModdingForm";
             this.Text = "Metal Gear 1 - Modding Menu";
+            this.Load += new System.EventHandler(this.MG1ModdingForm_Load);
             this.ResumeLayout(false);
 
         }
@@ -85,5 +99,6 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button BackButton;
     }
 }

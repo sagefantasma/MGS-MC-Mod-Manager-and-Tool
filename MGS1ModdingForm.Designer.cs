@@ -30,17 +30,29 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MGS1ModdingForm));
             this.button3 = new System.Windows.Forms.Button();
+            this.BackButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            this.button3.Location = new System.Drawing.Point(12, 238);
+            this.button3.Location = new System.Drawing.Point(943, 320);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(205, 53);
             this.button3.TabIndex = 8;
             this.button3.Text = "Utility Mods";
             this.button3.UseVisualStyleBackColor = true;
+            // 
+            // BackButton
+            // 
+            this.BackButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            this.BackButton.Location = new System.Drawing.Point(12, 12);
+            this.BackButton.Name = "BackButton";
+            this.BackButton.Size = new System.Drawing.Size(205, 53);
+            this.BackButton.TabIndex = 9;
+            this.BackButton.Text = "Back";
+            this.BackButton.UseVisualStyleBackColor = true;
+            this.BackButton.Click += new System.EventHandler(this.BackButton_Click);
             // 
             // MGS1ModdingForm
             // 
@@ -49,9 +61,11 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1160, 627);
+            this.Controls.Add(this.BackButton);
             this.Controls.Add(this.button3);
             this.Name = "MGS1ModdingForm";
             this.Text = "Metal Gear Solid 1 - Modding Menu";
+            this.Load += new System.EventHandler(this.MGS1ModdingForm_Load);
             this.ResumeLayout(false);
 
         }
@@ -59,5 +73,6 @@
         #endregion
 
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button BackButton;
     }
 }

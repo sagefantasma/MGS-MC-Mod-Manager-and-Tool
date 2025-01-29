@@ -8,3 +8,19 @@ C:\Users\Mitch\source\repos\ANTIBigBoss MGS Mod Manager\obj\Debug\ANTIBigBoss MG
 C:\Users\Mitch\source\repos\ANTIBigBoss MGS Mod Manager\obj\Debug\ANTIBigBoss MGS Mod Manager.csproj.CoreCompileInputs.cache
 C:\Users\Mitch\source\repos\ANTIBigBoss MGS Mod Manager\obj\Debug\ANTIBigBoss MGS Mod Manager.exe
 C:\Users\Mitch\source\repos\ANTIBigBoss MGS Mod Manager\obj\Debug\ANTIBigBoss MGS Mod Manager.pdb
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\ANTIBigBoss MGS Mod Manager.csproj.AssemblyReference.cache
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\ANTIBigBoss_MGS_Mod_Manager.MG1ModdingForm.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\ANTIBigBoss_MGS_Mod_Manager.MG2ModdingForm.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\ANTIBigBoss_MGS_Mod_Manager.MGS1ModdingForm.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\ANTIBigBoss_MGS_Mod_Manager.MGS2ModdingForm.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\ANTIBigBoss_MGS_Mod_Manager.MGS3ModdingForm.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\ANTIBigBoss_MGS_Mod_Manager.MainMenuForm.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\ANTIBigBoss_MGS_Mod_Manager.ModResourcesForm.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\ANTIBigBoss_MGS_Mod_Manager.Properties.Resources.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\ANTIBigBoss MGS Mod Manager.csproj.GenerateResource.cache
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\ANTIBigBoss MGS Mod Manager.csproj.CoreCompileInputs.cache
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\ANTIBigBoss MGS Mod Manager.exe
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\ANTIBigBoss MGS Mod Manager.pdb
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Debug\ANTIBigBoss MGS Mod Manager.exe.config
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Debug\ANTIBigBoss MGS Mod Manager.exe
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Debug\ANTIBigBoss MGS Mod Manager.pdb
