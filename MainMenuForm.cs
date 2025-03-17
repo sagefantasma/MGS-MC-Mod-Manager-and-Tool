@@ -81,7 +81,5 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             form7.Show();
             this.Hide();
         }
-
-
     }
 }

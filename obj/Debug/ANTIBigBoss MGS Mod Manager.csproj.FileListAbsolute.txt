@@ -24,3 +24,18 @@ C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\A
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Debug\ANTIBigBoss MGS Mod Manager.exe.config
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Debug\ANTIBigBoss MGS Mod Manager.exe
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Debug\ANTIBigBoss MGS Mod Manager.pdb
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\ANTIBigB.BC1BE56B.Up2Date
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\ANTIBigBoss_MGS_Mod_Manager.DownloadForm.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\ANTIBigBoss_MGS_Mod_Manager.AudioSwapperForm.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\ANTIBigBoss MGS Mod Manager_MarkupCompile.cache
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Debug\AssimpNet.dll
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Debug\HelixToolkit.Wpf.dll
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Debug\AssimpNet.xml
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Debug\HelixToolkit.Wpf.xml
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\ModelViewerControl.g.cs
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\ANTIBigBoss MGS Mod Manager_MarkupCompile.lref
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\ModelViewerControl.baml
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\ANTIBigBoss MGS Mod Manager.g.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\ANTIBigBoss_MGS_Mod_Manager.TextureModelForm.resources

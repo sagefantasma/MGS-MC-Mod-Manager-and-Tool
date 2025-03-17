@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace ANTIBigBoss_MGS_Mod_Manager
@@ -29,6 +30,28 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             GuiManager.LogFormLocation(this, "ModResourcesForm");
             MainMenuForm form1 = new MainMenuForm();
             form1.Show();
+            this.Hide();
+        }
+
+        private void bakebutton_Click(object sender, EventArgs e)
+        {
+            string blendFilePath = @"D:\3D Models\MGS3\GRU BOI\Ene_Def.blend";
+            string outputImagePath = @"D:\3D Models\MGS3\GRU BOI\PakaBaked.png";
+
+            bool success = CyclesBaker.Bake(blendFilePath, outputImagePath);
+            if (success)
+                MessageBox.Show("Baking succeeded! Output saved to: " + outputImagePath);
+            else
+                MessageBox.Show("Baking failed.");
+        }
+
+        private void TextureImportExportButton_Click(object sender, EventArgs e)
+        {
+            LoggingManager.Instance.Log("Changing to Texture and 3D Model form from the Mod Resources form.\n");
+            GuiManager.UpdateLastFormLocation(this.Location);
+            GuiManager.LogFormLocation(this, "TextureModelForm");
+            TextureModelForm textureModelForm = new TextureModelForm();
+            textureModelForm.Show();
             this.Hide();
         }
     }

@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="ANTIBigBoss_MGS_Mod_Manager.ModelViewerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:helix="http://helix-toolkit.org/wpf"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:ANTIBigBoss_MGS_Mod_Manager"
+             mc:Ignorable="d"
+             Background="#1E1E1E">
+
+    <Grid>
+        
+        <helix:HelixViewport3D x:Name="HelixViewport"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Stretch"
+                               Background="#1E1E1E" />
+    </Grid>
+</UserControl>
