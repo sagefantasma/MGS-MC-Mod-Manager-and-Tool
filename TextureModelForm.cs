@@ -18,6 +18,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         private ModelViewerControl modelViewerControl;
         private string gruModelPath;
         private string gruMtlPath;
+        private Panel panelTextures;
 
         public TextureModelForm()
         {
@@ -27,17 +28,29 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             this.BackColor = Color.Black;
             this.BackgroundImage = null;
             this.BackgroundImageLayout = ImageLayout.None;
+
+            // We fix the .mtl references on load & close
             this.Load += TextureModelForm_Load;
             this.FormClosing += TextureModelForm_FormClosing;
 
-            DdsFilePictureBox.Dock = DockStyle.None;
-            DdsFilePictureBox.Location = new Point(0, 0);
-            DdsFilePictureBox.Size = new Size(this.ClientSize.Width / 2, this.ClientSize.Height);
-            DdsFilePictureBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            DdsFilePictureBox.AllowDrop = true;
-            DdsFilePictureBox.DragEnter += DdsFilePictureBox_DragEnter;
-            DdsFilePictureBox.DragDrop += DdsFilePictureBox_DragDrop;
+            // 1) Create a scrollable panel on the left half
+            panelTextures = new Panel
+            {
+                Name = "panelTextures",
+                AutoScroll = true,
+                Location = new Point(0, 0),
+                Size = new Size(this.ClientSize.Width / 2, this.ClientSize.Height),
+                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left,
+                BorderStyle = BorderStyle.FixedSingle,
+                BackColor = Color.FromArgb(30, 30, 30) // a dark gray if you want
+            };
+            this.Controls.Add(panelTextures);
 
+            // 2) If you still want a DdsFilePictureBox somewhere, do so – but let's remove it
+            //    if it was overshadowing the panel or wasn't needed.
+            //    Otherwise, keep reading below for alternative placements.
+
+            // 3) The Helix 3D viewer on the right side
             elementHost = new ElementHost
             {
                 Name = "elementHost3D",
@@ -46,9 +59,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             };
             modelViewerControl = new ModelViewerControl();
             elementHost.Child = modelViewerControl;
-            this.Controls.Add(DdsFilePictureBox);
             this.Controls.Add(elementHost);
             elementHost.BringToFront();
+
+            // Adjust layout on resize
             this.Resize += TextureModelForm_Resize;
             AdjustElementHostSize();
         }
@@ -202,19 +216,23 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private void LoadGruButton_Click(object sender, EventArgs e)
         {
-            // Ensure your form can scroll if content exceeds the visible area
-            // (Put this in your constructor or right here)
-            this.AutoScroll = true;
-
-            // Clear or reload the model as needed:
+            // Load the 3D model first
             modelViewerControl.LoadModel(gruModelPath);
 
-            int xPos = 226;
-            int yPos = 57;
+            // Clear old controls, in case user clicked again
+            panelTextures.Controls.Clear();
+
+            // The size of each PictureBox
             int w = 335;
             int h = 127;
+
+            // We want to place them near the right edge of the panel
+            // (10 px from the panel’s right border)
+            int xPos = panelTextures.ClientSize.Width - w - 10;
+            int yPos = 10;
             int spacing = 40;
 
+            // The texture files
             string baseDir = Path.GetDirectoryName(gruModelPath);
             string[] textureFiles =
             {
@@ -226,7 +244,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
             foreach (string texPath in textureFiles)
             {
-                // PictureBox
+                // 1) Create the PictureBox
                 var pb = new PictureBox
                 {
                     Location = new Point(xPos, yPos),
@@ -236,48 +254,47 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     Tag = texPath
                 };
 
+                // Load the texture (no file lock)
                 var img = LoadImageNoLock(texPath);
                 if (img != null)
                     pb.Image = img;
                 else
                     pb.BackColor = Color.DarkRed;
 
-                this.Controls.Add(pb);
-                pb.BringToFront();
+                // Add to the panel
+                panelTextures.Controls.Add(pb);
 
-                // "Change Texture" button, shifted 10px to the right
+                // 2) "Change Texture" Button below the PictureBox
                 var btnChange = new Button
                 {
                     Text = "Change Texture",
-                    Location = new Point(xPos + 10, yPos + h + 5),
+                    Location = new Point(xPos, yPos + h + 5),
                     Size = new Size(100, 30),
                     Tag = pb,
                     ForeColor = Color.White,
-                    BackColor = Color.FromArgb(50, 50, 50) // or any dark gray you prefer
+                    BackColor = Color.FromArgb(50, 50, 50)
                 };
                 btnChange.Click += ChangeTexture_Click;
-                this.Controls.Add(btnChange);
-                btnChange.BringToFront();
+                panelTextures.Controls.Add(btnChange);
 
-                // "Restore Default" button, also shifted
+                // 3) "Restore Default" Button next to it
                 var btnRestore = new Button
                 {
                     Text = "Restore Default",
-                    Location = new Point(xPos + 120, yPos + h + 5),
+                    Location = new Point(xPos + 110, yPos + h + 5),
                     Size = new Size(110, 30),
                     Tag = pb,
                     ForeColor = Color.White,
                     BackColor = Color.FromArgb(50, 50, 50)
                 };
                 btnRestore.Click += RestoreOneTextureDefault_Click;
-                this.Controls.Add(btnRestore);
-                btnRestore.BringToFront();
+                panelTextures.Controls.Add(btnRestore);
 
-                // Move down
+                // 4) Move yPos down for the next group
+                // PictureBox height + button row (30) + some spacing
                 yPos += h + 30 + spacing;
             }
         }
-
 
         private void ChangeTexture_Click(object sender, EventArgs e)
         {
@@ -429,6 +446,103 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             using (var fs = File.OpenRead(path))
             {
                 return Image.FromStream(fs);
+            }
+        }
+
+        private void CtxrToPng_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Title = "Select a CTXR file";
+                ofd.Filter = "CTXR Files|*.ctxr";
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    string ctxrPath = ofd.FileName;
+                    // build a .png path next to the .ctxr
+                    string pngPath = Path.ChangeExtension(ctxrPath, ".png");
+
+                    try
+                    {
+                        CtxrConverter.CtxrToPng(ctxrPath, pngPath);
+                        MessageBox.Show($"Converted:\n{ctxrPath}\n→\n{pngPath}");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error: {ex.Message}");
+                    }
+                }
+            }
+        }
+
+        private void PngToCtxr_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Title = "Select a PNG file";
+                ofd.Filter = "PNG Files|*.png";
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    string pngPath = ofd.FileName;
+                    // same folder, same base name, .ctxr extension
+                    string ctxrPath = Path.ChangeExtension(pngPath, ".ctxr");
+
+                    try
+                    {
+                        CtxrConverter.PngToCtxr(pngPath, ctxrPath);
+                        MessageBox.Show($"Converted:\n{pngPath}\n→\n{ctxrPath}");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error: {ex.Message}");
+                    }
+                }
+            }
+        }
+
+        private void PngToDds_Click(object sender, EventArgs e)
+        {
+            // Hard-coded texconv path for testing:
+            string texconvExe = @"C:\Users\Mitch\Downloads\texconv.exe";
+
+            using (var ofd = new OpenFileDialog { Filter = "PNG Files|*.png" })
+            {
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    string inputPng = ofd.FileName;
+                    // For example, just replace extension with .dds
+                    string outputDds = Path.ChangeExtension(inputPng, ".dds");
+
+                    try
+                    {
+                        CtxrConverter.PngToDdsWithTexconv2024(texconvExe, inputPng, outputDds);
+                        MessageBox.Show($"DDS created:\n{outputDds}");
+                    }
+                    catch (Exception ex)
+                    {
+                        //MessageBox.Show($"Error: {ex.Message}");
+                    }
+                }
+            }
+        }
+
+        private void DdsToCtxr_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog { Filter = "DDS Files|*.dds" })
+            {
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    string ddsPath = ofd.FileName;
+                    try
+                    {
+                        // Call the updated method which runs CtxrTool.exe in the DDS file's folder.
+                        CtxrConverter.DdsToCtxr(ddsPath);
+                        MessageBox.Show("CTXR created successfully in the same folder as the DDS file.");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error converting DDS to CTXR: {ex.Message}");
+                    }
+                }
             }
         }
     }

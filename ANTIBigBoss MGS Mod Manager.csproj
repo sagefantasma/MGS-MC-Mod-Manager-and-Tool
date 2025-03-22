@@ -72,6 +72,7 @@
       <DependentUpon>AudioSwapperForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ConfigManager.cs" />
+    <Compile Include="CtxrConverter.cs" />
     <Compile Include="CyclesBaker.cs" />
     <Compile Include="DownloadForm.cs">
       <SubType>Form</SubType>

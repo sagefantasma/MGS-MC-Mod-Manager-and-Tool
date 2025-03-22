@@ -41,7 +41,7 @@
   "Mods": {
     "ModFolderCreated": false,
     "ActiveMods": {
-      "Seals as Enemy": true,
+      "Seals as Enemy": false,
       "Naked Camo Pants - Anubis": false,
       "4K Enhanced Codec Profiles and Pictures": false,
       "Naked Camo Pants - AUSCAM Desert": false,
@@ -140,18 +140,18 @@
       "Raiden over Raikov": false,
       "Red Cross Restoration": false,
       "SaveMGO Camo": false,
-      "Afevis MGS2 Texture Fix Compilation": true,
-      "Beta (Gorier) Navy Captain": true,
-      "Black Ops Raiden": true,
-      "Black Ops Snake": true,
-      "Glasses Removal Mod": true,
-      "Legacy Bandana": true,
-      "Original Game Over Screens": true,
-      "MGS2 Wallpaper Crews Quarters": true,
-      "Pliskin face textures for Snake": true,
-      "Old Snake": true,
-      "Trial Crew Quarters NYC Skyline Photo": true,
-      "Gurlukovich Soldier Grey Camo": true,
+      "Afevis MGS2 Texture Fix Compilation": false,
+      "Beta (Gorier) Navy Captain": false,
+      "Black Ops Raiden": false,
+      "Black Ops Snake": false,
+      "Glasses Removal Mod": false,
+      "Legacy Bandana": false,
+      "Original Game Over Screens": false,
+      "MGS2 Wallpaper Crews Quarters": false,
+      "Pliskin face textures for Snake": false,
+      "Old Snake": false,
+      "Trial Crew Quarters NYC Skyline Photo": false,
+      "Gurlukovich Soldier Grey Camo": false,
       "MGSHDFix": false,
       "Orange Box as CBox A": false,
       "MGS3 Minecraft": false,
@@ -180,12 +180,13 @@
       "Huey": false,
       "Hunter": false,
       "Paisley": false,
-      "MGS2 Snake Improvements Test": true,
+      "MGS2 Snake Improvements Test": false,
       "CashMoney2.0": false,
       "All Beta Camo Pack": false,
       "Template Box": false,
-      "Short Haired Solid Snake": true,
-      "Raiden Brown Hair": true
+      "Short Haired Solid Snake": false,
+      "Raiden Brown Hair": false,
+      "A Olive Drab Crash Test": false
     },
     "ModMappings": {
       "Seals as Enemy": [
@@ -4509,6 +4510,12 @@
           "ModFile": "textures\\flatlist\\ovr_stm\\_win\\sna_hi_face_shave.bmp.ctxr",
           "TargetPath": "textures\\flatlist\\ovr_stm\\_win\\sna_hi_face_shave.bmp.ctxr"
         }
+      ],
+      "A Olive Drab Crash Test": [
+        {
+          "ModFile": "textures\\flatlist\\_win\\sna_def_olive.bmp.ctxr",
+          "TargetPath": "textures\\flatlist\\_win\\sna_def_olive.bmp.ctxr"
+        }
       ]
     },
     "ReplacedFiles": {
@@ -5719,6 +5726,9 @@
         "textures\\flatlist\\ovr_stm\\_win\\iro_hi_face_bandage.bmp.ctxr",
         "textures\\flatlist\\ovr_stm\\_win\\sna_face_ss01dt.bmp.ctxr",
         "textures\\flatlist\\ovr_stm\\_win\\sna_hi_face_shave.bmp.ctxr"
+      ],
+      "A Olive Drab Crash Test": [
+        "textures\\flatlist\\_win\\sna_def_olive.bmp.ctxr"
       ]
     }
   },
@@ -5759,5 +5769,6 @@
     "underground01.sdt": "mg2_bgm08_main05.sdt",
     "underground02.sdt": "mg2_bgm08_main05.sdt",
     "underground03.sdt": "mg2_bgm08_main05.sdt"
-  }
+  },
+  "GimpExePath": "C:\\Program Files\\GIMP 2\\bin\\gimp-2.10.exe"
 }

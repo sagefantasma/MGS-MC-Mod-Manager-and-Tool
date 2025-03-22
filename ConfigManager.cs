@@ -95,6 +95,9 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         public ModTracking Mods { get; set; } = new ModTracking();
         public Dictionary<string, string> AudioReplacements { get; set; } = new Dictionary<string, string>();
 
+        public string GimpExePath { get; set; } = @"C:\Program Files\GIMP 2\bin\gimp-2.10.exe";
+
+
     }
 
     public class BackupStatus
