@@ -104,16 +104,17 @@ public static class CtxrConverter
         bmp24.Dispose();
     }
 
-    public static void PngToCtxr(string texconvExePath, string inputPng)
+    public static void PngToCtxr(string modToolsPath, string texconvExePath, string inputPng)
     {
-
         string ddsPath = Path.ChangeExtension(inputPng, ".dds");
-        PngToDdsWithTexconv2024(texconvExePath, inputPng, ddsPath);
-        DdsToCtxr(ddsPath);
+        PngToDdsWithTexconv(texconvExePath, inputPng, ddsPath);
+
+        string ctxrToolExe = Path.Combine(modToolsPath, "CtxrTool.exe");
+        DdsToCtxr(ddsPath, ctxrToolExe);
     }
 
 
-    public static void PngToDdsWithTexconv2024(string texconvExePath, string inputPng, string outputDds)
+    public static void PngToDdsWithTexconv(string texconvExePath, string inputPng, string outputDds)
     {
         if (!File.Exists(texconvExePath))
             throw new FileNotFoundException("texconv.exe not found.", texconvExePath);
@@ -127,21 +128,21 @@ public static class CtxrConverter
         string baseName = Path.GetFileNameWithoutExtension(inputPng) + ".dds";
         string generatedDds = Path.Combine(outDir, baseName);
 
-        // Use B8G8R8A8_UNORM to match my GIMP export settings
+        // Use B8G8R8A8_UNORM to match the settings I would use in GIMP or Photoshop
         string chosenFormat = "B8G8R8A8_UNORM";
         string arguments = string.Join(" ", new string[]
         {
-        "-ft dds",                // Output DDS format
-        $"-f {chosenFormat}",      // Use BGRA ordering
-        "-if POINT",              // Use nearest filter for mipmaps
-        "-m 0",                   // Generate full mip chain
-        "-nologo",                   
-        "-y",                     // Overwrite without prompting
-        $"-o \"{outDir}\"",       // Output directory
-        $"\"{inputPng}\""         // Input PNG file
+            "-ft dds",                // Output DDS format
+            $"-f {chosenFormat}",     // Use B8G8R8A8_UNORM ordering
+            "-if POINT",              // Use nearest filter for mipmaps
+            "-m 0",                   // Generate full mip chain
+            "-nologo",                // Don't print the texconv header
+            "-y",                     // Overwrite without prompting
+            $"-o \"{outDir}\"",
+            $"\"{inputPng}\""
         });
 
-        var psi = new ProcessStartInfo
+        ProcessStartInfo psi = new ProcessStartInfo
         {
             FileName = texconvExePath,
             Arguments = arguments,
@@ -151,7 +152,7 @@ public static class CtxrConverter
             RedirectStandardError = true
         };
 
-        using (var proc = new Process { StartInfo = psi })
+        using (Process proc = new Process { StartInfo = psi })
         {
             proc.Start();
             string stdout = proc.StandardOutput.ReadToEnd();
@@ -159,9 +160,7 @@ public static class CtxrConverter
             proc.WaitForExit();
 
             if (proc.ExitCode != 0)
-                throw new Exception(
-                    $"texconv exited with code {proc.ExitCode}.\nStdOut:\n{stdout}\n\nStdErr:\n{stderr}"
-                );
+                throw new Exception($"texconv exited with code {proc.ExitCode}.\nStdOut:\n{stdout}\n\nStdErr:\n{stderr}");
         }
 
         if (!File.Exists(generatedDds))
@@ -175,27 +174,21 @@ public static class CtxrConverter
         }
     }
 
-    public static void DdsToCtxr(string ddsPath)
+    public static void DdsToCtxr(string ddsPath, string ctxrToolExe)
     {
         if (!File.Exists(ddsPath))
             throw new FileNotFoundException("DDS file not found.", ddsPath);
+        if (!File.Exists(ctxrToolExe))
+            throw new FileNotFoundException("CtxrTool.exe not found.", ctxrToolExe);
 
-        // Set the path to the external conversion tool.
-        string toolPath = @"C:\Users\Mitch\Downloads\CtxrTool.exe";
-        if (!File.Exists(toolPath))
-            throw new FileNotFoundException("CtxrTool.exe not found.", toolPath);
-
-        // Set the working directory to the folder containing the DDS file.
         string ddsDir = Path.GetDirectoryName(ddsPath);
-
-        // Build the argument string: the tool only needs the DDS file path.
         string arguments = $"\"{ddsPath}\"";
 
         ProcessStartInfo psi = new ProcessStartInfo
         {
-            FileName = toolPath,
+            FileName = ctxrToolExe,
             Arguments = arguments,
-            WorkingDirectory = ddsDir,  // force output to be written in the DDS folder
+            WorkingDirectory = ddsDir, // Set working directory so output is generated here.
             CreateNoWindow = true,
             UseShellExecute = false,
             RedirectStandardOutput = true,
@@ -210,22 +203,16 @@ public static class CtxrConverter
             proc.WaitForExit();
             if (proc.ExitCode != 0)
             {
-                throw new Exception(
-                    $"CtxrTool.exe exited with code {proc.ExitCode}.\nStdOut:\n{stdout}\n\nStdErr:\n{stderr}"
-                );
+                throw new Exception($"CtxrTool.exe exited with code {proc.ExitCode}.\nStdOut:\n{stdout}\n\nStdErr:\n{stderr}");
             }
         }
 
-        // Determine the expected output filename (the tool should change the extension automatically)
         string generatedFileName = Path.GetFileNameWithoutExtension(ddsPath) + ".ctxr";
         string generatedCtxrPath = Path.Combine(ddsDir, generatedFileName);
 
         if (!File.Exists(generatedCtxrPath))
             throw new FileNotFoundException($"CtxrTool.exe claimed success, but '{generatedCtxrPath}' was not found.");
-
-        // At this point, the CTXR file is already in the same folder as the DDS file.
     }
-
 
     // Big-endian helper methods
     private static ushort ReadUInt16BE(byte[] data, int offset)

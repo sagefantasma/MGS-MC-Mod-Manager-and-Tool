@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 
@@ -13,7 +10,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 {
     public partial class TextureModelForm : Form
     {
-        private readonly string ctxrToolPath = @"C:\Users\ANTIBigBoss\source\repos\TextureDisplayApp\CtxrTool.exe";
         private ElementHost elementHost;
         private ModelViewerControl modelViewerControl;
         private string gruModelPath;
@@ -28,12 +24,9 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             this.BackColor = Color.Black;
             this.BackgroundImage = null;
             this.BackgroundImageLayout = ImageLayout.None;
-
-            // We fix the .mtl references on load & close
             this.Load += TextureModelForm_Load;
             this.FormClosing += TextureModelForm_FormClosing;
 
-            // 1) Create a scrollable panel on the left half
             panelTextures = new Panel
             {
                 Name = "panelTextures",
@@ -42,15 +35,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 Size = new Size(this.ClientSize.Width / 2, this.ClientSize.Height),
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left,
                 BorderStyle = BorderStyle.FixedSingle,
-                BackColor = Color.FromArgb(30, 30, 30) // a dark gray if you want
+                BackColor = Color.FromArgb(30, 30, 30)
             };
             this.Controls.Add(panelTextures);
 
-            // 2) If you still want a DdsFilePictureBox somewhere, do so – but let's remove it
-            //    if it was overshadowing the panel or wasn't needed.
-            //    Otherwise, keep reading below for alternative placements.
-
-            // 3) The Helix 3D viewer on the right side
             elementHost = new ElementHost
             {
                 Name = "elementHost3D",
@@ -61,23 +49,82 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             elementHost.Child = modelViewerControl;
             this.Controls.Add(elementHost);
             elementHost.BringToFront();
-
-            // Adjust layout on resize
             this.Resize += TextureModelForm_Resize;
             AdjustElementHostSize();
         }
 
-
-        private void TextureModelForm_Load(object sender, EventArgs e)
+        private async void TextureModelForm_Load(object sender, EventArgs e)
         {
-            string baseDir = @"D:\3D Models\MGS3\GRU BOI\GRU Soldier Mod Manager";
-            gruModelPath = Path.Combine(baseDir, "ene_defout.obj");
-            gruMtlPath = Path.Combine(baseDir, "ene_defout.mtl");
+            ConfigSettings config = ConfigManager.LoadSettings();
+
+            string gruAssetsFolder = Path.Combine(config.Assets.ModelsAndTexturesFolder, config.Assets.FolderMapping["GRU"]);
+
+            gruModelPath = Path.Combine(gruAssetsFolder, "ene_defout.obj");
+            gruMtlPath = Path.Combine(gruAssetsFolder, "ene_defout.mtl");
 
             if (File.Exists(gruMtlPath))
             {
                 RestoreAllMtlReferencesToOriginal(gruMtlPath);
             }
+
+            this.BeginInvoke(new Action(async () =>
+            {
+                if (!CheckAndPromptForModToolsPath(config))
+                {
+                    ReturnToMainMenu();
+                    this.Hide();
+                    return;
+                }
+                DownloadManager dm = new DownloadManager();
+                try
+                {
+                    await dm.EnsureModToolsDownloaded(config.ModToolsPath);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error downloading mod tools: " + ex.Message);
+                    ReturnToMainMenu();
+                    this.Hide();
+                    return;
+                }
+            }));
+        }
+
+        private bool CheckAndPromptForModToolsPath(ConfigSettings config)
+        {
+            if (!config.ModToolsFolderSet)
+            {
+                DialogResult res = MessageBox.Show(
+                    "Before using the modding tools, we need to set up a folder where the required tools will be stored.\n\n" +
+                    "Do you want to use the default location?\n\nDefault location:\n" + config.ModToolsPath,
+                    "Modding Tools Folder Location \n\n After a location is picked the tools and files will be downloaded and extracted into that folder.", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+                if (res == DialogResult.Cancel)
+                {
+                    return false;
+                }
+                else if (res == DialogResult.No)
+                {
+                    using (FolderBrowserDialog fbd = new FolderBrowserDialog()
+                    {
+                        SelectedPath = config.ModToolsPath,
+                        Description = "Select a folder where 'MGS Modding Tools' will be stored."
+                    })
+                    {
+                        if (fbd.ShowDialog() == DialogResult.OK)
+                        {
+                            config.ModToolsPath = Path.Combine(fbd.SelectedPath, "MGS Modding Tools");
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+                config.ModToolsFolderSet = true;
+                ConfigManager.SaveSettings(config);
+            }
+            return true;
         }
 
         private void TextureModelForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -101,105 +148,23 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             int halfWidth = this.ClientSize.Width / 2;
             elementHost.Location = new Point(halfWidth, 0);
             elementHost.Size = new Size(halfWidth, this.ClientSize.Height);
-        }
-
-        private async void btnConvertCtxrFiles_Click(object sender, EventArgs e)
-        {
-            using (var ofd = new OpenFileDialog
-            {
-                Filter = "CTXR Files|*.ctxr",
-                Multiselect = true
-            })
-            {
-                if (ofd.ShowDialog() == DialogResult.OK)
-                {
-                    foreach (string filePath in ofd.FileNames)
-                    {
-                        try
-                        {
-                            string ddsPath = await ConvertCtxrToDds(filePath);
-                            if (!string.IsNullOrEmpty(ddsPath))
-                            {
-                                string pngPath = ConvertDdsToPng(ddsPath);
-                            }
-                        }
-                        catch { }
-                    }
-                    MessageBox.Show("Conversion completed for all selected files.",
-                        "Conversion Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-        }
-        private async Task<string> ConvertCtxrToDds(string ctxrFilePath)
-        {
-            await Task.Delay(100);
-            return null;
-        }
-        private string ConvertDdsToPng(string ddsFilePath)
-        {
-            return null;
-        }
-
-        private void DdsFilePictureBox_DragEnter(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-                string extension = Path.GetExtension(files[0]).ToLower();
-                if (extension == ".png" || extension == ".dds" || extension == ".ctxr")
-                {
-                    e.Effect = DragDropEffects.Copy;
-                }
-                else
-                {
-                    e.Effect = DragDropEffects.None;
-                }
-            }
-        }
-        private async void DdsFilePictureBox_DragDrop(object sender, DragEventArgs e)
-        {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            string filePath = files[0];
-            string ext = Path.GetExtension(filePath).ToLower();
-
-            if (ext == ".png")
-            {
-                DdsFilePictureBox.Image = Image.FromFile(filePath);
-                DdsFilePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-            }
-            else if (ext == ".dds")
-            {
-                string pngPath = ConvertDdsToPng(filePath);
-                if (!string.IsNullOrEmpty(pngPath))
-                {
-                    DdsFilePictureBox.Image = Image.FromFile(pngPath);
-                    DdsFilePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-                }
-            }
-            else if (ext == ".ctxr")
-            {
-                string ddsPath = await ConvertCtxrToDds(filePath);
-                if (!string.IsNullOrEmpty(ddsPath))
-                {
-                    string pngPath = ConvertDdsToPng(ddsPath);
-                    if (!string.IsNullOrEmpty(pngPath))
-                    {
-                        DdsFilePictureBox.Image = Image.FromFile(pngPath);
-                        DdsFilePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-                    }
-                }
-            }
-        }
+        }     
 
         private void BackButton_Click(object sender, EventArgs e)
         {
-            LoggingManager.Instance.Log("Going back to Mod Resources Form.\n");
+            ReturnToMainMenu();
+        }
+
+        private void ReturnToMainMenu()
+        {
+            LoggingManager.Instance.Log("Going back to Main Menu from Texture and 3D Model form.\n");
             GuiManager.UpdateLastFormLocation(this.Location);
-            GuiManager.LogFormLocation(this, "ModResourcesForm");
-            ModResourcesForm modResourcesForm = new ModResourcesForm();
-            modResourcesForm.Show();
+            GuiManager.LogFormLocation(this, "TextureModelForm");
+            MainMenuForm mainMenuForm = new MainMenuForm();
+            mainMenuForm.Show();
             this.Hide();
         }
+
         private void btnLoadObj_Click(object sender, EventArgs e)
         {
             using (var ofd = new OpenFileDialog
@@ -216,35 +181,26 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private void LoadGruButton_Click(object sender, EventArgs e)
         {
-            // Load the 3D model first
             modelViewerControl.LoadModel(gruModelPath);
-
-            // Clear old controls, in case user clicked again
             panelTextures.Controls.Clear();
 
-            // The size of each PictureBox
             int w = 335;
             int h = 127;
-
-            // We want to place them near the right edge of the panel
-            // (10 px from the panel’s right border)
             int xPos = panelTextures.ClientSize.Width - w - 10;
             int yPos = 10;
             int spacing = 40;
 
-            // The texture files
             string baseDir = Path.GetDirectoryName(gruModelPath);
             string[] textureFiles =
             {
-        Path.Combine(baseDir, "ene_def_body.bmp.png"),
-        Path.Combine(baseDir, "ene_def_arm.bmp.png"),
-        Path.Combine(baseDir, "ene_def_leg.bmp.png"),
-        Path.Combine(baseDir, "ene_def_pa-ka.bmp.png")
-    };
+            Path.Combine(baseDir, "ene_def_body.bmp.png"),
+            Path.Combine(baseDir, "ene_def_arm.bmp.png"),
+            Path.Combine(baseDir, "ene_def_leg.bmp.png"),
+            Path.Combine(baseDir, "ene_def_pa-ka.bmp.png")
+            };
 
             foreach (string texPath in textureFiles)
             {
-                // 1) Create the PictureBox
                 var pb = new PictureBox
                 {
                     Location = new Point(xPos, yPos),
@@ -253,18 +209,14 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     SizeMode = PictureBoxSizeMode.StretchImage,
                     Tag = texPath
                 };
-
-                // Load the texture (no file lock)
                 var img = LoadImageNoLock(texPath);
                 if (img != null)
                     pb.Image = img;
                 else
                     pb.BackColor = Color.DarkRed;
 
-                // Add to the panel
                 panelTextures.Controls.Add(pb);
 
-                // 2) "Change Texture" Button below the PictureBox
                 var btnChange = new Button
                 {
                     Text = "Change Texture",
@@ -277,7 +229,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 btnChange.Click += ChangeTexture_Click;
                 panelTextures.Controls.Add(btnChange);
 
-                // 3) "Restore Default" Button next to it
                 var btnRestore = new Button
                 {
                     Text = "Restore Default",
@@ -289,9 +240,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 };
                 btnRestore.Click += RestoreOneTextureDefault_Click;
                 panelTextures.Controls.Add(btnRestore);
-
-                // 4) Move yPos down for the next group
-                // PictureBox height + button row (30) + some spacing
                 yPos += h + 30 + spacing;
             }
         }
@@ -458,7 +406,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
                     string ctxrPath = ofd.FileName;
-                    // build a .png path next to the .ctxr
                     string pngPath = Path.ChangeExtension(ctxrPath, ".png");
 
                     try
@@ -474,8 +421,21 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
         }
 
-        private void PngToCtxr_Click(object sender, EventArgs e)
+        private async void PngToCtxr_Click(object sender, EventArgs e)
         {
+            ConfigSettings config = ConfigManager.LoadSettings();
+
+            if (!CheckAndPromptForModToolsPath(config))
+            {
+                MessageBox.Show("Mod tools folder setup was cancelled.");
+                return;
+            }
+
+            DownloadManager dm = new DownloadManager();
+            await dm.EnsureModToolsDownloaded(config.ModToolsPath);
+
+            string texconvExe = Path.Combine(config.ModToolsPath, "texconv.exe");
+
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
                 ofd.Title = "Select a PNG file";
@@ -483,43 +443,45 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
                     string pngPath = ofd.FileName;
-                    // same folder, same base name, .ctxr extension
-                    string ctxrPath = Path.ChangeExtension(pngPath, ".ctxr");
-
                     try
                     {
-                        CtxrConverter.PngToCtxr(pngPath, ctxrPath);
-                        MessageBox.Show($"Converted:\n{pngPath}\n→\n{ctxrPath}");
+                        CtxrConverter.PngToCtxr(config.ModToolsPath, texconvExe, pngPath);
+                        MessageBox.Show("PNG successfully converted to CTXR in the same folder as the PNG.");
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Error: {ex.Message}");
+                        MessageBox.Show($"Error converting PNG to CTXR: {ex.Message}");
                     }
                 }
             }
         }
 
-        private void PngToDds_Click(object sender, EventArgs e)
+        private async void PngToDds_Click(object sender, EventArgs e)
         {
-            // Hard-coded texconv path for testing:
-            string texconvExe = @"C:\Users\Mitch\Downloads\texconv.exe";
+            ConfigSettings config = ConfigManager.LoadSettings();
+            if (!CheckAndPromptForModToolsPath(config))
+            {
+                MessageBox.Show("Mod tools folder setup was cancelled.");
+                return;
+            }
 
-            using (var ofd = new OpenFileDialog { Filter = "PNG Files|*.png" })
+            DownloadManager dm = new DownloadManager();
+            await dm.EnsureModToolsDownloaded(config.ModToolsPath);
+            string texconvExe = Path.Combine(config.ModToolsPath, "texconv.exe");
+            using (OpenFileDialog ofd = new OpenFileDialog { Filter = "PNG Files|*.png" })
             {
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
                     string inputPng = ofd.FileName;
-                    // For example, just replace extension with .dds
                     string outputDds = Path.ChangeExtension(inputPng, ".dds");
-
                     try
                     {
-                        CtxrConverter.PngToDdsWithTexconv2024(texconvExe, inputPng, outputDds);
+                        CtxrConverter.PngToDdsWithTexconv(texconvExe, inputPng, outputDds);
                         MessageBox.Show($"DDS created:\n{outputDds}");
                     }
                     catch (Exception ex)
                     {
-                        //MessageBox.Show($"Error: {ex.Message}");
+                        MessageBox.Show($"Error converting PNG to DDS: {ex.Message}");
                     }
                 }
             }
@@ -527,6 +489,16 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private void DdsToCtxr_Click(object sender, EventArgs e)
         {
+            ConfigSettings config = ConfigManager.LoadSettings();
+            if (!CheckAndPromptForModToolsPath(config))
+            {
+                MessageBox.Show("Mod tools folder setup was cancelled.");
+                return;
+            }
+
+            string modToolsPath = config.ModToolsPath;
+            string ctxrToolExe = Path.Combine(modToolsPath, "CtxrTool.exe");
+
             using (OpenFileDialog ofd = new OpenFileDialog { Filter = "DDS Files|*.dds" })
             {
                 if (ofd.ShowDialog() == DialogResult.OK)
@@ -534,8 +506,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     string ddsPath = ofd.FileName;
                     try
                     {
-                        // Call the updated method which runs CtxrTool.exe in the DDS file's folder.
-                        CtxrConverter.DdsToCtxr(ddsPath);
+                        CtxrConverter.DdsToCtxr(ddsPath, ctxrToolExe);
                         MessageBox.Show("CTXR created successfully in the same folder as the DDS file.");
                     }
                     catch (Exception ex)

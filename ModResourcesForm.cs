@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace ANTIBigBoss_MGS_Mod_Manager
@@ -33,18 +32,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             this.Hide();
         }
 
-        private void bakebutton_Click(object sender, EventArgs e)
-        {
-            string blendFilePath = @"D:\3D Models\MGS3\GRU BOI\Ene_Def.blend";
-            string outputImagePath = @"D:\3D Models\MGS3\GRU BOI\PakaBaked.png";
-
-            bool success = CyclesBaker.Bake(blendFilePath, outputImagePath);
-            if (success)
-                MessageBox.Show("Baking succeeded! Output saved to: " + outputImagePath);
-            else
-                MessageBox.Show("Baking failed.");
-        }
-
         private void TextureImportExportButton_Click(object sender, EventArgs e)
         {
             LoggingManager.Instance.Log("Changing to Texture and 3D Model form from the Mod Resources form.\n");
@@ -54,5 +41,26 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             textureModelForm.Show();
             this.Hide();
         }
+
+        // For your button:
+        private void MGS3GuardRouteTool_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                Filter = "Geom Files (*.geom)|*.geom",
+                InitialDirectory = "...",
+                RestoreDirectory = true
+            };
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                string path = ofd.FileName;
+                if (GeomEditor.HasGroupedDefinition(path))
+                    GeomEditor.EditGeomFileNextPrevGrouped(path);
+                else
+                    MessageBox.Show("No grouped definition for this file.", "Info");
+            }
+        }
+
+
     }
 }

@@ -1,0 +1,57 @@
+{
+  "GamePaths": {
+    "MG1": "",
+    "MG2": "",
+    "MGS1": "",
+    "MGS2": "",
+    "MGS3": ""
+  },
+  "MG1VanillaFolderPath": "C:\\Users\\Mitch\\OneDrive\\Documents\\MGS Mod Manager and Trainer\\MG1\\MG1 Vanilla Files",
+  "MG2VanillaFolderPath": "C:\\Users\\Mitch\\OneDrive\\Documents\\MGS Mod Manager and Trainer\\MG2\\MG2 Vanilla Files",
+  "MGS1VanillaFolderPath": "C:\\Users\\Mitch\\OneDrive\\Documents\\MGS Mod Manager and Trainer\\MGS1\\MGS1 Vanilla Files",
+  "MGS2VanillaFolderPath": "C:\\Users\\Mitch\\OneDrive\\Documents\\MGS Mod Manager and Trainer\\MGS2\\MGS2 Vanilla Files",
+  "MGS3VanillaFolderPath": "C:\\Users\\Mitch\\OneDrive\\Documents\\MGS Mod Manager and Trainer\\MGS3\\MGS3 Vanilla Files",
+  "MG1ModFolderPath": "C:\\Users\\Mitch\\OneDrive\\Documents\\MGS Mod Manager and Trainer\\MG1\\MG1 Mods",
+  "MG2ModFolderPath": "C:\\Users\\Mitch\\OneDrive\\Documents\\MGS Mod Manager and Trainer\\MG2\\MG2 Mods",
+  "MGS1ModFolderPath": "C:\\Users\\Mitch\\OneDrive\\Documents\\MGS Mod Manager and Trainer\\MGS1\\MGS1 Mods",
+  "MGS2ModFolderPath": "C:\\Users\\Mitch\\OneDrive\\Documents\\MGS Mod Manager and Trainer\\MGS2\\MGS2 Mods",
+  "MGS3ModFolderPath": "C:\\Users\\Mitch\\OneDrive\\Documents\\MGS Mod Manager and Trainer\\MGS3\\MGS3 Mods",
+  "ModToolsPath": "C:\\Users\\Mitch\\OneDrive\\Documents\\MGS Mod Manager and Trainer\\MGS Modding Tools",
+  "MG1VanillaFolderSet": false,
+  "MG1ModFolderSet": false,
+  "MG2VanillaFolderSet": false,
+  "MG2ModFolderSet": false,
+  "MGS1VanillaFolderSet": false,
+  "MGS1ModFolderSet": false,
+  "MGS2VanillaFolderSet": false,
+  "MGS2ModFolderSet": false,
+  "MGS3VanillaFolderSet": false,
+  "MGS3ModFolderSet": false,
+  "ModToolsFolderSet": true,
+  "Assets": {
+    "ModelsAndTexturesFolder": "C:\\Users\\Mitch\\OneDrive\\Documents\\MGS Mod Manager and Trainer\\MGS Modding Tools\\3D Models and Textures",
+    "FolderMapping": {
+      "GRU": "GRU",
+      "MGS3NakedSnake": "MGS3 Naked Snake"
+    }
+  },
+  "Settings": {
+    "AutoDetectGamePaths": true,
+    "EnableLogging": true,
+    "ShowNotifications": true
+  },
+  "Backup": {
+    "MG1BackupCompleted": false,
+    "MG2BackupCompleted": false,
+    "MGS1BackupCompleted": false,
+    "MGS2BackupCompleted": false,
+    "MGS3BackupCompleted": false
+  },
+  "Mods": {
+    "ModFolderCreated": false,
+    "ActiveMods": {},
+    "ModMappings": {},
+    "ReplacedFiles": {}
+  },
+  "AudioReplacements": {}
+}

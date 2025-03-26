@@ -16,6 +16,7 @@
   "MGS1ModFolderPath": "C:\\Users\\Mitch\\OneDrive\\Documents\\MGS Mod Manager and Trainer\\MGS1\\MGS1 Mods",
   "MGS2ModFolderPath": "C:\\Users\\Mitch\\OneDrive\\Documents\\MGS Mod Manager and Trainer\\MGS2\\MGS2 Mods",
   "MGS3ModFolderPath": "C:\\Users\\Mitch\\OneDrive\\Documents\\MGS Mod Manager and Trainer\\MGS3\\MGS3 Mods",
+  "ModToolsPath": "C:\\Users\\Mitch\\OneDrive\\Documents\\MGS Mod Manager and Trainer\\MGS Modding Tools",
   "MG1VanillaFolderSet": false,
   "MG1ModFolderSet": false,
   "MG2VanillaFolderSet": false,
@@ -26,6 +27,7 @@
   "MGS2ModFolderSet": true,
   "MGS3VanillaFolderSet": true,
   "MGS3ModFolderSet": true,
+  "ModToolsFolderSet": true,
   "Settings": {
     "AutoDetectGamePaths": true,
     "EnableLogging": true,
@@ -186,7 +188,7 @@
       "Template Box": false,
       "Short Haired Solid Snake": false,
       "Raiden Brown Hair": false,
-      "A Olive Drab Crash Test": false
+      "A Olive Drab Crash Test": true
     },
     "ModMappings": {
       "Seals as Enemy": [
@@ -5769,6 +5771,5 @@
     "underground01.sdt": "mg2_bgm08_main05.sdt",
     "underground02.sdt": "mg2_bgm08_main05.sdt",
     "underground03.sdt": "mg2_bgm08_main05.sdt"
-  },
-  "GimpExePath": "C:\\Program Files\\GIMP 2\\bin\\gimp-2.10.exe"
+  }
 }

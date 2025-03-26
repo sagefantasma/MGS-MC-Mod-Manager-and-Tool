@@ -3,6 +3,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 
 namespace ANTIBigBoss_MGS_Mod_Manager
 {
@@ -139,6 +141,83 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 throw new Exception($"Error downloading mod file: {ex.Message}");
             }
         }
+
+        public async Task EnsureModToolsDownloaded(string modToolsPath)
+        {
+            if (!Directory.Exists(modToolsPath))
+            {
+                Directory.CreateDirectory(modToolsPath);
+                LoggingManager.Instance.Log($"Created mod tools folder: {modToolsPath}");
+            }
+
+            string ctxrToolPath = Path.Combine(modToolsPath, "CtxrTool.exe");
+            string texconvPath = Path.Combine(modToolsPath, "texconv.exe");
+
+            if (!File.Exists(ctxrToolPath))
+            {
+                LoggingManager.Instance.Log("CtxrTool.exe not found. Downloading...");
+                await DownloadModFile("https://github.com/Jayveer/CtxrTool/releases/download/1.3/CtxrTool.exe", ctxrToolPath);
+            }
+            else
+            {
+                LoggingManager.Instance.Log("CtxrTool.exe already exists.");
+            }
+
+            if (!File.Exists(texconvPath))
+            {
+                LoggingManager.Instance.Log("texconv.exe not found. Downloading...");
+                await DownloadModFile("https://github.com/Microsoft/DirectXTex/releases/latest/download/texconv.exe", texconvPath);
+            }
+            else
+            {
+                LoggingManager.Instance.Log("texconv.exe already exists.");
+            }
+
+            string assetsFolder = Path.Combine(modToolsPath, "3D Models and Textures");
+            if (!Directory.Exists(assetsFolder))
+            {
+                LoggingManager.Instance.Log("Assets folder not found. Downloading assets zip...");
+                string assetsZipUrl = "https://github.com/ANTIBigBoss/MGS-MC-Mod-Manager-and-Tool/releases/download/test/3D.Models.and.Textures.zip";
+                string tempZipPath = Path.Combine(Path.GetTempPath(), "3DModelsAndTextures.zip");
+                await DownloadModFile(assetsZipUrl, tempZipPath);
+                LoggingManager.Instance.Log("Extracting assets zip...");
+                ZipFile.ExtractToDirectory(tempZipPath, modToolsPath);
+
+                string extractedFolder = Path.Combine(modToolsPath, "3D.Models.and.Textures");
+                if (Directory.Exists(extractedFolder))
+                {
+                    Directory.Move(extractedFolder, assetsFolder);
+                    LoggingManager.Instance.Log($"Renamed extracted folder to: {assetsFolder}");
+                }
+                File.Delete(tempZipPath);
+                LoggingManager.Instance.Log("Deleted temporary assets zip.");
+            }
+            else
+            {
+                LoggingManager.Instance.Log("Assets folder already exists.");
+            }
+        }
+
     }
 }
 
+/*
+ public async Task EnsureModToolsDownloaded(string modToolsPath)
+        {
+            if (!Directory.Exists(modToolsPath))
+            {
+                Directory.CreateDirectory(modToolsPath);
+            }
+            string ctxrToolPath = Path.Combine(modToolsPath, "CtxrTool.exe");
+            string texconvPath = Path.Combine(modToolsPath, "texconv.exe");
+
+            if (!File.Exists(ctxrToolPath))
+            {
+                await DownloadModFile("https://github.com/Jayveer/CtxrTool/releases/download/1.3/CtxrTool.exe", ctxrToolPath);
+            }
+            if (!File.Exists(texconvPath))
+            {
+                await DownloadModFile("https://github.com/Microsoft/DirectXTex/releases/latest/download/texconv.exe", texconvPath);
+            }
+        }
+*/

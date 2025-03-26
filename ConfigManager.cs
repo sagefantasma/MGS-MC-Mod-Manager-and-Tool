@@ -79,6 +79,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                          "MGS Mod Manager and Trainer", "MGS3", "MGS3 Mods");
 
+        public string ModToolsPath { get; set; } =
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                         "MGS Mod Manager and Trainer", "MGS Modding Tools");
+
         public bool MG1VanillaFolderSet { get; set; } = false;
         public bool MG1ModFolderSet { get; set; } = false;
         public bool MG2VanillaFolderSet { get; set; } = false;
@@ -89,17 +93,29 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         public bool MGS2ModFolderSet { get; set; } = false;
         public bool MGS3VanillaFolderSet { get; set; } = false;
         public bool MGS3ModFolderSet { get; set; } = false;
+        public bool ModToolsFolderSet { get; set; } = false;
+
+        // New assets configuration section.
+        public AssetsConfig Assets { get; set; } = new AssetsConfig();
 
         public AppSettings Settings { get; set; } = new AppSettings();
         public BackupStatus Backup { get; set; } = new BackupStatus();
         public ModTracking Mods { get; set; } = new ModTracking();
         public Dictionary<string, string> AudioReplacements { get; set; } = new Dictionary<string, string>();
-
-        public string GimpExePath { get; set; } = @"C:\Program Files\GIMP 2\bin\gimp-2.10.exe";
-
-
     }
 
+    public class AssetsConfig
+    {
+        public string ModelsAndTexturesFolder { get; set; } =
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                         "MGS Mod Manager and Trainer", "MGS Modding Tools", "3D Models and Textures");
+
+        public Dictionary<string, string> FolderMapping { get; set; } = new Dictionary<string, string>
+        {
+            { "GRU", "GRU" },
+            { "MGS3NakedSnake", "MGS3 Naked Snake" }
+        };
+    }
     public class BackupStatus
     {
         public bool MG1BackupCompleted { get; set; } = false;
