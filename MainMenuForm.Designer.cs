@@ -29,117 +29,124 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainMenuForm));
-            this.MG1FormSwap = new System.Windows.Forms.Button();
-            this.MG2FormSwap = new System.Windows.Forms.Button();
-            this.MGS1FormSwap = new System.Windows.Forms.Button();
-            this.MGS3FormSwap = new System.Windows.Forms.Button();
-            this.MGS2FormSwap = new System.Windows.Forms.Button();
-            this.ModResourcesFormSwap = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            MG1FormSwap = new System.Windows.Forms.Button();
+            MG2FormSwap = new System.Windows.Forms.Button();
+            MGS1FormSwap = new System.Windows.Forms.Button();
+            MGS3FormSwap = new System.Windows.Forms.Button();
+            MGS2FormSwap = new System.Windows.Forms.Button();
+            ModResourcesFormSwap = new System.Windows.Forms.Button();
+            SuspendLayout();
             // 
             // MG1FormSwap
             // 
-            this.MG1FormSwap.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("MG1FormSwap.BackgroundImage")));
-            this.MG1FormSwap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.MG1FormSwap.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.MG1FormSwap.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.MG1FormSwap.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            this.MG1FormSwap.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.MG1FormSwap.Location = new System.Drawing.Point(4, 12);
-            this.MG1FormSwap.Name = "MG1FormSwap";
-            this.MG1FormSwap.Size = new System.Drawing.Size(208, 375);
-            this.MG1FormSwap.TabIndex = 0;
-            this.MG1FormSwap.UseVisualStyleBackColor = true;
-            this.MG1FormSwap.Click += new System.EventHandler(this.MG1FormSwap_Click);
+            MG1FormSwap.BackgroundImage = (System.Drawing.Image)resources.GetObject("MG1FormSwap.BackgroundImage");
+            MG1FormSwap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            MG1FormSwap.Cursor = System.Windows.Forms.Cursors.Hand;
+            MG1FormSwap.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            MG1FormSwap.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            MG1FormSwap.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            MG1FormSwap.Location = new System.Drawing.Point(5, 14);
+            MG1FormSwap.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MG1FormSwap.Name = "MG1FormSwap";
+            MG1FormSwap.Size = new System.Drawing.Size(243, 433);
+            MG1FormSwap.TabIndex = 0;
+            MG1FormSwap.UseVisualStyleBackColor = true;
+            MG1FormSwap.Click += MG1FormSwap_Click;
             // 
             // MG2FormSwap
             // 
-            this.MG2FormSwap.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("MG2FormSwap.BackgroundImage")));
-            this.MG2FormSwap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.MG2FormSwap.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.MG2FormSwap.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.MG2FormSwap.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            this.MG2FormSwap.Location = new System.Drawing.Point(218, 12);
-            this.MG2FormSwap.Name = "MG2FormSwap";
-            this.MG2FormSwap.Size = new System.Drawing.Size(208, 375);
-            this.MG2FormSwap.TabIndex = 2;
-            this.MG2FormSwap.UseVisualStyleBackColor = true;
-            this.MG2FormSwap.Click += new System.EventHandler(this.MG2FormSwap_Click);
+            MG2FormSwap.BackgroundImage = (System.Drawing.Image)resources.GetObject("MG2FormSwap.BackgroundImage");
+            MG2FormSwap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            MG2FormSwap.Cursor = System.Windows.Forms.Cursors.Hand;
+            MG2FormSwap.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            MG2FormSwap.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            MG2FormSwap.Location = new System.Drawing.Point(254, 14);
+            MG2FormSwap.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MG2FormSwap.Name = "MG2FormSwap";
+            MG2FormSwap.Size = new System.Drawing.Size(243, 433);
+            MG2FormSwap.TabIndex = 2;
+            MG2FormSwap.UseVisualStyleBackColor = true;
+            MG2FormSwap.Click += MG2FormSwap_Click;
             // 
             // MGS1FormSwap
             // 
-            this.MGS1FormSwap.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("MGS1FormSwap.BackgroundImage")));
-            this.MGS1FormSwap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.MGS1FormSwap.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.MGS1FormSwap.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.MGS1FormSwap.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            this.MGS1FormSwap.Location = new System.Drawing.Point(432, 12);
-            this.MGS1FormSwap.Name = "MGS1FormSwap";
-            this.MGS1FormSwap.Size = new System.Drawing.Size(208, 375);
-            this.MGS1FormSwap.TabIndex = 3;
-            this.MGS1FormSwap.UseVisualStyleBackColor = true;
-            this.MGS1FormSwap.Click += new System.EventHandler(this.MGS1FormSwap_Click);
+            MGS1FormSwap.BackgroundImage = (System.Drawing.Image)resources.GetObject("MGS1FormSwap.BackgroundImage");
+            MGS1FormSwap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            MGS1FormSwap.Cursor = System.Windows.Forms.Cursors.Hand;
+            MGS1FormSwap.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            MGS1FormSwap.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            MGS1FormSwap.Location = new System.Drawing.Point(504, 14);
+            MGS1FormSwap.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MGS1FormSwap.Name = "MGS1FormSwap";
+            MGS1FormSwap.Size = new System.Drawing.Size(243, 433);
+            MGS1FormSwap.TabIndex = 3;
+            MGS1FormSwap.UseVisualStyleBackColor = true;
+            MGS1FormSwap.Click += MGS1FormSwap_Click;
             // 
             // MGS3FormSwap
             // 
-            this.MGS3FormSwap.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("MGS3FormSwap.BackgroundImage")));
-            this.MGS3FormSwap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.MGS3FormSwap.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.MGS3FormSwap.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.MGS3FormSwap.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            this.MGS3FormSwap.Location = new System.Drawing.Point(860, 12);
-            this.MGS3FormSwap.Name = "MGS3FormSwap";
-            this.MGS3FormSwap.Size = new System.Drawing.Size(208, 372);
-            this.MGS3FormSwap.TabIndex = 5;
-            this.MGS3FormSwap.UseVisualStyleBackColor = true;
-            this.MGS3FormSwap.Click += new System.EventHandler(this.MGS3FormSwap_Click);
+            MGS3FormSwap.BackgroundImage = (System.Drawing.Image)resources.GetObject("MGS3FormSwap.BackgroundImage");
+            MGS3FormSwap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            MGS3FormSwap.Cursor = System.Windows.Forms.Cursors.Hand;
+            MGS3FormSwap.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            MGS3FormSwap.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            MGS3FormSwap.Location = new System.Drawing.Point(1003, 14);
+            MGS3FormSwap.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MGS3FormSwap.Name = "MGS3FormSwap";
+            MGS3FormSwap.Size = new System.Drawing.Size(243, 429);
+            MGS3FormSwap.TabIndex = 5;
+            MGS3FormSwap.UseVisualStyleBackColor = true;
+            MGS3FormSwap.Click += MGS3FormSwap_Click;
             // 
             // MGS2FormSwap
             // 
-            this.MGS2FormSwap.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("MGS2FormSwap.BackgroundImage")));
-            this.MGS2FormSwap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.MGS2FormSwap.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.MGS2FormSwap.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.MGS2FormSwap.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MGS2FormSwap.Location = new System.Drawing.Point(646, 12);
-            this.MGS2FormSwap.Name = "MGS2FormSwap";
-            this.MGS2FormSwap.Size = new System.Drawing.Size(208, 375);
-            this.MGS2FormSwap.TabIndex = 4;
-            this.MGS2FormSwap.UseVisualStyleBackColor = true;
-            this.MGS2FormSwap.Click += new System.EventHandler(this.MGS2FormSwap_Click);
+            MGS2FormSwap.BackgroundImage = (System.Drawing.Image)resources.GetObject("MGS2FormSwap.BackgroundImage");
+            MGS2FormSwap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            MGS2FormSwap.Cursor = System.Windows.Forms.Cursors.Hand;
+            MGS2FormSwap.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            MGS2FormSwap.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            MGS2FormSwap.Location = new System.Drawing.Point(754, 14);
+            MGS2FormSwap.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MGS2FormSwap.Name = "MGS2FormSwap";
+            MGS2FormSwap.Size = new System.Drawing.Size(243, 433);
+            MGS2FormSwap.TabIndex = 4;
+            MGS2FormSwap.UseVisualStyleBackColor = true;
+            MGS2FormSwap.Click += MGS2FormSwap_Click;
             // 
             // ModResourcesFormSwap
             // 
-            this.ModResourcesFormSwap.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ModResourcesFormSwap.BackgroundImage")));
-            this.ModResourcesFormSwap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ModResourcesFormSwap.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ModResourcesFormSwap.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.ModResourcesFormSwap.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            this.ModResourcesFormSwap.Location = new System.Drawing.Point(1074, 12);
-            this.ModResourcesFormSwap.Name = "ModResourcesFormSwap";
-            this.ModResourcesFormSwap.Size = new System.Drawing.Size(208, 372);
-            this.ModResourcesFormSwap.TabIndex = 7;
-            this.ModResourcesFormSwap.UseVisualStyleBackColor = true;
-            this.ModResourcesFormSwap.Click += new System.EventHandler(this.ModResourcesFormSwap_Click);
+            ModResourcesFormSwap.BackgroundImage = (System.Drawing.Image)resources.GetObject("ModResourcesFormSwap.BackgroundImage");
+            ModResourcesFormSwap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            ModResourcesFormSwap.Cursor = System.Windows.Forms.Cursors.Hand;
+            ModResourcesFormSwap.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            ModResourcesFormSwap.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            ModResourcesFormSwap.Location = new System.Drawing.Point(1253, 14);
+            ModResourcesFormSwap.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ModResourcesFormSwap.Name = "ModResourcesFormSwap";
+            ModResourcesFormSwap.Size = new System.Drawing.Size(243, 429);
+            ModResourcesFormSwap.TabIndex = 7;
+            ModResourcesFormSwap.UseVisualStyleBackColor = true;
+            ModResourcesFormSwap.Click += ModResourcesFormSwap_Click;
             // 
             // MainMenuForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1284, 390);
-            this.Controls.Add(this.ModResourcesFormSwap);
-            this.Controls.Add(this.MGS3FormSwap);
-            this.Controls.Add(this.MGS2FormSwap);
-            this.Controls.Add(this.MGS1FormSwap);
-            this.Controls.Add(this.MG2FormSwap);
-            this.Controls.Add(this.MG1FormSwap);
-            this.DoubleBuffered = true;
-            this.Name = "MainMenuForm";
-            this.Text = "MGS Mod Manager Main Menu";
-            this.Load += new System.EventHandler(this.MainMenuForm_Load);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            BackColor = System.Drawing.Color.FromArgb(30, 30, 30);
+            BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            ClientSize = new System.Drawing.Size(1498, 450);
+            Controls.Add(ModResourcesFormSwap);
+            Controls.Add(MGS3FormSwap);
+            Controls.Add(MGS2FormSwap);
+            Controls.Add(MGS1FormSwap);
+            Controls.Add(MG2FormSwap);
+            Controls.Add(MG1FormSwap);
+            DoubleBuffered = true;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "MainMenuForm";
+            Text = "MGS Mod Manager Main Menu";
+            Load += MainMenuForm_Load;
+            ResumeLayout(false);
         }
 
         #endregion

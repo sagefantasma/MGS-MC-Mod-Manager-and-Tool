@@ -49,7 +49,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             elementHost.Child = modelViewerControl;
             this.Controls.Add(elementHost);
             elementHost.BringToFront();
-            this.Resize += TextureModelForm_Resize;
             AdjustElementHostSize();
         }
 
@@ -138,11 +137,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             Application.Exit();
         }
 
-        private void TextureModelForm_Resize(object sender, EventArgs e)
-        {
-            DdsFilePictureBox.Size = new Size(this.ClientSize.Width / 2, this.ClientSize.Height);
-            AdjustElementHostSize();
-        }
+        
         private void AdjustElementHostSize()
         {
             int halfWidth = this.ClientSize.Width / 2;

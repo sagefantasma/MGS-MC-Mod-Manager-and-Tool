@@ -63,16 +63,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 "v004a.geom",
                 new List<MapRouteGroup>
                 {
-                    new MapRouteGroup("Reinforcements = 41, 42, 43",
-                        new int[] {41}, new int[] {42}, new int[] {43}),
-                    new MapRouteGroup("Easy - Patrols (Normal/Caution): 5/6, 7/8, 9/10, 11/13",
-                        new int[] {5,6}, new int[] {7,8}, new int[] {9,10}, new int[] {11,13}),
-                    new MapRouteGroup("Normal - Patrols (Normal/Caution): 14/15, 16/17, 18/19, 20/22",
-                        new int[] {14,15}, new int[] {16,17}, new int[] {18,19}, new int[] {20,22}),
-                    new MapRouteGroup("Hard - Patrols (Normal/Caution): 23/24, 25/26, 27/28, 29/31",
-                        new int[] {23,24}, new int[] {25,26}, new int[] {27,28}, new int[] {29,31}),
-                    new MapRouteGroup("Extreme - Patrols (Normal/Caution): 32/33, 34/35, 36/37, 38/40",
-                        new int[] {32,33}, new int[] {34,35}, new int[] {36,37}, new int[] {38,40})
+                    new("Reinforcements", [41], [42], [43]),
+                    new("Easy",[5, 6], [7, 8], [9, 10], [11, 13]),
+                    new("Normal",[14, 15], [16, 17], [18, 19], [20, 22]),
+                    new("Hard",[23, 24], [25, 26], [27, 28], [29, 31]),
+                    new("Extreme",[32, 33], [34, 35], [36, 37], [38, 40])
                 }
             ),
         };
@@ -874,16 +869,16 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private static float[] GetSnakePosition()
         {
-            IntPtr processHandle = MemoryManager.OpenGameProcess(MemoryManager.GetMGS3Process());
+            IntPtr processHandle = MGS3MemoryManager.OpenGameProcess(MGS3MemoryManager.GetMGS3Process());
             if (processHandle != IntPtr.Zero)
             {
                 try
                 {
-                    return MemoryManager.Instance.ReadSnakePosition(processHandle);
+                    return MGS3MemoryManager.Instance.ReadSnakePosition(processHandle);
                 }
                 finally
                 {
-                    MemoryManager.NativeMethods.CloseHandle(processHandle);
+                    MGS3MemoryManager.NativeMethods.CloseHandle(processHandle);
                 }
             }
             return null;

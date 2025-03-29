@@ -61,6 +61,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
         }
 
+        private void MGS2GuardRouteTool_Click(object sender, EventArgs e)
+        {
+            HzxEditor.EditHzxFile();
+        }
 
     }
 }
