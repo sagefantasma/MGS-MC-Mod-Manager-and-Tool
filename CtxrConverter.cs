@@ -9,7 +9,8 @@ using System.Text;
 public static class CtxrConverter
 {
 
-    public static void CtxrToPng(string ctxrPath, string pngPath)
+    // This one reserves the alpha channel
+    public static void CtxrToPngTest(string ctxrPath, string pngPath)
     {
         if (!File.Exists(ctxrPath))
             throw new FileNotFoundException("CTXR file not found.", ctxrPath);
@@ -55,7 +56,8 @@ public static class CtxrConverter
         }
     }
 
-    public static void CtxrToPngNoAlpha(string ctxrPath, string pngPath)
+    // This one removes the alpha channel which I think is nicer for editing/viewing
+    public static void CtxrToPng(string ctxrPath, string pngPath)
     {
         if (!File.Exists(ctxrPath))
             throw new FileNotFoundException("CTXR file not found.", ctxrPath);

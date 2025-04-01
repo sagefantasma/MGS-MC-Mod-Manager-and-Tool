@@ -55,12 +55,13 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 ReadOnly = true,
                 Visible = false,
                 BorderStyle = BorderStyle.FixedSingle,
-                BackColor = Color.White,
+                BackColor = Color.FromArgb(15, 57, 48),
                 ScrollBars = RichTextBoxScrollBars.None,
                 WordWrap = true,
-                MaximumSize = new Size(312, 91),
-                Size = new Size(312, 91),
-                Font = new Font(Font.FontFamily, 10, FontStyle.Bold)
+                MaximumSize = new Size(364, 133),
+                Size = new Size(364, 133),
+                Font = new Font(Font.FontFamily, 10, FontStyle.Bold),
+                ForeColor = SystemColors.Control,
             };
             this.Controls.Add(modInfoRichTextBox);
 
@@ -320,13 +321,13 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 hoverPictureBox.Image = Image.FromFile(modImagePath);
             else
             {
-                Bitmap blankImage = new Bitmap(312, 265);
+                Bitmap blankImage = new Bitmap(364, 270);
                 using (Graphics g = Graphics.FromImage(blankImage))
                     g.Clear(Color.White);
                 hoverPictureBox.Image = blankImage;
             }
-            hoverPictureBox.Size = new Size(312, 265);
-            hoverPictureBox.Location = new Point(12, 193);
+            hoverPictureBox.Size = new Size(364, 270);
+            hoverPictureBox.Location = new Point(14, 223);
             hoverPictureBox.Visible = true;
             hoverPictureBox.BringToFront();
             ShowModInfo(modInfoPath);

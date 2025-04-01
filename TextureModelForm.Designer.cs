@@ -35,6 +35,7 @@
             PngToCtxr = new System.Windows.Forms.Button();
             PngToDds = new System.Windows.Forms.Button();
             DdsToCtxr = new System.Windows.Forms.Button();
+            ModelSelectionComboBox = new System.Windows.Forms.ComboBox();
             SuspendLayout();
             // 
             // BackButton
@@ -58,12 +59,12 @@
             btnLoadObj.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             btnLoadObj.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
             btnLoadObj.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
-            btnLoadObj.Location = new System.Drawing.Point(14, 60);
+            btnLoadObj.Location = new System.Drawing.Point(14, 226);
             btnLoadObj.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             btnLoadObj.Name = "btnLoadObj";
             btnLoadObj.Size = new System.Drawing.Size(254, 36);
             btnLoadObj.TabIndex = 13;
-            btnLoadObj.Text = "Load OBJ Model";
+            btnLoadObj.Text = "Load Non-Listed OBJ";
             btnLoadObj.UseVisualStyleBackColor = false;
             btnLoadObj.Click += btnLoadObj_Click;
             // 
@@ -73,12 +74,12 @@
             LoadGruButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             LoadGruButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
             LoadGruButton.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
-            LoadGruButton.Location = new System.Drawing.Point(14, 103);
+            LoadGruButton.Location = new System.Drawing.Point(14, 268);
             LoadGruButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             LoadGruButton.Name = "LoadGruButton";
             LoadGruButton.Size = new System.Drawing.Size(254, 36);
             LoadGruButton.TabIndex = 14;
-            LoadGruButton.Text = "Load MGS3 GRU";
+            LoadGruButton.Text = "Load Model Below:";
             LoadGruButton.UseVisualStyleBackColor = false;
             LoadGruButton.Click += LoadGruButton_Click;
             // 
@@ -88,7 +89,7 @@
             CtxrToPng.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             CtxrToPng.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
             CtxrToPng.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
-            CtxrToPng.Location = new System.Drawing.Point(14, 145);
+            CtxrToPng.Location = new System.Drawing.Point(13, 56);
             CtxrToPng.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CtxrToPng.Name = "CtxrToPng";
             CtxrToPng.Size = new System.Drawing.Size(254, 36);
@@ -103,7 +104,7 @@
             PngToCtxr.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             PngToCtxr.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
             PngToCtxr.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
-            PngToCtxr.Location = new System.Drawing.Point(14, 188);
+            PngToCtxr.Location = new System.Drawing.Point(13, 99);
             PngToCtxr.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             PngToCtxr.Name = "PngToCtxr";
             PngToCtxr.Size = new System.Drawing.Size(254, 36);
@@ -118,7 +119,7 @@
             PngToDds.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             PngToDds.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
             PngToDds.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
-            PngToDds.Location = new System.Drawing.Point(14, 231);
+            PngToDds.Location = new System.Drawing.Point(13, 142);
             PngToDds.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             PngToDds.Name = "PngToDds";
             PngToDds.Size = new System.Drawing.Size(254, 36);
@@ -133,7 +134,7 @@
             DdsToCtxr.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             DdsToCtxr.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
             DdsToCtxr.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
-            DdsToCtxr.Location = new System.Drawing.Point(14, 273);
+            DdsToCtxr.Location = new System.Drawing.Point(13, 184);
             DdsToCtxr.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             DdsToCtxr.Name = "DdsToCtxr";
             DdsToCtxr.Size = new System.Drawing.Size(254, 36);
@@ -142,6 +143,17 @@
             DdsToCtxr.UseVisualStyleBackColor = false;
             DdsToCtxr.Click += DdsToCtxr_Click;
             // 
+            // ModelSelectionComboBox
+            // 
+            ModelSelectionComboBox.BackColor = System.Drawing.Color.FromArgb(51, 51, 51);
+            ModelSelectionComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            ModelSelectionComboBox.ForeColor = System.Drawing.SystemColors.Control;
+            ModelSelectionComboBox.FormattingEnabled = true;
+            ModelSelectionComboBox.Location = new System.Drawing.Point(14, 310);
+            ModelSelectionComboBox.Name = "ModelSelectionComboBox";
+            ModelSelectionComboBox.Size = new System.Drawing.Size(254, 33);
+            ModelSelectionComboBox.TabIndex = 19;
+            // 
             // TextureModelForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -149,6 +161,7 @@
             BackColor = System.Drawing.Color.FromArgb(30, 30, 30);
             BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             ClientSize = new System.Drawing.Size(1395, 722);
+            Controls.Add(ModelSelectionComboBox);
             Controls.Add(DdsToCtxr);
             Controls.Add(PngToDds);
             Controls.Add(PngToCtxr);
@@ -172,5 +185,6 @@
         private System.Windows.Forms.Button PngToCtxr;
         private System.Windows.Forms.Button PngToDds;
         private System.Windows.Forms.Button DdsToCtxr;
+        private System.Windows.Forms.ComboBox ModelSelectionComboBox;
     }
 }

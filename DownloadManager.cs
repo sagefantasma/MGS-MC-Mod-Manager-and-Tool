@@ -177,7 +177,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             if (!Directory.Exists(assetsFolder))
             {
                 LoggingManager.Instance.Log("Assets folder not found. Downloading assets zip...");
-                string assetsZipUrl = "https://github.com/ANTIBigBoss/MGS-MC-Mod-Manager-and-Tool/releases/download/test/3D.Models.and.Textures.zip";
+                string assetsZipUrl = "https://github.com/ANTIBigBoss/MGS-MC-Mod-Manager-and-Tool/releases/download/ToolsModelsandTextures/3D.Models.and.Textures.zip"; // 
                 string tempZipPath = Path.Combine(Path.GetTempPath(), "3DModelsAndTextures.zip");
                 await DownloadModFile(assetsZipUrl, tempZipPath);
                 LoggingManager.Instance.Log("Extracting assets zip...");
