@@ -29,179 +29,205 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MGS3ModdingForm));
-            this.hoverPictureBox = new System.Windows.Forms.PictureBox();
-            this.AddMods = new System.Windows.Forms.Button();
-            this.MoveMgs3ModFolder = new System.Windows.Forms.Button();
-            this.MoveVanillaFolder = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.RebuildVanillaFiles = new System.Windows.Forms.Button();
-            this.RefreshMods = new System.Windows.Forms.Button();
-            this.DownloadModsMGS3 = new System.Windows.Forms.Button();
-            this.BackButton = new System.Windows.Forms.Button();
-            this.AudioSwap = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.hoverPictureBox)).BeginInit();
-            this.SuspendLayout();
+            hoverPictureBox = new System.Windows.Forms.PictureBox();
+            AddMods = new System.Windows.Forms.Button();
+            MoveMgs3ModFolder = new System.Windows.Forms.Button();
+            MoveVanillaFolder = new System.Windows.Forms.Button();
+            label1 = new System.Windows.Forms.Label();
+            RebuildVanillaFiles = new System.Windows.Forms.Button();
+            RefreshMods = new System.Windows.Forms.Button();
+            DownloadModsMGS3 = new System.Windows.Forms.Button();
+            BackButton = new System.Windows.Forms.Button();
+            AudioSwap = new System.Windows.Forms.Button();
+            pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)hoverPictureBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            SuspendLayout();
             // 
             // hoverPictureBox
             // 
-            this.hoverPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.hoverPictureBox.Location = new System.Drawing.Point(7, 190);
-            this.hoverPictureBox.Name = "hoverPictureBox";
-            this.hoverPictureBox.Size = new System.Drawing.Size(312, 265);
-            this.hoverPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.hoverPictureBox.TabIndex = 23;
-            this.hoverPictureBox.TabStop = false;
-            this.hoverPictureBox.Visible = false;
+            hoverPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            hoverPictureBox.Location = new System.Drawing.Point(8, 219);
+            hoverPictureBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            hoverPictureBox.Name = "hoverPictureBox";
+            hoverPictureBox.Size = new System.Drawing.Size(364, 270);
+            hoverPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            hoverPictureBox.TabIndex = 23;
+            hoverPictureBox.TabStop = false;
+            hoverPictureBox.Visible = false;
             // 
             // AddMods
             // 
-            this.AddMods.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(149)))), ((int)(((byte)(125)))));
-            this.AddMods.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.AddMods.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            this.AddMods.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.AddMods.Location = new System.Drawing.Point(7, 127);
-            this.AddMods.Name = "AddMods";
-            this.AddMods.Size = new System.Drawing.Size(312, 30);
-            this.AddMods.TabIndex = 22;
-            this.AddMods.Text = "Add Mods";
-            this.AddMods.UseVisualStyleBackColor = false;
-            this.AddMods.Click += new System.EventHandler(this.AddMods_Click);
+            AddMods.BackColor = System.Drawing.Color.FromArgb(149, 149, 125);
+            AddMods.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            AddMods.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            AddMods.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            AddMods.Location = new System.Drawing.Point(8, 147);
+            AddMods.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            AddMods.Name = "AddMods";
+            AddMods.Size = new System.Drawing.Size(364, 35);
+            AddMods.TabIndex = 22;
+            AddMods.Text = "Add Mods";
+            AddMods.UseVisualStyleBackColor = false;
+            AddMods.Click += AddMods_Click;
             // 
             // MoveMgs3ModFolder
             // 
-            this.MoveMgs3ModFolder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(149)))), ((int)(((byte)(125)))));
-            this.MoveMgs3ModFolder.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.MoveMgs3ModFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            this.MoveMgs3ModFolder.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.MoveMgs3ModFolder.Location = new System.Drawing.Point(7, 592);
-            this.MoveMgs3ModFolder.Name = "MoveMgs3ModFolder";
-            this.MoveMgs3ModFolder.Size = new System.Drawing.Size(312, 31);
-            this.MoveMgs3ModFolder.TabIndex = 21;
-            this.MoveMgs3ModFolder.Text = "Move MGS3 Mods Folder";
-            this.MoveMgs3ModFolder.UseVisualStyleBackColor = false;
+            MoveMgs3ModFolder.BackColor = System.Drawing.Color.FromArgb(149, 149, 125);
+            MoveMgs3ModFolder.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            MoveMgs3ModFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            MoveMgs3ModFolder.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            MoveMgs3ModFolder.Location = new System.Drawing.Point(8, 683);
+            MoveMgs3ModFolder.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MoveMgs3ModFolder.Name = "MoveMgs3ModFolder";
+            MoveMgs3ModFolder.Size = new System.Drawing.Size(364, 36);
+            MoveMgs3ModFolder.TabIndex = 21;
+            MoveMgs3ModFolder.Text = "Move MGS3 Mods Folder";
+            MoveMgs3ModFolder.UseVisualStyleBackColor = false;
             // 
             // MoveVanillaFolder
             // 
-            this.MoveVanillaFolder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(149)))), ((int)(((byte)(125)))));
-            this.MoveVanillaFolder.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.MoveVanillaFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            this.MoveVanillaFolder.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.MoveVanillaFolder.Location = new System.Drawing.Point(7, 557);
-            this.MoveVanillaFolder.Name = "MoveVanillaFolder";
-            this.MoveVanillaFolder.Size = new System.Drawing.Size(312, 31);
-            this.MoveVanillaFolder.TabIndex = 20;
-            this.MoveVanillaFolder.Text = "Move Vanilla Files Folder";
-            this.MoveVanillaFolder.UseVisualStyleBackColor = false;
-            this.MoveVanillaFolder.Click += new System.EventHandler(this.MoveVanillaFolder_Click);
+            MoveVanillaFolder.BackColor = System.Drawing.Color.FromArgb(149, 149, 125);
+            MoveVanillaFolder.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            MoveVanillaFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            MoveVanillaFolder.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            MoveVanillaFolder.Location = new System.Drawing.Point(8, 643);
+            MoveVanillaFolder.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MoveVanillaFolder.Name = "MoveVanillaFolder";
+            MoveVanillaFolder.Size = new System.Drawing.Size(364, 36);
+            MoveVanillaFolder.TabIndex = 20;
+            MoveVanillaFolder.Text = "Move Vanilla Files Folder";
+            MoveVanillaFolder.UseVisualStyleBackColor = false;
+            MoveVanillaFolder.Click += MoveVanillaFolder_Click;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(149)))), ((int)(((byte)(125)))));
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label1.Location = new System.Drawing.Point(623, 12);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(102, 25);
-            this.label1.TabIndex = 19;
-            this.label1.Text = "Mod List";
+            label1.AutoSize = true;
+            label1.BackColor = System.Drawing.Color.FromArgb(149, 149, 125);
+            label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            label1.Location = new System.Drawing.Point(727, 14);
+            label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(102, 25);
+            label1.TabIndex = 19;
+            label1.Text = "Mod List";
             // 
             // RebuildVanillaFiles
             // 
-            this.RebuildVanillaFiles.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(149)))), ((int)(((byte)(125)))));
-            this.RebuildVanillaFiles.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.RebuildVanillaFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            this.RebuildVanillaFiles.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.RebuildVanillaFiles.Location = new System.Drawing.Point(7, 96);
-            this.RebuildVanillaFiles.Name = "RebuildVanillaFiles";
-            this.RebuildVanillaFiles.Size = new System.Drawing.Size(312, 30);
-            this.RebuildVanillaFiles.TabIndex = 18;
-            this.RebuildVanillaFiles.Text = "Rebuild Vanilla Files";
-            this.RebuildVanillaFiles.UseVisualStyleBackColor = false;
-            this.RebuildVanillaFiles.Click += new System.EventHandler(this.RebuildVanillaFiles_Click);
+            RebuildVanillaFiles.BackColor = System.Drawing.Color.FromArgb(149, 149, 125);
+            RebuildVanillaFiles.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            RebuildVanillaFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            RebuildVanillaFiles.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            RebuildVanillaFiles.Location = new System.Drawing.Point(8, 111);
+            RebuildVanillaFiles.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            RebuildVanillaFiles.Name = "RebuildVanillaFiles";
+            RebuildVanillaFiles.Size = new System.Drawing.Size(364, 35);
+            RebuildVanillaFiles.TabIndex = 18;
+            RebuildVanillaFiles.Text = "Rebuild Vanilla Files";
+            RebuildVanillaFiles.UseVisualStyleBackColor = false;
+            RebuildVanillaFiles.Click += RebuildVanillaFiles_Click;
             // 
             // RefreshMods
             // 
-            this.RefreshMods.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(149)))), ((int)(((byte)(125)))));
-            this.RefreshMods.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.RefreshMods.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            this.RefreshMods.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.RefreshMods.Location = new System.Drawing.Point(7, 65);
-            this.RefreshMods.Name = "RefreshMods";
-            this.RefreshMods.Size = new System.Drawing.Size(312, 30);
-            this.RefreshMods.TabIndex = 17;
-            this.RefreshMods.Text = "Refresh Mods";
-            this.RefreshMods.UseVisualStyleBackColor = false;
-            this.RefreshMods.Click += new System.EventHandler(this.RefreshMods_Click);
+            RefreshMods.BackColor = System.Drawing.Color.FromArgb(149, 149, 125);
+            RefreshMods.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            RefreshMods.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            RefreshMods.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            RefreshMods.Location = new System.Drawing.Point(8, 75);
+            RefreshMods.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            RefreshMods.Name = "RefreshMods";
+            RefreshMods.Size = new System.Drawing.Size(364, 35);
+            RefreshMods.TabIndex = 17;
+            RefreshMods.Text = "Refresh Mods";
+            RefreshMods.UseVisualStyleBackColor = false;
+            RefreshMods.Click += RefreshMods_Click;
             // 
             // DownloadModsMGS3
             // 
-            this.DownloadModsMGS3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(149)))), ((int)(((byte)(125)))));
-            this.DownloadModsMGS3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.DownloadModsMGS3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            this.DownloadModsMGS3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.DownloadModsMGS3.Location = new System.Drawing.Point(7, 34);
-            this.DownloadModsMGS3.Name = "DownloadModsMGS3";
-            this.DownloadModsMGS3.Size = new System.Drawing.Size(312, 30);
-            this.DownloadModsMGS3.TabIndex = 16;
-            this.DownloadModsMGS3.Text = "Download Mods";
-            this.DownloadModsMGS3.UseVisualStyleBackColor = false;
-            this.DownloadModsMGS3.Click += new System.EventHandler(this.DownloadModsMGS3_Click);
+            DownloadModsMGS3.BackColor = System.Drawing.Color.FromArgb(149, 149, 125);
+            DownloadModsMGS3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            DownloadModsMGS3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            DownloadModsMGS3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            DownloadModsMGS3.Location = new System.Drawing.Point(8, 39);
+            DownloadModsMGS3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            DownloadModsMGS3.Name = "DownloadModsMGS3";
+            DownloadModsMGS3.Size = new System.Drawing.Size(364, 35);
+            DownloadModsMGS3.TabIndex = 16;
+            DownloadModsMGS3.Text = "Download Mods";
+            DownloadModsMGS3.UseVisualStyleBackColor = false;
+            DownloadModsMGS3.Click += DownloadModsMGS3_Click;
             // 
             // BackButton
             // 
-            this.BackButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(149)))), ((int)(((byte)(125)))));
-            this.BackButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.BackButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            this.BackButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.BackButton.Location = new System.Drawing.Point(7, 2);
-            this.BackButton.Name = "BackButton";
-            this.BackButton.Size = new System.Drawing.Size(312, 30);
-            this.BackButton.TabIndex = 15;
-            this.BackButton.Text = "Back";
-            this.BackButton.UseVisualStyleBackColor = false;
-            this.BackButton.Click += new System.EventHandler(this.BackButton_Click);
+            BackButton.BackColor = System.Drawing.Color.FromArgb(149, 149, 125);
+            BackButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            BackButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            BackButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            BackButton.Location = new System.Drawing.Point(8, 2);
+            BackButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            BackButton.Name = "BackButton";
+            BackButton.Size = new System.Drawing.Size(364, 35);
+            BackButton.TabIndex = 15;
+            BackButton.Text = "Back";
+            BackButton.UseVisualStyleBackColor = false;
+            BackButton.Click += BackButton_Click;
             // 
             // AudioSwap
             // 
-            this.AudioSwap.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(149)))), ((int)(((byte)(125)))));
-            this.AudioSwap.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.AudioSwap.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            this.AudioSwap.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.AudioSwap.Location = new System.Drawing.Point(7, 158);
-            this.AudioSwap.Name = "AudioSwap";
-            this.AudioSwap.Size = new System.Drawing.Size(312, 30);
-            this.AudioSwap.TabIndex = 24;
-            this.AudioSwap.Text = "Audio Swap";
-            this.AudioSwap.UseVisualStyleBackColor = false;
-            this.AudioSwap.Click += new System.EventHandler(this.AudioSwap_Click);
+            AudioSwap.BackColor = System.Drawing.Color.FromArgb(149, 149, 125);
+            AudioSwap.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            AudioSwap.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            AudioSwap.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            AudioSwap.Location = new System.Drawing.Point(8, 182);
+            AudioSwap.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            AudioSwap.Name = "AudioSwap";
+            AudioSwap.Size = new System.Drawing.Size(364, 35);
+            AudioSwap.TabIndex = 24;
+            AudioSwap.Text = "Audio Swap";
+            AudioSwap.UseVisualStyleBackColor = false;
+            AudioSwap.Click += AudioSwap_Click;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            pictureBox1.Location = new System.Drawing.Point(8, 495);
+            pictureBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new System.Drawing.Size(364, 142);
+            pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 25;
+            pictureBox1.TabStop = false;
+            pictureBox1.Visible = false;
             // 
             // MGS3ModdingForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(149)))), ((int)(((byte)(125)))));
-            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1148, 626);
-            this.Controls.Add(this.AudioSwap);
-            this.Controls.Add(this.hoverPictureBox);
-            this.Controls.Add(this.AddMods);
-            this.Controls.Add(this.MoveMgs3ModFolder);
-            this.Controls.Add(this.MoveVanillaFolder);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.RebuildVanillaFiles);
-            this.Controls.Add(this.RefreshMods);
-            this.Controls.Add(this.DownloadModsMGS3);
-            this.Controls.Add(this.BackButton);
-            this.DoubleBuffered = true;
-            this.Name = "MGS3ModdingForm";
-            this.Text = "Metal Gear Solid 3: Snake Eater - Modding Menu";
-            this.Load += new System.EventHandler(this.MGS3ModdingForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.hoverPictureBox)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            BackColor = System.Drawing.Color.FromArgb(149, 149, 125);
+            BackgroundImage = (System.Drawing.Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            ClientSize = new System.Drawing.Size(1339, 722);
+            Controls.Add(pictureBox1);
+            Controls.Add(AudioSwap);
+            Controls.Add(hoverPictureBox);
+            Controls.Add(AddMods);
+            Controls.Add(MoveMgs3ModFolder);
+            Controls.Add(MoveVanillaFolder);
+            Controls.Add(label1);
+            Controls.Add(RebuildVanillaFiles);
+            Controls.Add(RefreshMods);
+            Controls.Add(DownloadModsMGS3);
+            Controls.Add(BackButton);
+            DoubleBuffered = true;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "MGS3ModdingForm";
+            Text = "Metal Gear Solid 3: Snake Eater - Modding Menu";
+            Load += MGS3ModdingForm_Load;
+            ((System.ComponentModel.ISupportInitialize)hoverPictureBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -216,5 +242,6 @@
         private System.Windows.Forms.Button DownloadModsMGS3;
         private System.Windows.Forms.Button BackButton;
         private System.Windows.Forms.Button AudioSwap;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

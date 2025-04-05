@@ -10,23 +10,19 @@ namespace ANTIBigBoss_MGS_Mod_Manager
     public partial class MGSHDFixSettingsForm : Form
     {
         private string iniPath;
-        // Stores the INI data as: section -> list of IniEntry (each holds key and value)
         private Dictionary<string, List<IniEntry>> iniData;
 
-        // Represents an INI entry.
         public class IniEntry
         {
             public string Key { get; set; }
             public string Value { get; set; }
         }
 
-        // Constructor accepting just the INI file path.
         public MGSHDFixSettingsForm(string iniPath)
             : this(iniPath, null)
         {
         }
 
-        // Constructor accepting an INI file path and a parent form for theme inheritance.
         public MGSHDFixSettingsForm(string iniPath, Form parent)
         {
             InitializeComponent();
@@ -45,7 +41,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             BuildUI();
         }
 
-        // Loads the INI file (ignores original comments) into iniData.
         private void LoadIni()
         {
             iniData = new Dictionary<string, List<IniEntry>>(StringComparer.OrdinalIgnoreCase);
@@ -64,7 +59,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                         iniData[currentSection] = new List<IniEntry>();
                     continue;
                 }
-                // Skip comments starting with ;
                 if (trimmed.StartsWith(";"))
                     continue;
 
@@ -80,7 +74,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
         }
 
-        // Builds the UI using a TableLayoutPanel with two columns.
         private void BuildUI()
         {
             this.Controls.Clear();
@@ -97,14 +90,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 AutoSize = true,
                 ColumnCount = 2
             };
-            // Left column: fixed width (150 pixels); right column fills remaining width.
             table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150));
             table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
 
-            // Iterate over each section.
             foreach (var section in iniData)
             {
-                // Add section header spanning both columns.
                 Label sectionHeader = new Label
                 {
                     Text = section.Key,
@@ -152,10 +142,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             this.Controls.Add(saveButton);
         }
 
-        // Creates a control based on the key.
         private Control CreateControlForKey(string key, string currentValue, string section)
         {
-            // For boolean values: use a toggle button.
             if (currentValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
                 currentValue.Equals("false", StringComparison.OrdinalIgnoreCase))
             {
@@ -182,7 +170,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 };
                 return btn;
             }
-            // For fixed options: use ComboBox.
             else if (key.Equals("CtrlType", StringComparison.OrdinalIgnoreCase))
             {
                 ComboBox cb = new ComboBox { Tag = new Tuple<string, string>(section, key) };
@@ -218,7 +205,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 cb.SelectedItem = currentValue;
                 return cb;
             }
-            // For MSXWallType: use a TrackBar (0–6) with a label.
             else if (key.Equals("MSXWallType", StringComparison.OrdinalIgnoreCase))
             {
                 Panel p = new Panel { Height = 40 };
@@ -245,7 +231,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 p.Controls.Add(lbl);
                 return p;
             }
-            // For Samples: use a TrackBar (0–16) with a label.
             else if (key.Equals("Samples", StringComparison.OrdinalIgnoreCase))
             {
                 Panel p = new Panel { Height = 40 };
@@ -272,7 +257,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 p.Controls.Add(lbl);
                 return p;
             }
-            // For restricted numeric values (Width, Height, SizeMB).
             else if (key.Equals("Width", StringComparison.OrdinalIgnoreCase) ||
                      key.Equals("Height", StringComparison.OrdinalIgnoreCase) ||
                      key.Equals("SizeMB", StringComparison.OrdinalIgnoreCase))
@@ -287,7 +271,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     nud.Value = num;
                 return nud;
             }
-            // For multipliers.
             else if (key.Equals("X Multiplier", StringComparison.OrdinalIgnoreCase) ||
                      key.Equals("Y Multiplier", StringComparison.OrdinalIgnoreCase))
             {
@@ -312,7 +295,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
         }
 
-        // Save updated settings back to the INI file.
         private void SaveButton_Click(object sender, EventArgs e)
         {
             Panel scrollPanel = this.Controls.OfType<Panel>().FirstOrDefault();
@@ -332,7 +314,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                                 value = txt.Text;
                             else if (ctrl is Button btn)
                             {
-                                // For boolean toggle buttons, ensure lower-case.
                                 if (btn.Text.Equals("True", StringComparison.OrdinalIgnoreCase) ||
                                     btn.Text.Equals("False", StringComparison.OrdinalIgnoreCase))
                                     value = btn.Text.ToLowerInvariant();

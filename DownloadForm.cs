@@ -18,12 +18,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private async void DownloadForm_Load(object sender, EventArgs e)
         {
-            // Set up the form (e.g., size, title)
             this.Text = "Download Manager";
             this.Size = new Size(600, 800);
             this.BackColor = ColorTranslator.FromHtml("#95957d");
 
-            // Add a button to close the form
             Button closeButton = new Button
             {
                 Text = "Close",
@@ -36,7 +34,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             closeButton.Click += (s, args) => this.Close();
             this.Controls.Add(closeButton);
 
-            // Add a panel to hold the mod information
             FlowLayoutPanel modInfoPanel = new FlowLayoutPanel
             {
                 AutoScroll = true,
@@ -49,7 +46,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             };
             this.Controls.Add(modInfoPanel);
 
-            // Fetch and display the mod information
             await LoadAndDisplayModInfo(modInfoPanel);
         }
 
@@ -72,23 +68,20 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private void DisplayModInfo(FlowLayoutPanel modInfoPanel, ModRepository modRepo, string modInfo)
         {
-            // Parse modInfo to extract details
             string[] modInfoLines = modInfo.Split('\n');
             string modName = modInfoLines[0].Replace("Name: ", "");
             string modAuthor = modInfoLines[1].Replace("Author: ", "");
             string modDescription = modInfoLines[2].Replace("Description: ", "");
 
-            // Add a panel for the mod entry
             Panel modPanel = new Panel
             {
                 Width = modInfoPanel.Width - 25,
-                Height = 180, // Adjust height to fit all information
+                Height = 180,
                 BackColor = ColorTranslator.FromHtml("#95957d"),
                 BorderStyle = BorderStyle.FixedSingle,
                 Margin = new Padding(5)
             };
 
-            // Add a label to display the mod title
             Label modTitleLabel = new Label
             {
                 Text = modName,
@@ -99,7 +92,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             };
             modPanel.Controls.Add(modTitleLabel);
 
-            // Add a label to display the mod author
             Label modAuthorLabel = new Label
             {
                 Text = $"Author: {modAuthor}",
@@ -110,7 +102,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             };
             modPanel.Controls.Add(modAuthorLabel);
 
-            // Add a label to display the mod description
             Label modDescriptionLabel = new Label
             {
                 Text = $"Description: {modDescription}",
@@ -122,7 +113,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             };
             modPanel.Controls.Add(modDescriptionLabel);
 
-            // Add a button to download the mod
             Button downloadButton = new Button
             {
                 Text = "Download",
@@ -135,23 +125,20 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             downloadButton.Click += async (s, args) => await DownloadModFile(modRepo);
             modPanel.Controls.Add(downloadButton);
 
-            // Add the mod panel to the mod info panel
             modInfoPanel.Controls.Add(modPanel);
         }
 
         private void DisplayGamebananaModInfo(FlowLayoutPanel modInfoPanel, Mod mod)
         {
-            // Add a panel for the mod entry
             Panel modPanel = new Panel
             {
                 Width = modInfoPanel.Width - 25,
-                Height = 180, // Adjust height to fit all information
+                Height = 180,
                 BackColor = ColorTranslator.FromHtml("#95957d"),
                 BorderStyle = BorderStyle.FixedSingle,
                 Margin = new Padding(5)
             };
 
-            // Add a label to display the mod title
             Label modTitleLabel = new Label
             {
                 Text = mod.Name,
@@ -162,7 +149,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             };
             modPanel.Controls.Add(modTitleLabel);
 
-            // Add a label to display the mod author
             Label modAuthorLabel = new Label
             {
                 Text = $"Author: {mod.Author}",
@@ -173,7 +159,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             };
             modPanel.Controls.Add(modAuthorLabel);
 
-            // Add a label to display the mod description
             Label modDescriptionLabel = new Label
             {
                 Text = $"Description: {mod.Description}",
@@ -185,7 +170,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             };
             modPanel.Controls.Add(modDescriptionLabel);
 
-            // Add a button to download the mod
             Button downloadButton = new Button
             {
                 Text = "Download",
@@ -198,7 +182,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             downloadButton.Click += (s, args) => System.Diagnostics.Process.Start(mod.Link);
             modPanel.Controls.Add(downloadButton);
 
-            // Add the mod panel to the mod info panel
             modInfoPanel.Controls.Add(modPanel);
         }
 
@@ -210,7 +193,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
                 if (!string.IsNullOrEmpty(downloadUrl))
                 {
-                    // Prompt user to select destination path
                     SaveFileDialog saveFileDialog = new SaveFileDialog
                     {
                         Title = "Save Mod File",

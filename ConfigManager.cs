@@ -89,6 +89,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         public bool MG2ModFolderSet { get; set; } = false;
         public bool MGS1VanillaFolderSet { get; set; } = false;
         public bool MGS1ModFolderSet { get; set; } = false;
+        public bool MGS1GamePathSet { get; set; } = false;
+
         public bool MGS2VanillaFolderSet { get; set; } = false;
         public bool MGS2ModFolderSet { get; set; } = false;
         public bool MGS3VanillaFolderSet { get; set; } = false;

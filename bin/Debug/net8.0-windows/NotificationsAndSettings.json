@@ -2,7 +2,7 @@
   "GamePaths": {
     "MG1": "",
     "MG2": "",
-    "MGS1": "",
+    "MGS1": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\MGS1",
     "MGS2": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\MGS2",
     "MGS3": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\MGS3"
   },
@@ -22,7 +22,8 @@
   "MG2VanillaFolderSet": false,
   "MG2ModFolderSet": false,
   "MGS1VanillaFolderSet": false,
-  "MGS1ModFolderSet": false,
+  "MGS1ModFolderSet": true,
+  "MGS1GamePathSet": false,
   "MGS2VanillaFolderSet": true,
   "MGS2ModFolderSet": true,
   "MGS3VanillaFolderSet": true,

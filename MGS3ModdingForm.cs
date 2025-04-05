@@ -17,12 +17,9 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         private ConfigSettings config;
         private RichTextBox modInfoRichTextBox;
         private FlowLayoutPanel modListPanel;
-
-        // Helper class instances.
         private FileExplorerManager fileExplorerManager;
         private ModListManager modListManager;
 
-        // Expected paths used for backup/applying mods.
         private readonly string[] expectedPaths = new string[]
         {
             "assets/geom/us",
@@ -70,31 +67,31 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             InitializeComponent();
             this.FormClosing += MGS3ModdingForm_FormClosing;
 
-            // Initialize hoverPictureBox.
             hoverPictureBox = new PictureBox
             {
                 SizeMode = PictureBoxSizeMode.StretchImage,
                 Visible = false,
-                BorderStyle = BorderStyle.FixedSingle
+                BorderStyle = BorderStyle.FixedSingle,
+                BackColor = Color.FromArgb(149, 149, 125)
             };
 
-            // Initialize modInfoRichTextBox.
             modInfoRichTextBox = new RichTextBox
             {
                 Multiline = true,
                 ReadOnly = true,
                 Visible = false,
                 BorderStyle = BorderStyle.FixedSingle,
-                BackColor = Color.White,
+                BackColor = Color.FromArgb(149, 149, 125),
                 ScrollBars = RichTextBoxScrollBars.None,
                 WordWrap = true,
-                MaximumSize = new Size(312, 91),
-                Size = new Size(312, 91),
-                Font = new Font("Microsoft Sans Serif", 10, FontStyle.Bold)
+                MaximumSize = new Size(364, 142),
+                Size = new Size(364, 142),
+                Font = new Font(Font.FontFamily, 10, FontStyle.Bold),
+                ForeColor = SystemColors.ActiveCaptionText,
+                Location = new Point(8, 495)
             };
-
-            this.Controls.Add(hoverPictureBox);
             this.Controls.Add(modInfoRichTextBox);
+            this.Controls.Add(hoverPictureBox);
         }
 
         private void MGS3ModdingForm_Load(object sender, EventArgs e)
@@ -116,14 +113,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 }
             }
 
-            // Create the mod list panel.
             SetupModListPanel();
 
-            // Instantiate the helper classes.
             fileExplorerManager = new FileExplorerManager(config, this, modListPanel, "MGS3", expectedPaths);
             modListManager = new ModListManager(modListPanel);
 
-            // Call setup methods.
             fileExplorerManager.SetupBackupFolders();
             fileExplorerManager.SetupModFolder();
             LoadModsIntoUI();
@@ -146,7 +140,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         #region First Time Setup Methods
         private bool CheckAndPromptForFolderPaths()
         {
-            // Vanilla Files folder selection.
             if (!config.MGS3VanillaFolderSet)
             {
                 DialogResult res = MessageBox.Show(
@@ -180,7 +173,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 config.MGS3VanillaFolderSet = true;
             }
 
-            // Mods folder selection.
             if (!config.MGS3ModFolderSet)
             {
                 DialogResult res = MessageBox.Show(
@@ -268,7 +260,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private void LoadModsIntoUI()
         {
-            // Check every mod in the JSON: if its folder is missing, mark it as disabled.
             foreach (var modName in config.Mods.ActiveMods.Keys.ToList())
             {
                 string modPath = Path.Combine(fileExplorerManager.ModFolder, modName);
@@ -280,26 +271,21 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
             ConfigManager.SaveSettings(config);
 
-            // Clear any existing controls.
             modListPanel.Controls.Clear();
 
-            // Get only the mod directories that still exist.
             string[] modDirectories = Directory.GetDirectories(fileExplorerManager.ModFolder);
 
-            // Layout settings...
             int entryWidth = modListPanel.Width - 20;
             int buttonSpacing = 10;
             int leftMargin = 5;
             int rightMargin = 10;
 
-            // Loop through each mod folder and build UI.
             foreach (string modPath in modDirectories)
             {
                 string modName = Path.GetFileName(modPath);
                 bool isEnabled = config.Mods.ActiveMods.ContainsKey(modName) && config.Mods.ActiveMods[modName];
                 string displayName = ModListManager.WrapText(modName, 50);
 
-                // Create modPanel and buttons (toggle, rename, delete, settings, etc.)
                 Panel modPanel = new Panel
                 {
                     Width = entryWidth,
@@ -322,7 +308,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 toggleButton.FlatAppearance.BorderSize = 0;
                 toggleButton.Click += fileExplorerManager.ToggleModState;
 
-                // Mod name label
                 Label modLabel = new Label
                 {
                     Text = displayName,
@@ -333,7 +318,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     Padding = new Padding(5, 0, 0, 0)
                 };
 
-                // "Edit" button
                 Button renameButton = new Button
                 {
                     Text = "Edit",
@@ -345,9 +329,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     FlatStyle = FlatStyle.Flat
                 };
                 renameButton.FlatAppearance.BorderSize = 0;
-                renameButton.Click += RenameMod;  // <--- Your existing event
+                renameButton.Click += RenameMod;
 
-                // "Delete" button
                 Button deleteButton = new Button
                 {
                     Text = "Delete",
@@ -359,15 +342,12 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     FlatStyle = FlatStyle.Flat
                 };
                 deleteButton.FlatAppearance.BorderSize = 0;
-                deleteButton.Click += fileExplorerManager.DeleteMod;  // <--- Your existing event
+                deleteButton.Click += fileExplorerManager.DeleteMod;
 
-                // Potential "Settings" button
                 Button settingsButton = null;
 
-                // 6) Check if MGSHDFix or recognized textures
                 if (fileExplorerManager.IsMGSHDFixMod(modPath))
                 {
-                    // MGSHDFix mod => HDFix Settings button
                     settingsButton = new Button
                     {
                         Text = "HDFix Settings",
@@ -394,7 +374,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 }
                 else
                 {
-                    // Use your recognized textures approach
                     var (foundCamos, foundBoxes, foundFaces) = fileExplorerManager.GetRecognizedTextures(modPath);
                     int categoryCount = 0;
                     if (foundCamos.Count > 0) categoryCount++;
@@ -405,12 +384,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     {
                         if (foundCamos.Count > 0)
                         {
-                            // Camo only
                             if (foundCamos.Count == 1)
                             {
                                 settingsButton = MGS3TextureRenamer.CreateChangeButton("Change Camo", modName, (s, e) =>
                                 {
-                                    // Single camo
                                     MGS3TextureRenamer.ShowSingleCamoSwapDialog(
                                         config,
                                         modName,
@@ -426,7 +403,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                             }
                             else
                             {
-                                // Multi camos
                                 settingsButton = MGS3TextureRenamer.CreateChangeButton("Change Camos", modName, (s, e) =>
                                 {
                                     MGS3TextureRenamer.ShowMultiCamoSwapDialog(
@@ -445,7 +421,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                         }
                         else if (foundBoxes.Count > 0)
                         {
-                            // Boxes only
                             if (foundBoxes.Count == 1)
                             {
                                 settingsButton = MGS3TextureRenamer.CreateChangeButton("Change Box", modName, (s, e) =>
@@ -483,10 +458,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                         }
                         else
                         {
-                            // Face only
                             settingsButton = MGS3TextureRenamer.CreateChangeButton("Change Face(s)", modName, (s, e) =>
                             {
-                                // If only one face is found, wrap it in a list; otherwise, use the full list.
                                 var faceList = (foundFaces.Count == 1) ? new List<string> { foundFaces[0] } : foundFaces;
                                 MGS3TextureRenamer.ShowUnifiedFaceSwapDialog(
                                     config,
@@ -504,7 +477,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     }
                     else if (categoryCount > 1)
                     {
-                        // Multiple categories => single "Change Textures" button
                         settingsButton = MGS3TextureRenamer.CreateChangeButton("Change Textures", modName, (s, e) =>
                         {
                             MGS3TextureRenamer.ShowMultiTextureSwapDialog(
@@ -522,26 +494,20 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                             this.ActiveControl = modListPanel;
                         });
                     }
-                    // else no recognized textures => no settings button
                 }
 
-                // 7) Position everything inside modPanel
                 toggleButton.Location = new Point(leftMargin, (modPanel.Height - toggleButton.Height) / 2);
 
-                // Start from the right side
                 int currentRightX = modPanel.Width - rightMargin;
 
-                // Delete button
                 currentRightX -= deleteButton.Width;
                 deleteButton.Location = new Point(currentRightX, (modPanel.Height - deleteButton.Height) / 2);
                 currentRightX -= buttonSpacing;
 
-                // Rename button
                 currentRightX -= renameButton.Width;
                 renameButton.Location = new Point(currentRightX, (modPanel.Height - renameButton.Height) / 2);
                 currentRightX -= buttonSpacing;
 
-                // If we have a settings button
                 if (settingsButton != null)
                 {
                     currentRightX -= settingsButton.Width;
@@ -549,13 +515,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     currentRightX -= buttonSpacing;
                 }
 
-                // Label
                 int labelX = toggleButton.Right + buttonSpacing;
                 int labelWidth = currentRightX - labelX - buttonSpacing;
                 modLabel.Location = new Point(labelX, 0);
                 modLabel.Size = new Size(labelWidth, modPanel.Height);
 
-                // 8) Add everything to modPanel
                 modPanel.Controls.Add(toggleButton);
                 modPanel.Controls.Add(modLabel);
                 modPanel.Controls.Add(renameButton);
@@ -563,7 +527,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 if (settingsButton != null)
                     modPanel.Controls.Add(settingsButton);
 
-                // 9) Attach hover events for mod image + info
                 void AttachHoverEvents(Control c)
                 {
                     c.MouseEnter += (s, e) => ShowModImage(modName, modPanel);
@@ -576,7 +539,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 AttachHoverEvents(deleteButton);
                 if (settingsButton != null) AttachHoverEvents(settingsButton);
 
-                // 10) Finally, add modPanel to the FlowLayoutPanel
                 modListPanel.Controls.Add(modPanel);
             }
         }      
@@ -592,14 +554,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             if (File.Exists(modImagePath))
                 hoverPictureBox.Image = Image.FromFile(modImagePath);
             else
-            {
-                Bitmap blankImage = new Bitmap(312, 265);
-                using (Graphics g = Graphics.FromImage(blankImage))
-                    g.Clear(Color.White);
-                hoverPictureBox.Image = blankImage;
-            }
-            hoverPictureBox.Size = new Size(312, 265);
-            hoverPictureBox.Location = new Point(12, 193);
+                hoverPictureBox.Image = null;
+            hoverPictureBox.BackColor = Color.FromArgb(149, 149, 125);
+            hoverPictureBox.Size = new Size(364, 270);
+            hoverPictureBox.Location = new Point(8, 219);
             hoverPictureBox.Visible = true;
             hoverPictureBox.BringToFront();
             ShowModInfo(modInfoPath);
@@ -611,7 +569,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 modInfoRichTextBox.Text = File.ReadAllText(modInfoPath);
             else
                 modInfoRichTextBox.Text = string.Empty;
-            modInfoRichTextBox.Location = new Point(12, hoverPictureBox.Bottom);
+            modInfoRichTextBox.Location = new Point(8, 495);
             modInfoRichTextBox.Visible = true;
             modInfoRichTextBox.BringToFront();
         }

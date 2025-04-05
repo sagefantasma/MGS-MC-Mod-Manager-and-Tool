@@ -96,19 +96,16 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 string apiUrl = $"https://api.github.com/repos/{modRepo.Owner}/{modRepo.Repo}/releases/latest";
                 HttpResponseMessage response = await client.GetAsync(apiUrl);
 
-                // Check for 404 Not Found
                 if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
                     throw new Exception("No releases found for this repository.");
                 }
 
-                // Throw an exception if the status is not successful
                 response.EnsureSuccessStatusCode();
 
                 string responseBody = await response.Content.ReadAsStringAsync();
                 JObject releaseInfo = JObject.Parse(responseBody);
 
-                // Get the first asset in the release
                 JArray assets = (JArray)releaseInfo["assets"];
                 if (assets != null && assets.Count > 0)
                 {
@@ -198,26 +195,48 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
         }
 
+        public async Task EnsureMGSM2FixDownloaded(string mgsm2FixFolder)
+        {
+            if (!Directory.Exists(mgsm2FixFolder))
+            {
+                Directory.CreateDirectory(mgsm2FixFolder);
+                LoggingManager.Instance.Log($"Created MGSM2Fix folder: {mgsm2FixFolder}");
+            }
+
+            string expectedFile = Path.Combine(mgsm2FixFolder, "MGSM2Fix.exe");
+            if (File.Exists(expectedFile))
+            {
+                LoggingManager.Instance.Log("MGSM2Fix mod already exists. No download necessary.");
+                return;
+            }
+
+            LoggingManager.Instance.Log("MGSM2Fix mod not found. Downloading...");
+            string downloadUrl = "https://github.com/nuggslet/MGSM2Fix/releases/download/v2.2/MGSM2Fix_v_2_2_MGS1.zip";
+            string tempZipPath = Path.Combine(Path.GetTempPath(), "MGSM2Fix.zip");
+
+            await DownloadModFile(downloadUrl, tempZipPath);
+            LoggingManager.Instance.Log("Extracting MGSM2Fix zip...");
+
+            using (var archive = System.IO.Compression.ZipFile.OpenRead(tempZipPath))
+            {
+                foreach (var entry in archive.Entries)
+                {
+                    string destinationPath = Path.Combine(mgsm2FixFolder, entry.FullName);
+                    if (string.IsNullOrEmpty(entry.Name))
+                    {
+                        Directory.CreateDirectory(destinationPath);
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(destinationPath));
+                        entry.ExtractToFile(destinationPath, true);
+                    }
+                }
+            }
+
+            File.Delete(tempZipPath);
+            LoggingManager.Instance.Log("MGSM2Fix downloaded and extracted successfully.");
+        }
+
     }
 }
-
-/*
- public async Task EnsureModToolsDownloaded(string modToolsPath)
-        {
-            if (!Directory.Exists(modToolsPath))
-            {
-                Directory.CreateDirectory(modToolsPath);
-            }
-            string ctxrToolPath = Path.Combine(modToolsPath, "CtxrTool.exe");
-            string texconvPath = Path.Combine(modToolsPath, "texconv.exe");
-
-            if (!File.Exists(ctxrToolPath))
-            {
-                await DownloadModFile("https://github.com/Jayveer/CtxrTool/releases/download/1.3/CtxrTool.exe", ctxrToolPath);
-            }
-            if (!File.Exists(texconvPath))
-            {
-                await DownloadModFile("https://github.com/Microsoft/DirectXTex/releases/latest/download/texconv.exe", texconvPath);
-            }
-        }
-*/

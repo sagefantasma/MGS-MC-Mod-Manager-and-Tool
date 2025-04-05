@@ -41,3 +41,4 @@ C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\n
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\net8.0-windows\ANTIBigBoss MGS Mod Manager.pdb
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\net8.0-windows\ANTIBigBoss MGS Mod Manager.genruntimeconfig.cache
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\net8.0-windows\ref\ANTIBigBoss MGS Mod Manager.dll
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.MGSHDFixSettingsForm.resources

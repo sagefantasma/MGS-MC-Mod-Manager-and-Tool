@@ -320,12 +320,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             if (File.Exists(modImagePath))
                 hoverPictureBox.Image = Image.FromFile(modImagePath);
             else
-            {
-                Bitmap blankImage = new Bitmap(364, 270);
-                using (Graphics g = Graphics.FromImage(blankImage))
-                    g.Clear(Color.White);
-                hoverPictureBox.Image = blankImage;
-            }
+                hoverPictureBox.Image = null;
             hoverPictureBox.Size = new Size(364, 270);
             hoverPictureBox.Location = new Point(14, 223);
             hoverPictureBox.Visible = true;
