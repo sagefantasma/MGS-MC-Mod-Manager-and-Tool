@@ -1,13 +1,10 @@
 ﻿using Microsoft.VisualBasic.FileIO;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using IOSearchOption = System.IO.SearchOption;
 
 namespace ANTIBigBoss_MGS_Mod_Manager
 {
@@ -195,13 +192,33 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 @"C:\Program Files (x86)\Steam\steamapps\common\MGS2",
                 @"A:\SteamLibrary\steamapps\common\MGS2",
                 @"B:\SteamLibrary\steamapps\common\MGS2",
-                @"C:\SteamLibrary\steamapps\common\MGS2",
                 @"D:\SteamLibrary\steamapps\common\MGS2",
                 @"E:\SteamLibrary\steamapps\common\MGS2",
                 @"F:\SteamLibrary\steamapps\common\MGS2",
                 @"G:\SteamLibrary\steamapps\common\MGS2",
             };
-            return commonPaths.FirstOrDefault(Directory.Exists) ?? "";
+
+            string foundPath = commonPaths.FirstOrDefault(Directory.Exists);
+            if (!string.IsNullOrEmpty(foundPath))
+            {
+                return foundPath;
+            }
+            else
+            {
+                using (FolderBrowserDialog fbd = new FolderBrowserDialog())
+                {
+                    fbd.Description = "Select the installation folder for MGS2 - Master Collection.";
+                    if (fbd.ShowDialog() == DialogResult.OK)
+                    {
+                        return fbd.SelectedPath;
+                    }
+                    else
+                    {
+                        GoBackToMainMenu();
+                        return null;
+                    }
+                }
+            }
         }
 
         private void GoBackToMainMenu()
@@ -298,10 +315,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 MessageBox.Show("MGSHDFix.ini not found in mod folder.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            MGSHDFixSettingsForm settingsForm = new MGSHDFixSettingsForm(iniPath, this);
+            MGSHDFixSettingsForm settingsForm = new MGSHDFixSettingsForm("MGS2", this);
             settingsForm.ShowDialog();
             this.ActiveControl = modListManager.ModListPanel;
         }
+
 
         private void RenameModByName(string modName)
         {

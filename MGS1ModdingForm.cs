@@ -11,8 +11,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
     {
         private ConfigSettings config;
         private Dictionary<string, List<IniEntry>> iniData;
-        private string iniPath;
-        private string gameIniPath; 
+
+        private string modIniPath;
+        private string modAsiPath;
+        private string modD3d11DllPath;
+        private string modLicenseTextPath;
 
         public class IniEntry
         {
@@ -45,6 +48,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     "Please choose a location for the MGS1 Mods folder.\n\n" +
                     "Click 'Yes' to use the default location or 'No' to select your own.",
                     "MGS1 Mods Folder Location", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
                 if (res == DialogResult.Cancel)
                 {
                     new MainMenuForm().Show();
@@ -82,10 +86,13 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 LoggingManager.Instance.Log($"Created MGS1 Mods folder: {modFolder}");
             }
 
-            iniPath = Path.Combine(modFolder, "MGSM2Fix.ini");
+            modIniPath = Path.Combine(modFolder, "MGSM2Fix.ini");
+            modAsiPath = Path.Combine(modFolder, "MGSM2Fix.asi");
+            modD3d11DllPath = Path.Combine(modFolder, "d3d11.dll");
+            modLicenseTextPath = Path.Combine(modFolder, "LICENSES.txt");
 
             DownloadManager dm = new DownloadManager();
-            if (!File.Exists(iniPath))
+            if (!File.Exists(modIniPath))
             {
                 await dm.EnsureMGSM2FixDownloaded(modFolder);
             }
@@ -117,15 +124,29 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 ConfigManager.SaveSettings(config);
             }
 
-            gameIniPath = Path.Combine(gameDir, "MGSM2Fix.ini");
-
-            if (!File.Exists(gameIniPath))
-            {
-                File.Copy(iniPath, gameIniPath, false);
-            }
-
-            LoadIni(iniPath);
+            SyncFilesToGameDir();
+            LoadIni(modIniPath);
             BuildSettingsUI();
+        }
+
+        private void SyncFilesToGameDir()
+        {
+            if (!config.GamePaths.ContainsKey("MGS1") || string.IsNullOrEmpty(config.GamePaths["MGS1"]))
+                return;
+
+            string gameDir = config.GamePaths["MGS1"];
+
+            try
+            {
+                File.Copy(modIniPath, Path.Combine(gameDir, "MGSM2Fix.ini"), true);
+                File.Copy(modAsiPath, Path.Combine(gameDir, "MGSM2Fix.asi"), true);
+                File.Copy(modD3d11DllPath, Path.Combine(gameDir, "d3d11.dll"), true);
+                File.Copy(modLicenseTextPath, Path.Combine(gameDir, "LICENSES.txt"), true);
+            }
+            catch (Exception ex)
+            {
+                LoggingManager.Instance.Log($"Error syncing files to game directory: {ex.Message}");
+            }
         }
 
         private void LoadIni(string filePath)
@@ -345,7 +366,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 }
             }
 
-            using (StreamWriter writer = new StreamWriter(iniPath))
+            using (StreamWriter writer = new StreamWriter(modIniPath))
             {
                 foreach (var section in iniData)
                 {
@@ -357,11 +378,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     writer.WriteLine();
                 }
             }
-
-            if (!string.IsNullOrEmpty(gameIniPath))
-            {
-                File.Copy(iniPath, gameIniPath, true);
-            }
+            SyncFilesToGameDir();
 
             MessageBox.Show("Settings saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -401,7 +418,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private void BackButton_Click(object sender, EventArgs e)
         {
-            LoggingManager.Instance.Log("Going back to Main Menu from MGS1.\n");
+            LoggingManager.Instance.Log("Going back to Main Menu from MGS1ModdingForm.");
             GuiManager.UpdateLastFormLocation(this.Location);
             GuiManager.LogFormLocation(this, "MGS1ModdingForm");
             new MainMenuForm().Show();

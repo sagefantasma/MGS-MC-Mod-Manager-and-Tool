@@ -220,6 +220,7 @@
             Controls.Add(DownloadModsMGS3);
             Controls.Add(BackButton);
             DoubleBuffered = true;
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Name = "MGS3ModdingForm";
             Text = "Metal Gear Solid 3: Snake Eater - Modding Menu";

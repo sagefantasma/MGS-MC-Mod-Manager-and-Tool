@@ -5,25 +5,44 @@ using System.Collections.Generic;
 
 namespace ANTIBigBoss_MGS_Mod_Manager
 {
-    public class ConfigManager
+    public static class ConfigManager
     {
-        private static readonly string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NotificationsAndSettings.json");
+        private static readonly string configPath = Path.Combine(
+            AppDomain.CurrentDomain.BaseDirectory,
+            "NotificationsAndSettings.json"
+        );
 
         public static ConfigSettings LoadSettings()
         {
+            ConfigSettings settings;
+
             if (!File.Exists(configPath))
             {
-                ConfigSettings defaultSettings = new ConfigSettings();
-                SaveSettings(defaultSettings);
-                return defaultSettings;
+                settings = new ConfigSettings();
+                SaveSettings(settings);
             }
-            string json = File.ReadAllText(configPath);
-            return JsonConvert.DeserializeObject<ConfigSettings>(json) ?? new ConfigSettings();
+            else
+            {
+                var json = File.ReadAllText(configPath);
+                settings = JsonConvert.DeserializeObject<ConfigSettings>(json)
+                           ?? new ConfigSettings();
+            }
+
+            // Always ensure AssetsConfig paths are up to date
+            settings.Assets.ModelsAndTexturesFolder = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "MGS Mod Manager and Trainer",
+                "MGS Modding Tools",
+                "3D Models and Textures"
+            );
+            // PythonScriptsFolderPath and PythonScriptPath are computed properties
+
+            return settings;
         }
 
         public static void SaveSettings(ConfigSettings settings)
         {
-            string json = JsonConvert.SerializeObject(settings, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(settings, Formatting.Indented);
             File.WriteAllText(configPath, json);
         }
     }
@@ -32,96 +51,114 @@ namespace ANTIBigBoss_MGS_Mod_Manager
     {
         public Dictionary<string, string> GamePaths { get; set; } = new Dictionary<string, string>
         {
-            { "MG1", "" },
-            { "MG2", "" },
-            { "MGS1", "" },
-            { "MGS2", "" },
-            { "MGS3", "" }
+            { "MG1andMG2", "" },
+            { "MGS1",       "" },
+            { "MGS2",       "" },
+            { "MGS3",       "" }
         };
 
-        public string MG1VanillaFolderPath { get; set; } =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                         "MGS Mod Manager and Trainer", "MG1", "MG1 Vanilla Files");
-
-       public string MG2VanillaFolderPath { get; set; } =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                         "MGS Mod Manager and Trainer", "MG2", "MG2 Vanilla Files");
+        public string MG1andMG2VanillaFolderPath { get; set; } =
+            Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "MGS Mod Manager and Trainer", "MG1andMG2", "MG1andMG2 Vanilla Files"
+            );
 
         public string MGS1VanillaFolderPath { get; set; } =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                         "MGS Mod Manager and Trainer", "MGS1", "MGS1 Vanilla Files");
+            Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "MGS Mod Manager and Trainer", "MGS1", "MGS1 Vanilla Files"
+            );
 
         public string MGS2VanillaFolderPath { get; set; } =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                         "MGS Mod Manager and Trainer", "MGS2", "MGS2 Vanilla Files");
+            Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "MGS Mod Manager and Trainer", "MGS2", "MGS2 Vanilla Files"
+            );
 
         public string MGS3VanillaFolderPath { get; set; } =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                         "MGS Mod Manager and Trainer", "MGS3", "MGS3 Vanilla Files");
+            Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "MGS Mod Manager and Trainer", "MGS3", "MGS3 Vanilla Files"
+            );
 
-        public string MG1ModFolderPath { get; set; } =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                         "MGS Mod Manager and Trainer", "MG1", "MG1 Mods");
-
-        public string MG2ModFolderPath { get; set; } =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                         "MGS Mod Manager and Trainer", "MG2", "MG2 Mods");
+        public string MG1andMG2ModFolderPath { get; set; } =
+            Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "MGS Mod Manager and Trainer", "MG1andMG2", "MG1andMG2 Mods"
+            );
 
         public string MGS1ModFolderPath { get; set; } =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                         "MGS Mod Manager and Trainer", "MGS1", "MGS1 Mods");
+            Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "MGS Mod Manager and Trainer", "MGS1", "MGS1 Mods"
+            );
 
         public string MGS2ModFolderPath { get; set; } =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                         "MGS Mod Manager and Trainer", "MGS2", "MGS2 Mods");
+            Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "MGS Mod Manager and Trainer", "MGS2", "MGS2 Mods"
+            );
 
         public string MGS3ModFolderPath { get; set; } =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                         "MGS Mod Manager and Trainer", "MGS3", "MGS3 Mods");
+            Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "MGS Mod Manager and Trainer", "MGS3", "MGS3 Mods"
+            );
 
         public string ModToolsPath { get; set; } =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                         "MGS Mod Manager and Trainer", "MGS Modding Tools");
+            Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "MGS Mod Manager and Trainer", "MGS Modding Tools"
+            );
 
-        public bool MG1VanillaFolderSet { get; set; } = false;
-        public bool MG1ModFolderSet { get; set; } = false;
-        public bool MG2VanillaFolderSet { get; set; } = false;
-        public bool MG2ModFolderSet { get; set; } = false;
+        public bool ModToolsFolderSet { get; set; } = false;
+        public bool MG1andMG2ModFolderSet { get; set; } = false;
         public bool MGS1VanillaFolderSet { get; set; } = false;
         public bool MGS1ModFolderSet { get; set; } = false;
         public bool MGS1GamePathSet { get; set; } = false;
-
+        public bool MG1andMG2VanillaFolderSet { get; set; } = false;
         public bool MGS2VanillaFolderSet { get; set; } = false;
         public bool MGS2ModFolderSet { get; set; } = false;
         public bool MGS3VanillaFolderSet { get; set; } = false;
         public bool MGS3ModFolderSet { get; set; } = false;
-        public bool ModToolsFolderSet { get; set; } = false;
 
-        // New assets configuration section.
         public AssetsConfig Assets { get; set; } = new AssetsConfig();
-
         public AppSettings Settings { get; set; } = new AppSettings();
         public BackupStatus Backup { get; set; } = new BackupStatus();
         public ModTracking Mods { get; set; } = new ModTracking();
         public Dictionary<string, string> AudioReplacements { get; set; } = new Dictionary<string, string>();
+        public string GimpConsolePath { get; set; } = string.Empty;
+        public string GimpPythonScriptPath { get; set; } = string.Empty;
+        public string PythonExePath { get; set; } = "";
+
     }
 
     public class AssetsConfig
     {
-        public string ModelsAndTexturesFolder { get; set; } =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                         "MGS Mod Manager and Trainer", "MGS Modding Tools", "3D Models and Textures");
+        public string ModelsAndTexturesFolder { get; set; }
 
-        public Dictionary<string, string> FolderMapping { get; set; } = new Dictionary<string, string>
+        [JsonIgnore]
+        public string PythonScriptsFolderPath =>
+            Path.Combine(ModelsAndTexturesFolder, "Scripts");
+
+        [JsonIgnore]
+        public string PythonScriptPath =>
+            Path.Combine(PythonScriptsFolderPath, "PythonFU.py");
+
+        public AssetsConfig()
         {
-            { "GRU", "GRU" },
-            { "MGS3NakedSnake", "MGS3 Naked Snake" }
-        };
+            ModelsAndTexturesFolder = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "MGS Mod Manager and Trainer",
+                "MGS Modding Tools",
+                "3D Models and Textures"
+            );
+        }
     }
+
     public class BackupStatus
     {
-        public bool MG1BackupCompleted { get; set; } = false;
-        public bool MG2BackupCompleted { get; set; } = false;
+        public bool MG1andMG2BackupCompleted { get; set; } = false;
         public bool MGS1BackupCompleted { get; set; } = false;
         public bool MGS2BackupCompleted { get; set; } = false;
         public bool MGS3BackupCompleted { get; set; } = false;
@@ -169,7 +206,4 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         public string Description { get; set; }
         public string Game { get; set; }
     }
-
-    
-
-    }
+}

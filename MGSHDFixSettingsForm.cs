@@ -9,8 +9,17 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 {
     public partial class MGSHDFixSettingsForm : Form
     {
-        private string iniPath;
+        private ConfigSettings config;
         private Dictionary<string, List<IniEntry>> iniData;
+        private string modFolder;
+        private string modIniPath;
+        private string modAsiPath;
+        private string modReadmePath;
+        private string modUltimateASILicensePath;
+        private string modWinhttpDllPath;
+        private string modWininetDllPath;
+        private string gameDir;
+        private string targetGame;
 
         public class IniEntry
         {
@@ -18,18 +27,13 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             public string Value { get; set; }
         }
 
-        public MGSHDFixSettingsForm(string iniPath)
-            : this(iniPath, null)
-        {
-        }
+        private Panel modListPanel;
+        private TableLayoutPanel settingsTable;
 
-        public MGSHDFixSettingsForm(string iniPath, Form parent)
+        public MGSHDFixSettingsForm(string targetGame, Form parent = null)
         {
             InitializeComponent();
-            this.iniPath = iniPath;
-            this.Text = "MGSHDFix Settings";
-            this.Width = 500;
-            this.Height = 600;
+            this.targetGame = targetGame;
             if (parent != null)
             {
                 this.Owner = parent;
@@ -37,14 +41,127 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 this.ForeColor = parent.ForeColor;
                 this.Font = parent.Font;
             }
-            LoadIni();
-            BuildUI();
+            this.Load += MGSHDFixSettingsForm_Load;
         }
 
-        private void LoadIni()
+        private async void MGSHDFixSettingsForm_Load(object sender, EventArgs e)
+        {
+            this.Location = GuiManager.GetLastFormLocation();
+            config = ConfigManager.LoadSettings();
+
+            string baseModFolder = "";
+            switch (targetGame)
+            {
+                case "MG1andMG2":
+                    baseModFolder = config.MG1andMG2ModFolderPath;
+                    gameDir = config.GamePaths.ContainsKey("MG1andMG2") ? config.GamePaths["MG1andMG2"] : "";
+                    break;
+                case "MGS2":
+                    baseModFolder = config.MGS2ModFolderPath;
+                    gameDir = config.GamePaths.ContainsKey("MGS2") ? config.GamePaths["MGS2"] : "";
+                    break;
+                case "MGS3":
+                    baseModFolder = config.MGS3ModFolderPath;
+                    gameDir = config.GamePaths.ContainsKey("MGS3") ? config.GamePaths["MGS3"] : "";
+                    break;
+                default:
+                    MessageBox.Show("Invalid game specified.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.Close();
+                    return;
+            }
+
+            if (!Directory.Exists(baseModFolder))
+            {
+                Directory.CreateDirectory(baseModFolder);
+                LoggingManager.Instance.Log($"Created base mod folder: {baseModFolder}");
+            }
+
+            modFolder = Path.Combine(baseModFolder, "MGSHDFix");
+            if (!Directory.Exists(modFolder))
+            {
+                Directory.CreateDirectory(modFolder);
+                LoggingManager.Instance.Log($"Created MGSHDFix mod folder: {modFolder}");
+            }
+
+            modIniPath = Path.Combine(modFolder, "MGSHDFix.ini");
+            modAsiPath = Path.Combine(modFolder, "MGSHDFix.asi");
+            modReadmePath = Path.Combine(modFolder, "README.md");
+            modUltimateASILicensePath = Path.Combine(modFolder, "UltimateASILoader_LICENSE.md");
+            modWinhttpDllPath = Path.Combine(modFolder, "winhttp.dll");
+            modWininetDllPath = Path.Combine(modFolder, "wininet.dll");
+
+            DownloadManager dm = new DownloadManager();
+            if (!File.Exists(modIniPath))
+            {
+                await dm.EnsureMGSHDFixDownloaded(modFolder);
+            }
+
+            if (string.IsNullOrEmpty(gameDir) || !Directory.Exists(gameDir))
+            {
+                switch (targetGame)
+                {
+                    case "MG1andMG2":
+                        gameDir = @"C:\Program Files (x86)\Steam\steamapps\common\MG1andMG2";
+                        break;
+                    case "MGS2":
+                        gameDir = @"C:\Program Files (x86)\Steam\steamapps\common\MGS2";
+                        break;
+                    case "MGS3":
+                        gameDir = @"C:\Program Files (x86)\Steam\steamapps\common\MGS3";
+                        break;
+                }
+                if (!Directory.Exists(gameDir))
+                {
+                    using (FolderBrowserDialog fbd = new FolderBrowserDialog()
+                    {
+                        Description = "Select your game installation folder."
+                    })
+                    {
+                        if (fbd.ShowDialog() == DialogResult.OK)
+                        {
+                            gameDir = fbd.SelectedPath;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Game directory not selected. Cannot proceed.",
+                                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
+                }
+                config.GamePaths[targetGame] = gameDir;
+                ConfigManager.SaveSettings(config);
+            }
+
+            SyncFilesToGameDirectory();
+            LoadIni(modIniPath);
+            BuildSettingsUI();
+        }
+
+        private void SyncFilesToGameDirectory()
+        {
+            if (string.IsNullOrEmpty(gameDir))
+                return;
+
+            try
+            {
+                File.Copy(modIniPath, Path.Combine(gameDir, "MGSHDFix.ini"), true);
+                File.Copy(modAsiPath, Path.Combine(gameDir, "MGSHDFix.asi"), true);
+                File.Copy(modReadmePath, Path.Combine(gameDir, "README.md"), true);
+                File.Copy(modUltimateASILicensePath, Path.Combine(gameDir, "UltimateASILoader_LICENSE.md"), true);
+                File.Copy(modWinhttpDllPath, Path.Combine(gameDir, "winhttp.dll"), true);
+                File.Copy(modWininetDllPath, Path.Combine(gameDir, "wininet.dll"), true);
+            }
+            catch (Exception ex)
+            {
+                LoggingManager.Instance.Log($"Error syncing files to game directory: {ex.Message}");
+            }
+        }
+
+        private void LoadIni(string filePath)
         {
             iniData = new Dictionary<string, List<IniEntry>>(StringComparer.OrdinalIgnoreCase);
-            string[] lines = File.ReadAllLines(iniPath);
+            string[] lines = File.ReadAllLines(filePath);
             string currentSection = "General";
 
             foreach (string line in lines)
@@ -74,24 +191,49 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
         }
 
-        private void BuildUI()
+        private void BuildSettingsUI()
         {
-            this.Controls.Clear();
+            if (modListPanel == null)
+            {
+                int left = (int)(this.ClientSize.Width * 0.01);
+                int top = (int)(this.ClientSize.Height * 0.03);
+                int width = (int)(this.ClientSize.Width * 0.98);
+                int height = (int)(this.ClientSize.Height * 0.92);
+
+                modListPanel = new Panel
+                {
+                    Location = new Point(left, top),
+                    Size = new Size(width, height),
+                    BackColor = this.BackColor,
+                    Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom
+                };
+                this.Controls.Add(modListPanel);
+            }
+            modListPanel.Controls.Clear();
+
+
+            Panel containerPanel = new Panel
+            {
+                Dock = DockStyle.Fill,
+                BackColor = this.BackColor
+            };
 
             Panel scrollPanel = new Panel
             {
                 Dock = DockStyle.Fill,
-                AutoScroll = true
+                AutoScroll = true,
+                BackColor = this.BackColor
             };
 
-            TableLayoutPanel table = new TableLayoutPanel
+            settingsTable = new TableLayoutPanel
             {
                 Dock = DockStyle.Top,
                 AutoSize = true,
-                ColumnCount = 2
+                ColumnCount = 2,
+                BackColor = this.BackColor
             };
-            table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150));
-            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            settingsTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150));
+            settingsTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
 
             foreach (var section in iniData)
             {
@@ -103,11 +245,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     Dock = DockStyle.Fill,
                     Padding = new Padding(0, 10, 0, 5)
                 };
-                table.RowCount++;
-                table.Controls.Add(sectionHeader, 0, table.RowCount - 1);
-                table.SetColumnSpan(sectionHeader, 2);
+                settingsTable.RowCount++;
+                settingsTable.Controls.Add(sectionHeader, 0, settingsTable.RowCount - 1);
+                settingsTable.SetColumnSpan(sectionHeader, 2);
 
-                // Add each key/value pair.
                 foreach (var entry in section.Value)
                 {
                     Label keyLabel = new Label
@@ -122,24 +263,29 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     Control ctrl = CreateControlForKey(entry.Key, entry.Value, section.Key);
                     ctrl.Dock = DockStyle.Fill;
 
-                    table.RowCount++;
-                    table.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-                    table.Controls.Add(keyLabel, 0, table.RowCount - 1);
-                    table.Controls.Add(ctrl, 1, table.RowCount - 1);
+                    settingsTable.RowCount++;
+                    settingsTable.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                    settingsTable.Controls.Add(keyLabel, 0, settingsTable.RowCount - 1);
+                    settingsTable.Controls.Add(ctrl, 1, settingsTable.RowCount - 1);
                 }
             }
+
+            scrollPanel.Controls.Add(settingsTable);
+            containerPanel.Controls.Add(scrollPanel);
 
             Button saveButton = new Button
             {
                 Text = "Save",
                 Dock = DockStyle.Bottom,
-                Height = 40
+                Height = 40,
+                Font = this.Font,
+                BackColor = Color.LightBlue,
+                ForeColor = Color.Black
             };
             saveButton.Click += SaveButton_Click;
+            containerPanel.Controls.Add(saveButton);
 
-            scrollPanel.Controls.Add(table);
-            this.Controls.Add(scrollPanel);
-            this.Controls.Add(saveButton);
+            modListPanel.Controls.Add(containerPanel);
         }
 
         private Control CreateControlForKey(string key, string currentValue, string section)
@@ -297,48 +443,36 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            Panel scrollPanel = this.Controls.OfType<Panel>().FirstOrDefault();
-            if (scrollPanel != null)
+            foreach (Control ctrl in settingsTable.Controls)
             {
-                TableLayoutPanel table = scrollPanel.Controls.OfType<TableLayoutPanel>().FirstOrDefault();
-                if (table != null)
+                if (ctrl.Tag is Tuple<string, string> tag)
                 {
-                    foreach (Control ctrl in table.Controls)
+                    string section = tag.Item1;
+                    string key = tag.Item2;
+                    string value = "";
+
+                    if (ctrl is TextBox txt)
+                        value = txt.Text;
+                    else if (ctrl is Button btn)
+                        value = btn.Text.ToLower();
+                    else if (ctrl is NumericUpDown nud)
+                        value = nud.Value.ToString();
+                    else if (ctrl is ComboBox cb)
+                        value = cb.SelectedItem?.ToString() ?? "";
+                    else if (ctrl is Panel p)
                     {
-                        if (ctrl.Tag is Tuple<string, string> tag)
-                        {
-                            string section = tag.Item1;
-                            string key = tag.Item2;
-                            string value = "";
-                            if (ctrl is TextBox txt)
-                                value = txt.Text;
-                            else if (ctrl is Button btn)
-                            {
-                                if (btn.Text.Equals("True", StringComparison.OrdinalIgnoreCase) ||
-                                    btn.Text.Equals("False", StringComparison.OrdinalIgnoreCase))
-                                    value = btn.Text.ToLowerInvariant();
-                                else
-                                    value = btn.Text;
-                            }
-                            else if (ctrl is ComboBox cb)
-                                value = cb.SelectedItem?.ToString() ?? "";
-                            else if (ctrl is NumericUpDown nud)
-                                value = nud.Value.ToString();
-                            else if (ctrl is Panel p)
-                            {
-                                TrackBar tb = p.Controls.OfType<TrackBar>().FirstOrDefault();
-                                if (tb != null)
-                                    value = tb.Value.ToString();
-                            }
-                            var entry = iniData[section].FirstOrDefault(item => item.Key.Equals(key, StringComparison.OrdinalIgnoreCase));
-                            if (entry != null)
-                                entry.Value = value;
-                        }
+                        TrackBar tb = p.Controls.OfType<TrackBar>().FirstOrDefault();
+                        if (tb != null)
+                            value = tb.Value.ToString();
                     }
+
+                    var entry = iniData[section].FirstOrDefault(ei => ei.Key.Equals(key, StringComparison.OrdinalIgnoreCase));
+                    if (entry != null)
+                        entry.Value = value;
                 }
             }
 
-            using (StreamWriter writer = new StreamWriter(iniPath))
+            using (StreamWriter writer = new StreamWriter(modIniPath))
             {
                 foreach (var section in iniData)
                 {
@@ -350,8 +484,9 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     writer.WriteLine();
                 }
             }
+            SyncFilesToGameDirectory();
+
             MessageBox.Show("Settings saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            this.Close();
         }
     }
 }

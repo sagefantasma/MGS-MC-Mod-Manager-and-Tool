@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TextureModelForm));
             BackButton = new System.Windows.Forms.Button();
             btnLoadObj = new System.Windows.Forms.Button();
             LoadGruButton = new System.Windows.Forms.Button();
@@ -36,6 +37,7 @@
             PngToDds = new System.Windows.Forms.Button();
             DdsToCtxr = new System.Windows.Forms.Button();
             ModelSelectionComboBox = new System.Windows.Forms.ComboBox();
+            CreateModButton = new System.Windows.Forms.Button();
             SuspendLayout();
             // 
             // BackButton
@@ -59,7 +61,7 @@
             btnLoadObj.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             btnLoadObj.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
             btnLoadObj.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
-            btnLoadObj.Location = new System.Drawing.Point(14, 226);
+            btnLoadObj.Location = new System.Drawing.Point(13, 226);
             btnLoadObj.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             btnLoadObj.Name = "btnLoadObj";
             btnLoadObj.Size = new System.Drawing.Size(254, 36);
@@ -94,7 +96,7 @@
             CtxrToPng.Name = "CtxrToPng";
             CtxrToPng.Size = new System.Drawing.Size(254, 36);
             CtxrToPng.TabIndex = 15;
-            CtxrToPng.Text = "CTXR -> PNG";
+            CtxrToPng.Text = "CTXR to PNG";
             CtxrToPng.UseVisualStyleBackColor = false;
             CtxrToPng.Click += CtxrToPng_Click;
             // 
@@ -109,7 +111,7 @@
             PngToCtxr.Name = "PngToCtxr";
             PngToCtxr.Size = new System.Drawing.Size(254, 36);
             PngToCtxr.TabIndex = 16;
-            PngToCtxr.Text = "PNG -> CTXR";
+            PngToCtxr.Text = "PNG to CTXR";
             PngToCtxr.UseVisualStyleBackColor = false;
             PngToCtxr.Click += PngToCtxr_Click;
             // 
@@ -124,7 +126,7 @@
             PngToDds.Name = "PngToDds";
             PngToDds.Size = new System.Drawing.Size(254, 36);
             PngToDds.TabIndex = 17;
-            PngToDds.Text = "PNG -> DDS";
+            PngToDds.Text = "PNG to DDS";
             PngToDds.UseVisualStyleBackColor = false;
             PngToDds.Click += PngToDds_Click;
             // 
@@ -139,7 +141,7 @@
             DdsToCtxr.Name = "DdsToCtxr";
             DdsToCtxr.Size = new System.Drawing.Size(254, 36);
             DdsToCtxr.TabIndex = 18;
-            DdsToCtxr.Text = "DDS -> CTXR";
+            DdsToCtxr.Text = "DDS to CTXR";
             DdsToCtxr.UseVisualStyleBackColor = false;
             DdsToCtxr.Click += DdsToCtxr_Click;
             // 
@@ -154,6 +156,21 @@
             ModelSelectionComboBox.Size = new System.Drawing.Size(254, 33);
             ModelSelectionComboBox.TabIndex = 19;
             // 
+            // CreateModButton
+            // 
+            CreateModButton.BackColor = System.Drawing.Color.FromArgb(51, 51, 51);
+            CreateModButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            CreateModButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            CreateModButton.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
+            CreateModButton.Location = new System.Drawing.Point(15, 349);
+            CreateModButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CreateModButton.Name = "CreateModButton";
+            CreateModButton.Size = new System.Drawing.Size(254, 64);
+            CreateModButton.TabIndex = 20;
+            CreateModButton.Text = "Create Mod with current Textures";
+            CreateModButton.UseVisualStyleBackColor = false;
+            CreateModButton.Click += CreateModButton_Click;
+            // 
             // TextureModelForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -161,6 +178,7 @@
             BackColor = System.Drawing.Color.FromArgb(30, 30, 30);
             BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             ClientSize = new System.Drawing.Size(1395, 722);
+            Controls.Add(CreateModButton);
             Controls.Add(ModelSelectionComboBox);
             Controls.Add(DdsToCtxr);
             Controls.Add(PngToDds);
@@ -170,6 +188,7 @@
             Controls.Add(btnLoadObj);
             Controls.Add(BackButton);
             DoubleBuffered = true;
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Name = "TextureModelForm";
             Text = "TextureModelForm";
@@ -186,5 +205,6 @@
         private System.Windows.Forms.Button PngToDds;
         private System.Windows.Forms.Button DdsToCtxr;
         private System.Windows.Forms.ComboBox ModelSelectionComboBox;
+        private System.Windows.Forms.Button CreateModButton;
     }
 }

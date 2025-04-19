@@ -23,8 +23,6 @@ C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\n
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.AudioSwapperForm.resources
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.DownloadForm.resources
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.MainMenuForm.resources
-C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.MG1ModdingForm.resources
-C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.MG2ModdingForm.resources
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.MGS1ModdingForm.resources
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.MGS2ModdingForm.resources
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.MGS3ModdingForm.resources
@@ -42,3 +40,5 @@ C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\n
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\net8.0-windows\ANTIBigBoss MGS Mod Manager.genruntimeconfig.cache
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\net8.0-windows\ref\ANTIBigBoss MGS Mod Manager.dll
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.MGSHDFixSettingsForm.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.MG1andMG2ModdingForm.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.AudioSwapperForm-OuterHeaven2025.resources

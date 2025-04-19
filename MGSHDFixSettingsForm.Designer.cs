@@ -28,10 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "MGSHDFixSettingsForm";
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MGSHDFixSettingsForm));
+            SuspendLayout();
+            // 
+            // MGSHDFixSettingsForm
+            // 
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(725, 590);
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            Name = "MGSHDFixSettingsForm";
+            Text = "MGSHDFixSettingsForm";
+            ResumeLayout(false);
         }
 
         #endregion

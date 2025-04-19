@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModResourcesForm));
             BackButton = new System.Windows.Forms.Button();
             TextureImportExportButton = new System.Windows.Forms.Button();
             MGS2GuardRouteTool = new System.Windows.Forms.Button();
@@ -113,6 +114,7 @@
             button3.TabIndex = 12;
             button3.Text = "MGS2 C4 Bomb Location Tool";
             button3.UseVisualStyleBackColor = false;
+            button3.Visible = false;
             // 
             // ModResourcesForm
             // 
@@ -125,6 +127,7 @@
             Controls.Add(MGS2GuardRouteTool);
             Controls.Add(TextureImportExportButton);
             Controls.Add(BackButton);
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Name = "ModResourcesForm";
             Text = "ModResources";

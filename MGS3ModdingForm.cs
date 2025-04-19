@@ -216,13 +216,33 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 @"C:\Program Files (x86)\Steam\steamapps\common\MGS3",
                 @"A:\SteamLibrary\steamapps\common\MGS3",
                 @"B:\SteamLibrary\steamapps\common\MGS3",
-                @"C:\SteamLibrary\steamapps\common\MGS3",
                 @"D:\SteamLibrary\steamapps\common\MGS3",
                 @"E:\SteamLibrary\steamapps\common\MGS3",
                 @"F:\SteamLibrary\steamapps\common\MGS3",
                 @"G:\SteamLibrary\steamapps\common\MGS3",
             };
-            return commonPaths.FirstOrDefault(Directory.Exists) ?? "";
+
+            string foundPath = commonPaths.FirstOrDefault(Directory.Exists);
+            if (!string.IsNullOrEmpty(foundPath))
+            {
+                return foundPath;
+            }
+            else
+            {
+                using (FolderBrowserDialog fbd = new FolderBrowserDialog())
+                {
+                    fbd.Description = "Select the installation folder for MGS3 - Master Collection.";
+                    if (fbd.ShowDialog() == DialogResult.OK)
+                    {
+                        return fbd.SelectedPath;
+                    }
+                    else
+                    {
+                        GoBackToMainMenu();
+                        return null;
+                    }
+                }
+            }
         }
 
         private void GoBackToMainMenu()
@@ -348,7 +368,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
                 if (fileExplorerManager.IsMGSHDFixMod(modPath))
                 {
-                    settingsButton = new Button
+                    Button btnSettings = new Button
                     {
                         Text = "HDFix Settings",
                         Size = new Size(160, 40),
@@ -358,8 +378,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                         ForeColor = Color.Black,
                         FlatStyle = FlatStyle.Flat
                     };
-                    settingsButton.FlatAppearance.BorderSize = 0;
-                    settingsButton.Click += (s, e) =>
+                    btnSettings.FlatAppearance.BorderSize = 0;
+                    btnSettings.Click += (s, e) =>
                     {
                         string iniPath = Path.Combine(modPath, "MGSHDFix.ini");
                         if (!File.Exists(iniPath))
@@ -367,11 +387,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                             MessageBox.Show("MGSHDFix.ini not found in mod folder.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
-                        MGSHDFixSettingsForm settingsForm = new MGSHDFixSettingsForm(iniPath, this);
+                        MGSHDFixSettingsForm settingsForm = new MGSHDFixSettingsForm("MGS3", this);
                         settingsForm.ShowDialog();
                         this.ActiveControl = modListPanel;
                     };
+                    // Add btnSettings to your container (e.g., modListPanel or another control)
+                    settingsButton = btnSettings;
                 }
+
+
                 else
                 {
                     var (foundCamos, foundBoxes, foundFaces) = fileExplorerManager.GetRecognizedTextures(modPath);

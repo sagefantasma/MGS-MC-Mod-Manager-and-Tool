@@ -60,16 +60,83 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         private static readonly List<MapDefinition> s_mapDefinitions = new List<MapDefinition>
         {
             new MapDefinition(
-                "v004a.geom",
+                "v004a.geom", // Dremuchji North - Virtuous Mission
                 new List<MapRouteGroup>
                 {
                     new("Reinforcements", [41], [42], [43]),
-                    new("Easy",[5, 6], [7, 8], [9, 10], [11, 13]),
-                    new("Normal",[14, 15], [16, 17], [18, 19], [20, 22]),
-                    new("Hard",[23, 24], [25, 26], [27, 28], [29, 31]),
-                    new("Extreme",[32, 33], [34, 35], [36, 37], [38, 40])
+                    new("Very Easy / Easy",[5,6], [7,8], [9,10], [11,13]),
+                    new("Normal",[14,15], [16,17], [18,19], [20,22]),
+                    new("Hard",[23,24], [25,26], [27,28], [29,31]),
+                    new("Extreme / E.Extreme",[32,33], [34,35], [36,37], [38,40])
                 }
             ),
+            new MapDefinition(
+                "c004b.geom", // Dremuchji North - Snake Eater
+                new List<MapRouteGroup>
+                {
+                    new("Running Guard Path", [2, 3], [4,5]),
+                    new("Reinforcements", [38], [39], [40]),
+                    new("Very Easy / Easy",[10,11], [12,13]),
+                    new("Normal",[16/17], [18/19]),
+                    new("Hard",[22,23], [24,25], [28,29]),
+                    new("Extreme / E.Extreme",[30/31], [32/33], [36/37])
+                }
+            ),
+
+            new MapDefinition(
+                "c005a.geom", // Dolinovodno Rope Bridge - Virtuous Mission & Snake Eater
+                new List<MapRouteGroup>
+                {
+                    new("Reinforcements", [9], [10]),
+                    new("All Difficulties",[1,2], [3,4], [5,6], [7,8]),
+                }
+            ),
+
+            new MapDefinition(
+                "v006a.geom", // Rassvet - Virtuous Mission
+                new List<MapRouteGroup>
+                {
+                    new("Reinforcements", [1], [2], [3], [4]),
+                    new("Very Easy / Easy",[6,13], [7,14], [8,15], [9,16]),
+                    new("Normal",[10,17], [11,18]),
+                    new("Hard",[12,19]),
+                    new("Extreme / E.Extreme",[27,34], [28,35], [29,36], [30,37], [31,38], [32,39], [33,40])
+                }
+            ),
+
+            new MapDefinition(
+                "s021a.geom", // Bolshaya Past South
+                new List<MapRouteGroup>
+                {
+                    new("Reinforcements", [27], [28], [29]),
+                    new("Guard Very Easy / Easy",[9,4], [5,7], [1,2]),
+                    new("Guard Normal",[9,10], [11,12], [13,14], [15,16]),
+                    new("Guard Hard/Extreme/E.Extreme", [17,18], [19,20], [21,22], [23,24], [25,26]),
+                    new("Dogs Very Easy / Easy",[34]),
+                    new("Dogs Normal",[34]),
+                    new("Dog Hard",[32], [34]),
+                    new("Dog Hard/Extreme/E.Extreme",[33]),
+                    new("Dogs Extreme/E.Extreme",[31], [32], [33])
+                }
+            ),
+
+            new MapDefinition(
+                "s022a.geom", // Bolshaya Past Base
+                new List<MapRouteGroup>
+            {
+                new("Reinforcements", [31], [32], [33]),
+                new("Very Easy/Easy", [41]),
+                new("Hard", [45]),
+                new("Extreme/E.Extreme", [35], [40], [46]),
+                new("Very Easy/Easy + Normal", [39], [43]),
+                new("Normal + Hard", [48]),
+                new("Hard + Extreme/E.Extreme", [37], [47]),
+                new("Normal + Hard + Extreme/E.Extreme", [34]),
+                new("Very Easy/Easy + Normal + Hard", [44]),
+                new("Very Easy/Easy + Normal + Extreme/E.Extreme", [38]),
+                new("Very Easy/Easy + Normal + Hard + Extreme/E.Extreme", [36])
+            }
+        ),
         };
 
         public static void EditGeomFileNextPrevGrouped(string geomFilePath)

@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 
@@ -12,8 +13,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
     {
         private ElementHost elementHost;
         private ModelViewerControl modelViewerControl;
-        private string gruModelPath;
-        private string gruMtlPath;
         private Panel panelTextures;
         private string currentModelPath;
         private string currentMtlPath;
@@ -21,114 +20,103 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         public TextureModelForm()
         {
             InitializeComponent();
-
-            this.MinimumSize = new Size(800, 600);
-            this.BackColor = Color.Black;
-            this.BackgroundImage = null;
-            this.BackgroundImageLayout = ImageLayout.None;
-            this.Load += TextureModelForm_Load;
-            this.FormClosing += TextureModelForm_FormClosing;
-
+            MinimumSize = new Size(800, 600);
+            BackColor = Color.Black;
+            Load += TextureModelForm_Load;
+            FormClosing += TextureModelForm_FormClosing;
 
             panelTextures = new Panel
             {
                 Name = "panelTextures",
                 AutoScroll = true,
                 Location = new Point(0, 0),
-                Size = new Size(this.ClientSize.Width / 2, this.ClientSize.Height),
+                Size = new Size(ClientSize.Width / 2, ClientSize.Height),
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left,
                 BorderStyle = BorderStyle.FixedSingle,
                 BackColor = Color.FromArgb(30, 30, 30)
             };
-            this.Controls.Add(panelTextures);
+            Controls.Add(panelTextures);
 
             elementHost = new ElementHost
             {
                 Name = "elementHost3D",
-                Dock = DockStyle.None,
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right
             };
             modelViewerControl = new ModelViewerControl();
             elementHost.Child = modelViewerControl;
-            this.Controls.Add(elementHost);
+            Controls.Add(elementHost);
             elementHost.BringToFront();
             AdjustElementHostSize();
         }
 
         private async void TextureModelForm_Load(object sender, EventArgs e)
         {
-            ConfigSettings config = ConfigManager.LoadSettings();
+            var config = ConfigManager.LoadSettings();
 
-            ModelSelectionComboBox.Items.Clear();
-            ModelSelectionComboBox.Items.Add("MGS3 Snake SE");
-            ModelSelectionComboBox.Items.Add("MGS3 GRU");
-            ModelSelectionComboBox.Items.Add("MGS3 KGB");
-            ModelSelectionComboBox.Items.Add("MGS3 Ocelot Unit");
-            ModelSelectionComboBox.Items.Add("MGS3 Officer");
-            ModelSelectionComboBox.Items.Add("MGS2 Snake Tanker");
-            ModelSelectionComboBox.Items.Add("MGS2 Raiden");
-            ModelSelectionComboBox.Items.Add("MGS2 Tanker Guards");
-            ModelSelectionComboBox.Items.Add("MGS2 Big Shell Guards");
-            ModelSelectionComboBox.Items.Add("MGS2 NYPD");
-            ModelSelectionComboBox.SelectedIndex = 0;
-
-            string gruAssetsFolder = Path.Combine(config.Assets.ModelsAndTexturesFolder, config.Assets.FolderMapping["GRU"]);
-            gruModelPath = Path.Combine(gruAssetsFolder, "ene_defout.obj");
-            gruMtlPath = Path.Combine(gruAssetsFolder, "ene_defout.mtl");
-            if (File.Exists(gruMtlPath))
+            if (!await SetupModToolsAndAssetsAsync(config))
             {
-                RestoreAllMtlReferencesToOriginal(gruMtlPath);
+                ReturnToMainMenu();
+                Hide();
+                return;
             }
 
-            this.BeginInvoke(new Action(async () =>
+            PopulateModelSelection();
+
+            if (!string.IsNullOrEmpty(currentMtlPath) && File.Exists(currentMtlPath))
+                RestoreAllMtlReferencesToOriginal(currentMtlPath);
+        }
+
+        private async Task<bool> SetupModToolsAndAssetsAsync(ConfigSettings config)
+        {
+            if (!CheckAndPromptForModToolsPath(config))
+                return false;
+
+            try
             {
-                if (!CheckAndPromptForModToolsPath(config))
-                {
-                    ReturnToMainMenu();
-                    this.Hide();
-                    return;
-                }
-                DownloadManager dm = new DownloadManager();
-                try
-                {
-                    await dm.EnsureModToolsDownloaded(config.ModToolsPath);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error downloading mod tools: " + ex.Message);
-                    ReturnToMainMenu();
-                    this.Hide();
-                    return;
-                }
-            }));
+                await new DownloadManager().EnsureModToolsDownloaded(config.ModToolsPath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error downloading mod tools: " + ex.Message);
+                return false;
+            }
+
+            if (!CheckAndPromptForGimpConsolePath(config))
+                return false;
+
+            if (!CheckAndPromptForPythonPath(config))
+                return false;
+
+            if (!CheckAndPromptForGimpPythonScriptPath(config))
+                return false;
+
+            return true;
+        }
+
+        private void PopulateModelSelection()
+        {
+            ModelSelectionComboBox.Items.Clear();
+            ModelSelectionComboBox.Items.AddRange(new[] {
+                "MGS3 Snake SE", "MGS3 GRU", "MGS3 KGB", "MGS3 Ocelot Unit", "MGS3 Officer",
+                "MGS2 Snake Tanker", "MGS2 Raiden", "MGS2 Tanker Guards", "MGS2 Big Shell Guards", "MGS2 NYPD"
+            });
+            ModelSelectionComboBox.SelectedIndex = 0;
         }
 
         private bool CheckAndPromptForModToolsPath(ConfigSettings config)
         {
             if (!config.ModToolsFolderSet)
             {
-                DialogResult res = MessageBox.Show(
-                    "Before using the modding tools, we need to set up a folder where the required tools will be stored.\n\n" +
-                    "Do you want to use the default location?\n\nDefault location:\n" + config.ModToolsPath,
-                    "Modding Tools Folder Location",
-                    MessageBoxButtons.YesNoCancel,
-                    MessageBoxIcon.Question);
-
-                if (res == DialogResult.Cancel)
-                    return false;
-                else if (res == DialogResult.No)
+                var res = MessageBox.Show(
+                    $"Set up mod tools folder at:\n{config.ModToolsPath}",
+                    "Mod Tools Folder", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                if (res == DialogResult.Cancel) return false;
+                if (res == DialogResult.No)
                 {
-                    using (FolderBrowserDialog fbd = new FolderBrowserDialog()
-                    {
-                        SelectedPath = config.ModToolsPath,
-                        Description = "Select a folder where 'MGS Modding Tools' will be stored."
-                    })
-                    {
-                        if (fbd.ShowDialog() == DialogResult.OK)
-                            config.ModToolsPath = Path.Combine(fbd.SelectedPath, "MGS Modding Tools");
-                        else
-                            return false;
-                    }
+                    using var fbd = new FolderBrowserDialog { SelectedPath = config.ModToolsPath };
+                    if (fbd.ShowDialog() == DialogResult.OK)
+                        config.ModToolsPath = Path.Combine(fbd.SelectedPath, "MGS Modding Tools");
+                    else return false;
                 }
                 config.ModToolsFolderSet = true;
                 ConfigManager.SaveSettings(config);
@@ -136,29 +124,146 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             return true;
         }
 
+        private bool CheckAndPromptForGimpConsolePath(ConfigSettings config)
+        {
+            if (!string.IsNullOrWhiteSpace(config.GimpConsolePath) && File.Exists(config.GimpConsolePath))
+                return true;
+
+            var defaultExe = @"C:\Program Files\GIMP 2\bin\gimp-console-2.10.exe";
+            if (File.Exists(defaultExe))
+            {
+                config.GimpConsolePath = defaultExe;
+                ConfigManager.SaveSettings(config);
+                return true;
+            }
+
+            using var ofd = new OpenFileDialog
+            {
+                Title = "Locate gimp-console-2.10.exe",
+                Filter = "Executable Files (*.exe)|*.exe|All Files (*.*)|*.*"
+            };
+            if (ofd.ShowDialog() == DialogResult.OK && File.Exists(ofd.FileName))
+            {
+                config.GimpConsolePath = ofd.FileName;
+                ConfigManager.SaveSettings(config);
+                return true;
+            }
+            return false;
+        }
+
+        private bool CheckAndPromptForPythonPath(ConfigSettings cfg)
+        {
+            string[] tries = {
+        cfg.PythonExePath,
+        "python"
+    };
+
+            foreach (var exe in tries.Where(t => !string.IsNullOrWhiteSpace(t)))
+            {
+                try
+                {
+                    var psi = new ProcessStartInfo(exe, "--version")
+                    {
+                        UseShellExecute = false,
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true,
+                        CreateNoWindow = true
+                    };
+                    using var proc = Process.Start(psi);
+                    proc.WaitForExit();
+                    if (proc.ExitCode == 0)
+                    {
+                        cfg.PythonExePath = exe;
+                        ConfigManager.SaveSettings(cfg);
+                        return true;
+                    }
+                }
+                catch { }
+            }
+
+            var msg = "Python was not found on your system.\n" +
+                      "Would you like to locate python.exe, or download it?";
+            var res = MessageBox.Show(
+                msg,
+                "Python Not Found",
+                MessageBoxButtons.YesNoCancel,
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button1
+            );
+
+            if (res == DialogResult.Yes)
+            {
+                using var ofd = new OpenFileDialog
+                {
+                    Title = "Locate python.exe",
+                    Filter = "Executable|python.exe|All Files|*.*"
+                };
+                if (ofd.ShowDialog() == DialogResult.OK && File.Exists(ofd.FileName))
+                {
+                    cfg.PythonExePath = ofd.FileName;
+                    ConfigManager.SaveSettings(cfg);
+                    return true;
+                }
+            }
+            else if (res == DialogResult.No)
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "https://www.python.org/downloads/",
+                    UseShellExecute = true
+                });
+            }
+            return false;
+        }
+
+
+        private bool CheckAndPromptForGimpPythonScriptPath(ConfigSettings config)
+        {
+            var defaultScript = config.Assets.PythonScriptPath;
+
+            if (File.Exists(defaultScript))
+            {
+                config.GimpPythonScriptPath = defaultScript;
+                ConfigManager.SaveSettings(config);
+                return true;
+            }
+
+            using var ofd = new OpenFileDialog
+            {
+                Title = "Locate PythonFU.py",
+                Filter = "Python Files (*.py)|*.py|All Files (*.*)|*.*"
+            };
+            if (ofd.ShowDialog() == DialogResult.OK && File.Exists(ofd.FileName))
+            {
+                config.GimpPythonScriptPath = ofd.FileName;
+                ConfigManager.SaveSettings(config);
+                return true;
+            }
+
+            return false;
+        }
+
+
         private void TextureModelForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            LoggingManager.Instance.Log("User exiting the Mod Manager.\nEnd of log for this session.\n\n");
-            if (File.Exists(gruMtlPath))
-                RestoreAllMtlReferencesToOriginal(gruMtlPath);
+            if (!string.IsNullOrEmpty(currentMtlPath) && File.Exists(currentMtlPath))
+                RestoreAllMtlReferencesToOriginal(currentMtlPath);
             Application.Exit();
         }
 
         private void AdjustElementHostSize()
         {
-            int halfWidth = this.ClientSize.Width / 2;
-            elementHost.Location = new Point(halfWidth, 0);
-            elementHost.Size = new Size(halfWidth, this.ClientSize.Height);
+            var half = ClientSize.Width / 2;
+            elementHost.Location = new Point(half, 0);
+            elementHost.Size = new Size(half, ClientSize.Height);
         }
 
         private void ReturnToMainMenu()
         {
-            LoggingManager.Instance.Log("Going back to Main Menu from Texture and 3D Model form.\n");
-            GuiManager.UpdateLastFormLocation(this.Location);
-            GuiManager.LogFormLocation(this, "TextureModelForm");
-            MainMenuForm mainMenuForm = new MainMenuForm();
-            mainMenuForm.Show();
-            this.Hide();
+            GuiManager.UpdateLastFormLocation(Location);
+            GuiManager.LogFormLocation(this, nameof(TextureModelForm));
+            new MainMenuForm().Show();
+            Hide();
         }
 
         private void LoadGruButton_Click(object sender, EventArgs e)
@@ -193,7 +298,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     "sna_bandana_def.bmp.png",
                     "sna_bk.bmp.png",
                     "sna_def_hair_base.bmp.png",
-                    "sna_def_hair_front_ovl_alp.bmp.png",                                     
+                    "sna_def_hair_front_ovl_alp.bmp.png",
                     "sna_def_vr_eye.bmp.png",
                     "sna_face_def.bmp_bbe58170874ef112ad7f8269143d4430.png",
                     "sna_foot_sp.bmp.png",
@@ -316,11 +421,9 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 modelFile = "sna_def.obj";
                 mtlFile = "sna_def.mtl";
                 textureFiles = new string[]
-                {
-                    "sna_arm_ovl_sub_alp.bmp.png",
+                {                  
                     "sna_arm_ss.bmp.png",
-                    "sna_belt_leg.bmp.png",
-                    "sna_body01dt_ovl_sub_alp.bmp.png",
+                    "sna_belt_leg.bmp.png",                  
                     "sna_body_ss01dt.bmp.png",
                     "sna_foot01dt.bmp.png",
                     "sna_hair3.bmp.png",
@@ -328,18 +431,13 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     "sna_hand2.bmp.png",
                     "sna_hi_bdn01dt.bmp.png",
                     "sna_hi_eye01dt.bmp.png",
-                    "sna_hi_eye_ovl_sub_alp.bmp.png",
                     "sna_hi_face01dt.bmp.png",
-                    "sna_hi_face_ovl_sub_alp.bmp.png",
                     "sna_hi_meziri.bmp.png",
-                    "sna_leg_ovl_sub_alp.bmp.png",
                     "sna_leg_r01dt.bmp.png",
-                    "sna_leg_r01dt_ovl_sub_alp.bmp.png",
                     "sna_leg_ss.bmp.png",
                     "sna_m9_glip.bmp.png",
                     "sna_p1dt.bmp.png",
                     "sna_shoul01dt.bmp.png",
-                    "sna_shoul01dt_ovl_sub_alp.bmp.png",
                     "sna_toe01dt.bmp.png",
                     "sna_toe02dt.bmp.png"
                 };
@@ -389,6 +487,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 mtlFile = "gbs_def.mtl";
                 textureFiles = new string[]
                 {
+                    "gbs_face.bmp.png",
                     "gbs_head_top.bmp.png",
                     "gbs_head_side.bmp.png",
                     "gbs_head_back.bmp.png",
@@ -461,15 +560,27 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
             modelViewerControl.LoadModel(currentModelPath);
 
-            int w = 335, h = 127, xPos = panelTextures.ClientSize.Width - w - 10 - 30, yPos = 10, spacing = 40;
+            int w = 335, h = 127;
+            int xPos = panelTextures.ClientSize.Width - w - 40;
+            int yPos = 10, spacing = 40;
             int labelHeight = 20;
+
             foreach (string tex in textureFiles)
             {
                 string texPath = Path.Combine(folderPath, tex);
 
+                string name = Path.GetFileNameWithoutExtension(tex);
+                string resolution;
+                using (var temp = LoadImageNoLock(texPath))
+                {
+                    resolution = temp != null
+                        ? $"{temp.Width}×{temp.Height}"
+                        : "Unknown";
+                }
+
                 Label lbl = new Label
                 {
-                    Text = Path.GetFileNameWithoutExtension(tex),
+                    Text = $"{name}  {resolution}",
                     AutoSize = false,
                     TextAlign = ContentAlignment.MiddleCenter,
                     Font = new Font("Arial", 10, FontStyle.Bold),
@@ -491,14 +602,9 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 Image img = LoadImageNoLock(texPath);
                 if (img != null)
                 {
-                    if (img.Width < pb.Width && img.Height < pb.Height)
-                    {
-                        pb.SizeMode = PictureBoxSizeMode.CenterImage;
-                    }
-                    else
-                    {
-                        pb.SizeMode = PictureBoxSizeMode.Zoom;
-                    }
+                    pb.SizeMode = (img.Width < pb.Width && img.Height < pb.Height)
+                        ? PictureBoxSizeMode.CenterImage
+                        : PictureBoxSizeMode.Zoom;
                     pb.Image = img;
                 }
                 else
@@ -531,7 +637,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 btnRestore.Click += RestoreOneTextureDefault_Click;
                 panelTextures.Controls.Add(btnRestore);
 
-                yPos += labelHeight + h + 30 + spacing;
+                yPos += labelHeight + h + spacing + 30;
             }
         }
 
@@ -542,7 +648,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             string oldTexPath = pb.Tag.ToString();
 
             modelViewerControl.ClearModel();
-            Thread.Sleep(100);
+            
 
             string newTexPath = GetNextSuffixPath(oldTexPath);
 
@@ -582,7 +688,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             try
             {
                 modelViewerControl.ClearModel();
-                Thread.Sleep(100);
+                
 
                 RenameMtlTextureReference(currentMtlPath,
                     Path.GetFileName(newTexPath),
@@ -752,140 +858,225 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private async void PngToCtxr_Click(object sender, EventArgs e)
         {
-            ConfigSettings config = ConfigManager.LoadSettings();
-            if (!CheckAndPromptForModToolsPath(config))
+            var cfg = ConfigManager.LoadSettings();
+            if (!CheckAndPromptForModToolsPath(cfg) ||
+                !CheckAndPromptForGimpPythonScriptPath(cfg) ||
+                !CheckAndPromptForPythonPath(cfg))
             {
-                MessageBox.Show("Mod tools folder setup was cancelled.");
+                MessageBox.Show("Setup was cancelled or incomplete.", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            var pythonExe = cfg.PythonExePath;
+            var gimpScript = cfg.GimpPythonScriptPath;
+            var ctxrToolExe = Path.Combine(cfg.ModToolsPath, "CtxrTool.exe");
 
-            DownloadManager dm = new DownloadManager();
-            await dm.EnsureModToolsDownloaded(config.ModToolsPath);
-            string texconvExe = Path.Combine(config.ModToolsPath, "texconv.exe");
-
-            DialogResult dr = MessageBox.Show(
-                "Convert full folder? (Yes = Folder conversion, No = Single file conversion)",
-                "Conversion Mode",
+            DialogResult choice = MessageBox.Show(
+                "Convert full folder? (Yes = folder, No = single file)",
+                "PNG → CTXR Conversion",
                 MessageBoxButtons.YesNoCancel,
-                MessageBoxIcon.Question);
+                MessageBoxIcon.Question
+            );
+            if (choice == DialogResult.Cancel) return;
 
-            if (dr == DialogResult.Cancel)
-                return;
-
-            if (dr == DialogResult.Yes)
+            string[] pngFiles;
+            if (choice == DialogResult.Yes)
             {
-                using (FolderBrowserDialog fbd = new FolderBrowserDialog())
+                using var fbd = new FolderBrowserDialog { Description = "Select folder of PNGs" };
+                if (fbd.ShowDialog() != DialogResult.OK) return;
+                pngFiles = Directory.GetFiles(fbd.SelectedPath, "*.png");
+                if (pngFiles.Length == 0)
                 {
-                    fbd.Description = "Select the folder containing PNG files";
-                    if (fbd.ShowDialog() == DialogResult.OK)
-                    {
-                        string folderPath = fbd.SelectedPath;
-                        string[] files = Directory.GetFiles(folderPath, "*.png");
-                        foreach (string pngPath in files)
-                        {
-                            try
-                            {
-                                CtxrConverter.PngToCtxr(config.ModToolsPath, texconvExe, pngPath);
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show($"Error converting {pngPath}: {ex.Message}");
-                            }
-                        }
-                        MessageBox.Show($"Converted {files.Length} files in folder:\n{folderPath}");
-                    }
+                    MessageBox.Show("No PNGs found.", "Nothing to do",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
                 }
             }
             else
             {
-                using (OpenFileDialog ofd = new OpenFileDialog())
+                using var ofd = new OpenFileDialog { Filter = "PNG Files|*.png" };
+                if (ofd.ShowDialog() != DialogResult.OK) return;
+                pngFiles = new[] { ofd.FileName };
+            }
+
+            using var progressForm = new Form
+            {
+                Text = "Converting PNG → CTXR",
+                Width = 400,
+                Height = 100,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                StartPosition = FormStartPosition.CenterParent
+            };
+            var bar = new ProgressBar
+            {
+                Dock = DockStyle.Fill,
+                Minimum = 0,
+                Maximum = pngFiles.Length,
+                Value = 0
+            };
+            progressForm.Controls.Add(bar);
+            progressForm.Show(this);
+
+            for (int i = 0; i < pngFiles.Length; i++)
+            {
+                var png = pngFiles[i];
+                var dds = Path.ChangeExtension(png, ".dds");
+
+                try
                 {
-                    ofd.Title = "Select a PNG file";
-                    ofd.Filter = "PNG Files|*.png";
-                    if (ofd.ShowDialog() == DialogResult.OK)
+                    var psi = new ProcessStartInfo(pythonExe,
+                        $"\"{gimpScript}\" \"{png}\" \"{dds}\"")
                     {
-                        string pngPath = ofd.FileName;
-                        try
-                        {
-                            CtxrConverter.PngToCtxr(config.ModToolsPath, texconvExe, pngPath);
-                            MessageBox.Show("PNG successfully converted to CTXR in the same folder as the PNG.");
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show($"Error converting PNG to CTXR: {ex.Message}");
-                        }
+                        UseShellExecute = false,
+                        CreateNoWindow = true,
+                        RedirectStandardError = true
+                    };
+                    using var proc = Process.Start(psi);
+                    var err = proc?.StandardError.ReadToEnd();
+                    proc?.WaitForExit();
+
+                    if (proc?.ExitCode != 0 || !File.Exists(dds))
+                        Debug.WriteLine($"PNG→DDS failed for {Path.GetFileName(png)}: {err}");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"PNG→DDS exception for {Path.GetFileName(png)}: {ex.Message}");
+                }
+
+                if (File.Exists(dds))
+                {
+                    try
+                    {
+                        CtxrConverter.DdsToCtxr(dds, ctxrToolExe);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"DDS→CTXR exception for {Path.GetFileName(dds)}: {ex.Message}");
                     }
                 }
+                else
+                {
+                    Debug.WriteLine($"Skipping CTXR: .dds missing for {Path.GetFileName(png)}");
+                }
+
+                bar.Value = i + 1;
+                Application.DoEvents();
             }
+
+            progressForm.Close();
+
+            MessageBox.Show(
+                $"Conversion complete:\nProcessed {pngFiles.Length} file{(pngFiles.Length > 1 ? "s" : "")}.",
+                "Done",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
         }
 
         private async void PngToDds_Click(object sender, EventArgs e)
         {
-            ConfigSettings config = ConfigManager.LoadSettings();
-            if (!CheckAndPromptForModToolsPath(config))
+            var cfg = ConfigManager.LoadSettings();
+            if (!CheckAndPromptForModToolsPath(cfg) ||
+                !CheckAndPromptForGimpPythonScriptPath(cfg) ||
+                !CheckAndPromptForPythonPath(cfg))
             {
-                MessageBox.Show("Mod tools folder setup was cancelled.");
+                MessageBox.Show("Setup was cancelled or incomplete.", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            DownloadManager dm = new DownloadManager();
-            await dm.EnsureModToolsDownloaded(config.ModToolsPath);
-            string texconvExe = Path.Combine(config.ModToolsPath, "texconv.exe");
+            var pythonExe = cfg.PythonExePath;
+            var script = cfg.GimpPythonScriptPath;
 
-            DialogResult dr = MessageBox.Show(
-                "Convert full folder? (Yes = Folder conversion, No = Single file conversion)",
-                "Conversion Mode",
+            var choice = MessageBox.Show(
+                "Convert full folder? (Yes = folder, No = single file)",
+                "PNG → DDS (via Python)",
                 MessageBoxButtons.YesNoCancel,
-                MessageBoxIcon.Question);
-
-            if (dr == DialogResult.Cancel)
+                MessageBoxIcon.Question
+            );
+            if (choice == DialogResult.Cancel)
                 return;
 
-            if (dr == DialogResult.Yes)
+            string[] files;
+            if (choice == DialogResult.Yes)
             {
-                using (FolderBrowserDialog fbd = new FolderBrowserDialog())
+                using var fbd = new FolderBrowserDialog { Description = "Select folder of PNGs" };
+                if (fbd.ShowDialog() != DialogResult.OK)
+                    return;
+
+                files = Directory.GetFiles(fbd.SelectedPath, "*.png");
+                if (files.Length == 0)
                 {
-                    fbd.Description = "Select the folder containing PNG files";
-                    if (fbd.ShowDialog() == DialogResult.OK)
-                    {
-                        string folderPath = fbd.SelectedPath;
-                        string[] files = Directory.GetFiles(folderPath, "*.png");
-                        foreach (string inputPng in files)
-                        {
-                            string outputDds = Path.ChangeExtension(inputPng, ".dds");
-                            try
-                            {
-                                CtxrConverter.PngToDdsWithTexconv(texconvExe, inputPng, outputDds);
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show($"Error converting {inputPng}: {ex.Message}");
-                            }
-                        }
-                        MessageBox.Show($"Converted {files.Length} files in folder:\n{folderPath}");
-                    }
+                    MessageBox.Show("No PNGs found in that folder.", "Nothing to do",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
                 }
             }
             else
             {
-                using (OpenFileDialog ofd = new OpenFileDialog { Filter = "PNG Files|*.png" })
-                {
-                    if (ofd.ShowDialog() == DialogResult.OK)
-                    {
-                        string inputPng = ofd.FileName;
-                        string outputDds = Path.ChangeExtension(inputPng, ".dds");
-                        try
-                        {
-                            CtxrConverter.PngToDdsWithTexconv(texconvExe, inputPng, outputDds);
-                            MessageBox.Show($"DDS created:\n{outputDds}");
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show($"Error converting PNG to DDS: {ex.Message}");
-                        }
-                    }
-                }
+                using var ofd = new OpenFileDialog { Filter = "PNG Files|*.png" };
+                if (ofd.ShowDialog() != DialogResult.OK)
+                    return;
+                files = new[] { ofd.FileName };
             }
+
+            using var progressForm = new Form
+            {
+                Text = "Converting PNG → DDS",
+                Width = 400,
+                Height = 100,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                StartPosition = FormStartPosition.CenterParent
+            };
+            var bar = new ProgressBar
+            {
+                Dock = DockStyle.Fill,
+                Minimum = 0,
+                Maximum = files.Length,
+                Value = 0,
+            };
+            progressForm.Controls.Add(bar);
+            progressForm.Show(this);
+
+            for (int i = 0; i < files.Length; i++)
+            {
+                var inPng = files[i];
+                var outDds = Path.ChangeExtension(inPng, ".dds");
+
+                try
+                {
+                    var psi = new ProcessStartInfo
+                    {
+                        FileName = pythonExe,
+                        Arguments = $"\"{script}\" \"{inPng}\" \"{outDds}\"",
+                        UseShellExecute = false,
+                        CreateNoWindow = true,
+                        RedirectStandardError = true
+                    };
+                    using var proc = Process.Start(psi);
+                    var err = proc?.StandardError.ReadToEnd();
+                    proc?.WaitForExit();
+
+                    if (!File.Exists(outDds))
+                        Debug.WriteLine($"Failed {Path.GetFileName(inPng)}: {err}");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Exception on {Path.GetFileName(inPng)}: {ex.Message}");
+                }
+
+                bar.Value = i + 1;
+                Application.DoEvents();
+            }
+
+            progressForm.Close();
+
+            MessageBox.Show(
+                $"Conversion complete:\nProcessed {files.Length} file{(files.Length > 1 ? "s" : "")}.",
+                "Done",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
         }
 
         private void DdsToCtxr_Click(object sender, EventArgs e)
@@ -971,6 +1162,151 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         private void BackButton_Click(object sender, EventArgs e)
         {
             ReturnToMainMenu();
+        }
+
+        private async void CreateModButton_Click(object sender, EventArgs e)
+        {
+            string modName = PromptForInput("Enter mod name (required):", "New Mod");
+            if (string.IsNullOrWhiteSpace(modName))
+            {
+                MessageBox.Show("Mod name is required.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string modImagePath = null;
+            if (MessageBox.Show("Do you want to include a picture for your mod?", "Mod Picture",
+                                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                using var ofd = new OpenFileDialog
+                {
+                    Filter = "Image Files|*.png;*.jpg;*.jpeg;*.bmp",
+                    Title = "Select a mod picture"
+                };
+                if (ofd.ShowDialog() == DialogResult.OK)
+                    modImagePath = ofd.FileName;
+            }
+
+            string modDescription = PromptForInput("Enter mod description (optional):", "Mod Description");
+
+            var cfg = ConfigManager.LoadSettings();
+            string modFolder = Path.Combine(cfg.MGS2ModFolderPath, modName);
+            Directory.CreateDirectory(modFolder);
+
+            string detailsFolder = Path.Combine(modFolder, "Mod Details");
+            Directory.CreateDirectory(detailsFolder);
+
+            if (!string.IsNullOrEmpty(modImagePath))
+            {
+                try { File.Copy(modImagePath, Path.Combine(detailsFolder, "Mod Image.png"), true); }
+                catch (Exception ex) { MessageBox.Show("Error copying mod image: " + ex.Message); }
+            }
+
+            if (!string.IsNullOrEmpty(modDescription))
+            {
+                try { File.WriteAllText(Path.Combine(detailsFolder, "Mod Info.txt"), modDescription); }
+                catch (Exception ex) { MessageBox.Show("Error saving mod description: " + ex.Message); }
+            }
+
+            if (!CheckAndPromptForModToolsPath(cfg) ||
+                !CheckAndPromptForGimpPythonScriptPath(cfg) ||
+                !CheckAndPromptForPythonPath(cfg))
+            {
+                MessageBox.Show("Setup was cancelled or incomplete.", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string pythonExe = cfg.PythonExePath;
+            string gimpScript = cfg.GimpPythonScriptPath;
+            string ctxrToolExe = Path.Combine(cfg.ModToolsPath, "CtxrTool.exe");
+
+            string conversionFolder = Path.Combine(modFolder, modName, "textures", "flatlist", "ovr_stm", "_win");
+            Directory.CreateDirectory(conversionFolder);
+
+            foreach (Control ctrl in panelTextures.Controls)
+            {
+                if (ctrl is PictureBox pb && pb.Tag is string pngPath
+                    && Path.GetExtension(pngPath).Equals(".png", StringComparison.OrdinalIgnoreCase))
+                {
+                    string ddsPath = Path.ChangeExtension(pngPath, ".dds");
+                    try
+                    {
+                        var psi = new ProcessStartInfo(pythonExe,
+                            $"\"{gimpScript}\" \"{pngPath}\" \"{ddsPath}\"")
+                        {
+                            UseShellExecute = false,
+                            CreateNoWindow = true,
+                            RedirectStandardError = true
+                        };
+                        using var proc = Process.Start(psi);
+                        string err = proc.StandardError.ReadToEnd();
+                        proc.WaitForExit();
+                        if (proc.ExitCode != 0 || !File.Exists(ddsPath))
+                            Debug.WriteLine($"PNG→DDS failed for {Path.GetFileName(pngPath)}: {err}");
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"PNG→DDS exception for {Path.GetFileName(pngPath)}: {ex.Message}");
+                    }
+
+                    if (File.Exists(ddsPath))
+                    {
+                        try
+                        {
+                            CtxrConverter.DdsToCtxr(ddsPath, ctxrToolExe);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine($"DDS→CTXR exception for {Path.GetFileName(ddsPath)}: {ex.Message}");
+                        }
+                    }
+
+                    string ctxrPath = Path.ChangeExtension(pngPath, ".ctxr");
+                    if (File.Exists(ctxrPath))
+                    {
+                        string cleanName = Path.GetFileName(RemoveSuffix(ctxrPath));
+                        string dest = Path.Combine(conversionFolder, cleanName);
+                        File.Copy(ctxrPath, dest, true);
+                    }
+                }
+            }
+
+            if (cfg.Mods.ActiveMods.ContainsKey(modName))
+                cfg.Mods.ActiveMods[modName] = true;
+            else
+                cfg.Mods.ActiveMods.Add(modName, true);
+            ConfigManager.SaveSettings(cfg);
+
+            MessageBox.Show("Mod created successfully in the MGS2 Mods folder.",
+                            "Mod Created", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+
+        private string PromptForInput(string prompt, string title)
+        {
+            using (Form inputForm = new Form())
+            {
+                inputForm.Width = 500;
+                inputForm.Height = 150;
+                inputForm.Text = title;
+                inputForm.FormBorderStyle = FormBorderStyle.FixedDialog;
+                inputForm.StartPosition = FormStartPosition.CenterScreen;
+                inputForm.MinimizeBox = false;
+                inputForm.MaximizeBox = false;
+
+                Label lblPrompt = new Label() { Left = 50, Top = 20, Text = prompt, AutoSize = true };
+                TextBox txtInput = new TextBox() { Left = 50, Top = 50, Width = 400 };
+                Button btnOk = new Button() { Text = "OK", Left = 350, Width = 100, Top = 80, DialogResult = DialogResult.OK };
+
+                btnOk.Click += (sender, e) => { inputForm.Close(); };
+
+                inputForm.Controls.Add(lblPrompt);
+                inputForm.Controls.Add(txtInput);
+                inputForm.Controls.Add(btnOk);
+                inputForm.AcceptButton = btnOk;
+
+                return inputForm.ShowDialog() == DialogResult.OK ? txtInput.Text.Trim() : "";
+            }
         }
     }
 }

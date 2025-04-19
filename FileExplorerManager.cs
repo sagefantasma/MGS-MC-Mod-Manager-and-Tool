@@ -44,16 +44,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             this.gameKey = gameKey;
             this.expectedPaths = expectedPaths;
 
-            if (gameKey.Equals("MG1", StringComparison.OrdinalIgnoreCase))
+            if (gameKey.Equals("MG1andMG2", StringComparison.OrdinalIgnoreCase))
             {
-                backupRoot = config.MG1VanillaFolderPath;
-                modFolder = config.MG1ModFolderPath;
-            }
-            else if (gameKey.Equals("MG2", StringComparison.OrdinalIgnoreCase))
-            {
-                backupRoot = config.MG2VanillaFolderPath;
-                modFolder = config.MG2ModFolderPath;
-            }
+                backupRoot = config.MG1andMG2VanillaFolderPath;
+                modFolder = config.MG1andMG2ModFolderPath;
+            }           
             else if (gameKey.Equals("MGS1", StringComparison.OrdinalIgnoreCase))
             {
                 backupRoot = config.MGS1VanillaFolderPath;

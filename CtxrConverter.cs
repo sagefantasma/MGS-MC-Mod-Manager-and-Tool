@@ -8,9 +8,7 @@ using System.Text;
 
 public static class CtxrConverter
 {
-
-    // This one reserves the alpha channel
-    public static void CtxrToPngTest(string ctxrPath, string pngPath)
+    public static void CtxrToPng(string ctxrPath, string pngPath)
     {
         if (!File.Exists(ctxrPath))
             throw new FileNotFoundException("CTXR file not found.", ctxrPath);
@@ -56,56 +54,6 @@ public static class CtxrConverter
         }
     }
 
-    // This one removes the alpha channel which I think is nicer for editing/viewing
-    public static void CtxrToPng(string ctxrPath, string pngPath)
-    {
-        if (!File.Exists(ctxrPath))
-            throw new FileNotFoundException("CTXR file not found.", ctxrPath);
-
-        byte[] fileBytes = File.ReadAllBytes(ctxrPath);
-        if (fileBytes.Length < 132)
-            throw new InvalidDataException("Invalid or too-small CTXR file.");
-
-        ushort width = ReadUInt16BE(fileBytes, 8);
-        ushort height = ReadUInt16BE(fileBytes, 10);
-        uint pixelDataLen = ReadUInt32BE(fileBytes, 0x80);
-        if (132 + pixelDataLen > fileBytes.Length)
-            throw new InvalidDataException("Pixel data exceeds file size.");
-
-        byte[] pixelData = new byte[pixelDataLen];
-        Buffer.BlockCopy(fileBytes, 132, pixelData, 0, (int)pixelDataLen);
-        Bitmap bmp32 = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-
-        Rectangle rect = new Rectangle(0, 0, width, height);
-        BitmapData bmpData = bmp32.LockBits(rect, ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
-        int stride = bmpData.Stride;
-        int bpp = 4;
-        for (int y = 0; y < height; y++)
-        {
-            int srcRowOffset = y * (width * bpp);
-            IntPtr destRowPtr = bmpData.Scan0 + (y * stride);
-            for (int x = 0; x < width; x++)
-            {
-                int srcIndex = srcRowOffset + x * bpp;
-                byte B = pixelData[srcIndex + 0];
-                byte G = pixelData[srcIndex + 1];
-                byte R = pixelData[srcIndex + 2];
-                int color = (255 << 24) | (R << 16) | (G << 8) | B;
-                Marshal.WriteInt32(destRowPtr, x * 4, color);
-            }
-        }
-        bmp32.UnlockBits(bmpData);
-        Bitmap bmp24 = new Bitmap(width, height, PixelFormat.Format24bppRgb);
-        using (Graphics g = Graphics.FromImage(bmp24))
-        {
-            g.DrawImage(bmp32, new Rectangle(0, 0, width, height));
-        }
-        bmp32.Dispose();
-
-        bmp24.Save(pngPath, ImageFormat.Png);
-        bmp24.Dispose();
-    }
-
     public static void PngToCtxr(string modToolsPath, string texconvExePath, string inputPng)
     {
         string ddsPath = Path.ChangeExtension(inputPng, ".dds");
@@ -115,7 +63,17 @@ public static class CtxrConverter
         DdsToCtxr(ddsPath, ctxrToolExe);
     }
 
-
+    /// <summary>
+    /// This seems to only work with Snake's BDUs in MGS3. It causes non-stop issues 
+    /// with literally every other type of PNG file. Going to keep it here in case I 
+    /// can make it work later, for now we'll default to the GIMP/Python-FU logic 
+    /// I got in TextureModelForm.cs.
+    /// </summary>
+    /// <param name="texconvExePath"></param>
+    /// <param name="inputPng"></param>
+    /// <param name="outputDds"></param>
+    /// <exception cref="FileNotFoundException"></exception>
+    /// <exception cref="Exception"></exception>
     public static void PngToDdsWithTexconv(string texconvExePath, string inputPng, string outputDds)
     {
         if (!File.Exists(texconvExePath))
@@ -190,7 +148,7 @@ public static class CtxrConverter
         {
             FileName = ctxrToolExe,
             Arguments = arguments,
-            WorkingDirectory = ddsDir, // Set working directory so output is generated here.
+            WorkingDirectory = ddsDir,
             CreateNoWindow = true,
             UseShellExecute = false,
             RedirectStandardOutput = true,
@@ -216,7 +174,6 @@ public static class CtxrConverter
             throw new FileNotFoundException($"CtxrTool.exe claimed success, but '{generatedCtxrPath}' was not found.");
     }
 
-    // Big-endian helper methods
     private static ushort ReadUInt16BE(byte[] data, int offset)
     {
         return (ushort)((data[offset] << 8) | data[offset + 1]);
@@ -231,17 +188,4 @@ public static class CtxrConverter
              data[offset + 3]);
     }
 
-    private static void WriteUInt16BE(byte[] data, int offset, ushort value)
-    {
-        data[offset + 0] = (byte)((value >> 8) & 0xFF);
-        data[offset + 1] = (byte)(value & 0xFF);
-    }
-
-    private static void WriteUInt32BE(byte[] data, int offset, uint value)
-    {
-        data[offset + 0] = (byte)((value >> 24) & 0xFF);
-        data[offset + 1] = (byte)((value >> 16) & 0xFF);
-        data[offset + 2] = (byte)((value >> 8) & 0xFF);
-        data[offset + 3] = (byte)(value & 0xFF);
-    }
 }

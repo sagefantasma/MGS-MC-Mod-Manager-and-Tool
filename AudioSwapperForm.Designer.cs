@@ -32,126 +32,133 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AudioSwapperForm));
-            this.swapAudioButton = new System.Windows.Forms.Button();
-            this.restoreAudioButton = new System.Windows.Forms.Button();
-            this.checkboxMGS3 = new System.Windows.Forms.CheckBox();
-            this.checkboxMG1 = new System.Windows.Forms.CheckBox();
-            this.checkboxMG2 = new System.Windows.Forms.CheckBox();
-            this.dataGridSdtTracks = new System.Windows.Forms.DataGridView();
-            this.BackButton = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridSdtTracks)).BeginInit();
-            this.SuspendLayout();
+            swapAudioButton = new Button();
+            restoreAudioButton = new Button();
+            checkboxMGS3 = new CheckBox();
+            checkboxMG1 = new CheckBox();
+            checkboxMG2 = new CheckBox();
+            dataGridSdtTracks = new DataGridView();
+            BackButton = new Button();
+            ((System.ComponentModel.ISupportInitialize)dataGridSdtTracks).BeginInit();
+            SuspendLayout();
             // 
             // swapAudioButton
             // 
-            this.swapAudioButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(156)))), ((int)(((byte)(124)))));
-            this.swapAudioButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.swapAudioButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.swapAudioButton.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.swapAudioButton.Location = new System.Drawing.Point(986, 452);
-            this.swapAudioButton.Name = "swapAudioButton";
-            this.swapAudioButton.Size = new System.Drawing.Size(162, 70);
-            this.swapAudioButton.TabIndex = 0;
-            this.swapAudioButton.Text = "Swap Audio";
-            this.swapAudioButton.UseVisualStyleBackColor = false;
-            this.swapAudioButton.Click += new System.EventHandler(this.swapAudioButton_Click);
+            swapAudioButton.BackColor = Color.FromArgb(156, 156, 124);
+            swapAudioButton.BackgroundImageLayout = ImageLayout.Stretch;
+            swapAudioButton.FlatStyle = FlatStyle.Popup;
+            swapAudioButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            swapAudioButton.Location = new Point(1150, 522);
+            swapAudioButton.Margin = new Padding(4, 3, 4, 3);
+            swapAudioButton.Name = "swapAudioButton";
+            swapAudioButton.Size = new Size(189, 81);
+            swapAudioButton.TabIndex = 0;
+            swapAudioButton.Text = "Swap Audio";
+            swapAudioButton.UseVisualStyleBackColor = false;
+            swapAudioButton.Click += swapAudioButton_Click;
             // 
             // restoreAudioButton
             // 
-            this.restoreAudioButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(156)))), ((int)(((byte)(124)))));
-            this.restoreAudioButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.restoreAudioButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.restoreAudioButton.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.restoreAudioButton.Location = new System.Drawing.Point(986, 528);
-            this.restoreAudioButton.Name = "restoreAudioButton";
-            this.restoreAudioButton.Size = new System.Drawing.Size(162, 70);
-            this.restoreAudioButton.TabIndex = 1;
-            this.restoreAudioButton.Text = "Restore Audio to Defaults";
-            this.restoreAudioButton.UseVisualStyleBackColor = false;
-            this.restoreAudioButton.Click += new System.EventHandler(this.restoreAudioButton_Click);
+            restoreAudioButton.BackColor = Color.FromArgb(156, 156, 124);
+            restoreAudioButton.BackgroundImageLayout = ImageLayout.Stretch;
+            restoreAudioButton.FlatStyle = FlatStyle.Popup;
+            restoreAudioButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            restoreAudioButton.Location = new Point(1150, 609);
+            restoreAudioButton.Margin = new Padding(4, 3, 4, 3);
+            restoreAudioButton.Name = "restoreAudioButton";
+            restoreAudioButton.Size = new Size(189, 81);
+            restoreAudioButton.TabIndex = 1;
+            restoreAudioButton.Text = "Restore Audio to Defaults";
+            restoreAudioButton.UseVisualStyleBackColor = false;
+            restoreAudioButton.Click += restoreAudioButton_Click;
             // 
             // checkboxMGS3
             // 
-            this.checkboxMGS3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(156)))), ((int)(((byte)(124)))));
-            this.checkboxMGS3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkboxMGS3.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold);
-            this.checkboxMGS3.Location = new System.Drawing.Point(986, 88);
-            this.checkboxMGS3.Name = "checkboxMGS3";
-            this.checkboxMGS3.Size = new System.Drawing.Size(162, 32);
-            this.checkboxMGS3.TabIndex = 738;
-            this.checkboxMGS3.Text = "Show MGS3 Tracks";
-            this.checkboxMGS3.UseVisualStyleBackColor = false;
-            this.checkboxMGS3.CheckedChanged += new System.EventHandler(this.checkboxMGS3_CheckedChanged);
+            checkboxMGS3.BackColor = Color.FromArgb(156, 156, 124);
+            checkboxMGS3.FlatStyle = FlatStyle.Flat;
+            checkboxMGS3.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            checkboxMGS3.Location = new Point(1150, 102);
+            checkboxMGS3.Margin = new Padding(4, 3, 4, 3);
+            checkboxMGS3.Name = "checkboxMGS3";
+            checkboxMGS3.Size = new Size(189, 37);
+            checkboxMGS3.TabIndex = 738;
+            checkboxMGS3.Text = "Show MGS3 Tracks";
+            checkboxMGS3.UseVisualStyleBackColor = false;
+            checkboxMGS3.CheckedChanged += checkboxMGS3_CheckedChanged;
             // 
             // checkboxMG1
             // 
-            this.checkboxMG1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(156)))), ((int)(((byte)(124)))));
-            this.checkboxMG1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkboxMG1.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold);
-            this.checkboxMG1.Location = new System.Drawing.Point(986, 12);
-            this.checkboxMG1.Name = "checkboxMG1";
-            this.checkboxMG1.Size = new System.Drawing.Size(162, 32);
-            this.checkboxMG1.TabIndex = 739;
-            this.checkboxMG1.Text = "Show MG1 Tracks";
-            this.checkboxMG1.UseVisualStyleBackColor = false;
-            this.checkboxMG1.CheckedChanged += new System.EventHandler(this.checkboxMG1_CheckedChanged);
+            checkboxMG1.BackColor = Color.FromArgb(156, 156, 124);
+            checkboxMG1.FlatStyle = FlatStyle.Flat;
+            checkboxMG1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            checkboxMG1.Location = new Point(1150, 14);
+            checkboxMG1.Margin = new Padding(4, 3, 4, 3);
+            checkboxMG1.Name = "checkboxMG1";
+            checkboxMG1.Size = new Size(189, 37);
+            checkboxMG1.TabIndex = 739;
+            checkboxMG1.Text = "Show MG1 Tracks";
+            checkboxMG1.UseVisualStyleBackColor = false;
+            checkboxMG1.CheckedChanged += checkboxMG1_CheckedChanged;
             // 
             // checkboxMG2
             // 
-            this.checkboxMG2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(156)))), ((int)(((byte)(124)))));
-            this.checkboxMG2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkboxMG2.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold);
-            this.checkboxMG2.Location = new System.Drawing.Point(986, 50);
-            this.checkboxMG2.Name = "checkboxMG2";
-            this.checkboxMG2.Size = new System.Drawing.Size(162, 32);
-            this.checkboxMG2.TabIndex = 740;
-            this.checkboxMG2.Text = "Show MG2 Tracks";
-            this.checkboxMG2.UseVisualStyleBackColor = false;
-            this.checkboxMG2.CheckedChanged += new System.EventHandler(this.checkboxMG2_CheckedChanged);
+            checkboxMG2.BackColor = Color.FromArgb(156, 156, 124);
+            checkboxMG2.FlatStyle = FlatStyle.Flat;
+            checkboxMG2.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            checkboxMG2.Location = new Point(1150, 58);
+            checkboxMG2.Margin = new Padding(4, 3, 4, 3);
+            checkboxMG2.Name = "checkboxMG2";
+            checkboxMG2.Size = new Size(189, 37);
+            checkboxMG2.TabIndex = 740;
+            checkboxMG2.Text = "Show MG2 Tracks";
+            checkboxMG2.UseVisualStyleBackColor = false;
+            checkboxMG2.CheckedChanged += checkboxMG2_CheckedChanged;
             // 
             // dataGridSdtTracks
             // 
-            this.dataGridSdtTracks.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(156)))), ((int)(((byte)(124)))));
-            this.dataGridSdtTracks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridSdtTracks.Location = new System.Drawing.Point(9, 50);
-            this.dataGridSdtTracks.Name = "dataGridSdtTracks";
-            this.dataGridSdtTracks.RowTemplate.Height = 25;
-            this.dataGridSdtTracks.Size = new System.Drawing.Size(971, 551);
-            this.dataGridSdtTracks.TabIndex = 741;
+            dataGridSdtTracks.BackgroundColor = Color.FromArgb(156, 156, 124);
+            dataGridSdtTracks.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridSdtTracks.Location = new Point(10, 58);
+            dataGridSdtTracks.Margin = new Padding(4, 3, 4, 3);
+            dataGridSdtTracks.Name = "dataGridSdtTracks";
+            dataGridSdtTracks.Size = new Size(1133, 636);
+            dataGridSdtTracks.TabIndex = 741;
             // 
             // BackButton
             // 
-            this.BackButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(156)))), ((int)(((byte)(124)))));
-            this.BackButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BackButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.BackButton.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.BackButton.Location = new System.Drawing.Point(9, 12);
-            this.BackButton.Name = "BackButton";
-            this.BackButton.Size = new System.Drawing.Size(162, 32);
-            this.BackButton.TabIndex = 742;
-            this.BackButton.Text = "Back";
-            this.BackButton.UseVisualStyleBackColor = false;
-            this.BackButton.Click += new System.EventHandler(this.BackButton_Click);
+            BackButton.BackColor = Color.FromArgb(156, 156, 124);
+            BackButton.BackgroundImageLayout = ImageLayout.Stretch;
+            BackButton.FlatStyle = FlatStyle.Popup;
+            BackButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            BackButton.Location = new Point(10, 14);
+            BackButton.Margin = new Padding(4, 3, 4, 3);
+            BackButton.Name = "BackButton";
+            BackButton.Size = new Size(189, 37);
+            BackButton.TabIndex = 742;
+            BackButton.Text = "Back";
+            BackButton.UseVisualStyleBackColor = false;
+            BackButton.Click += BackButton_Click;
             // 
             // AudioSwapperForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(1160, 613);
-            this.Controls.Add(this.BackButton);
-            this.Controls.Add(this.dataGridSdtTracks);
-            this.Controls.Add(this.checkboxMG2);
-            this.Controls.Add(this.checkboxMG1);
-            this.Controls.Add(this.checkboxMGS3);
-            this.Controls.Add(this.restoreAudioButton);
-            this.Controls.Add(this.swapAudioButton);
-            this.Name = "AudioSwapperForm";
-            this.Text = "MGS3 Audio Swapper";
-            this.Load += new System.EventHandler(this.AudioSwapperForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridSdtTracks)).EndInit();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            ClientSize = new Size(1353, 707);
+            Controls.Add(BackButton);
+            Controls.Add(dataGridSdtTracks);
+            Controls.Add(checkboxMG2);
+            Controls.Add(checkboxMG1);
+            Controls.Add(checkboxMGS3);
+            Controls.Add(restoreAudioButton);
+            Controls.Add(swapAudioButton);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(4, 3, 4, 3);
+            Name = "AudioSwapperForm";
+            Text = "MGS3 Audio Swapper";
+            Load += AudioSwapperForm_Load;
+            ((System.ComponentModel.ISupportInitialize)dataGridSdtTracks).EndInit();
+            ResumeLayout(false);
         }
 
         #endregion

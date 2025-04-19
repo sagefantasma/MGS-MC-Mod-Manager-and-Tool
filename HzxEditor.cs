@@ -9,21 +9,20 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 {
     public static class HzxEditor
     {
-        // HZX_MAP header (96 bytes)
         public class HZXMap
         {
             public ushort Version;
             public ushort NGroups;
             public ushort NPatrols;
             public ushort NClears;
-            public byte[] Pad; // 40 bytes
+            public byte[] Pad;
             public uint PatrolsPtr;
             public uint PointsPtr;
             public uint ClearsPtr;
             public uint CPatrolsPtr;
             public uint CPointsPtr;
             public uint GroupsPtr;
-            public byte[] ExtraReserved; // 24 bytes
+            public byte[] ExtraReserved;
             public const int HeaderSize = 96;
 
             public static HZXMap Load(string filePath)
@@ -56,13 +55,12 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
         }
 
-        // Updated HZX_PAT entry (16 bytes) – note we now treat the "points" pointer as a 4-byte uint.
         public class HZXPat
         {
             public ushort NPoints;
             public ushort InitPoint;
-            public uint PointsPtr;  // pointer to the HZX_PTP entries
-            public long FileOffset; // absolute offset in file
+            public uint PointsPtr;
+            public long FileOffset;
 
             public static HZXPat FromBytes(byte[] data, long fileOffset)
             {
@@ -72,28 +70,19 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 HZXPat pat = new HZXPat();
                 pat.NPoints = BitConverter.ToUInt16(data, 0);
                 pat.InitPoint = BitConverter.ToUInt16(data, 2);
-                // Skip 4 bytes padding (bytes 4–7) then read the 4‑byte pointer.
                 pat.PointsPtr = BitConverter.ToUInt32(data, 8);
-                // The final 4 bytes (bytes 12–15) are ignored (padding)
                 pat.FileOffset = fileOffset;
                 return pat;
             }
         }
 
-        // HZX_PTP entry (48 bytes) for MGS2:
-        // Bytes 0–3: float X, 4–7: float Z, 8–11: float Y,
-        // 12–15: float AX, 16–19: float AZ, 20–23: float AY,
-        // 24–25: ushort Action, 26–27: ushort Time,
-        // 28–29: ushort Dir, 30–31: ushort Move,
-        // 32–35: uint Flag, 36–39: uint GroupId,
-        // 40–47: 8 bytes Extra
         public class HZXPtp
         {
             public float X, Y, Z;
             public float AX, AY, AZ;
             public ushort Action, Time, Dir, Move;
             public uint Flag, GroupId;
-            public byte[] Extra;   // 8 bytes
+            public byte[] Extra;
             public long FileOffset;
 
             public static HZXPtp FromBytes(byte[] data, long fileOffset)
@@ -102,26 +91,22 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     throw new Exception("Not enough data for HZX_PTP.");
 
                 HZXPtp ptp = new HZXPtp();
-                // read X, Z, Y then AX, AZ, AY
                 ptp.X = BitConverter.ToSingle(data, 0);
                 float zVal = BitConverter.ToSingle(data, 4);
                 float yVal = BitConverter.ToSingle(data, 8);
                 ptp.AX = BitConverter.ToSingle(data, 12);
                 float azVal = BitConverter.ToSingle(data, 16);
                 float ayVal = BitConverter.ToSingle(data, 20);
-
                 ptp.Action = BitConverter.ToUInt16(data, 24);
                 ptp.Time = BitConverter.ToUInt16(data, 26);
                 ptp.Dir = BitConverter.ToUInt16(data, 28);
                 ptp.Move = BitConverter.ToUInt16(data, 30);
-
                 ptp.Flag = BitConverter.ToUInt32(data, 32);
                 ptp.GroupId = BitConverter.ToUInt32(data, 36);
 
                 ptp.Extra = new byte[8];
                 Array.Copy(data, 40, ptp.Extra, 0, 8);
 
-                // MGS2 stores position as (X, Z, Y) and aim as (AX, AZ, AY).
                 ptp.Z = zVal;
                 ptp.Y = yVal;
                 ptp.AZ = azVal;
@@ -132,7 +117,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
         }
 
-        // Editor form (unchanged except for using uint as key instead of ushort)
         public class GuardRouteEditorForm : Form
         {
             private List<HZXPat> _patEntries;
@@ -145,16 +129,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             private TableLayoutPanel mainLayout;
             private string _filePath;
 
-            // Column definitions (unchanged)
-            private int colIdx = 0;     // read-only
+            private int colIdx = 0;
             private int colX = 1;
             private int colY = 2;
             private int colZ = 3;
-            private int colSnakeXYZ = 4;   // button
+            private int colSnakeXYZ = 4;
             private int colAX = 5;
             private int colAY = 6;
             private int colAZ = 7;
-            private int colSnakeA = 8;     // button
+            private int colSnakeA = 8;
             private int colAction = 9;
             private int colMove = 10;
             private int colTime = 11;
@@ -423,7 +406,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 if (_currentIndex < 0 || _currentIndex >= _patEntries.Count)
                     return;
 
-                // Use the new PointsPtr (uint) as the key.
                 uint key = _patEntries[_currentIndex].PointsPtr;
                 List<HZXPtp> route = _guardRoutes.ContainsKey(key) ? _guardRoutes[key] : new List<HZXPtp>();
 
@@ -560,7 +542,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
         }
 
-        // Main method to open and parse the HZX file.
         public static void EditHzxFile()
         {
             OpenFileDialog ofd = new OpenFileDialog
@@ -572,10 +553,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 return;
 
             string filePath = ofd.FileName;
-            // Load header
             HZXMap map = HZXMap.Load(filePath);
 
-            // Read HZX_PAT entries using map.NPatrols * 16 bytes.
             List<HZXPat> patEntries = new List<HZXPat>();
             using (FileStream fs = File.OpenRead(filePath))
             using (BinaryReader br = new BinaryReader(fs))
@@ -594,7 +573,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 }
             }
 
-            // Read HZX_PTP entries for each patrol.
             Dictionary<uint, List<HZXPtp>> guardRoutes = new Dictionary<uint, List<HZXPtp>>();
             using (FileStream fs = File.OpenRead(filePath))
             using (BinaryReader br = new BinaryReader(fs))
@@ -615,7 +593,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 }
             }
 
-            // Show the editor form.
             GuardRouteEditorForm form = new GuardRouteEditorForm(patEntries, guardRoutes, filePath);
             form.ShowDialog();
         }

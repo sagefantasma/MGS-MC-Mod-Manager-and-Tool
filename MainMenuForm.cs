@@ -27,18 +27,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             LoggingManager.Instance.Log("User is changing to the MG1 form from the Main Menu form.\n");
             GuiManager.UpdateLastFormLocation(this.Location);
             GuiManager.LogFormLocation(this, "MG1ModdingForm");
-            MG1ModdingForm form2 = new MG1ModdingForm();
+            MG1andMG2ModdingForm form2 = new MG1andMG2ModdingForm();
             form2.Show();
-            this.Hide();
-        }
-
-        private void MG2FormSwap_Click(object sender, EventArgs e)
-        {
-            LoggingManager.Instance.Log("User is changing to the MG2 form from the Main Menu form.\n");
-            GuiManager.UpdateLastFormLocation(this.Location);
-            GuiManager.LogFormLocation(this, "MG2ModdingForm");
-            MG2ModdingForm form3 = new MG2ModdingForm();
-            form3.Show();
             this.Hide();
         }
 

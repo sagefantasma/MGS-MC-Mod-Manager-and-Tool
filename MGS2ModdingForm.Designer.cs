@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MGS2ModdingForm));
             BackButton = new System.Windows.Forms.Button();
             DownloadModsMGS2 = new System.Windows.Forms.Button();
             RefreshMods = new System.Windows.Forms.Button();
@@ -204,6 +205,7 @@
             Controls.Add(BackButton);
             DoubleBuffered = true;
             ForeColor = System.Drawing.SystemColors.Control;
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             MaximumSize = new System.Drawing.Size(1355, 761);
             Name = "MGS2ModdingForm";

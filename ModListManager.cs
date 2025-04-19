@@ -5,15 +5,9 @@ using System.Windows.Forms;
 
 namespace ANTIBigBoss_MGS_Mod_Manager
 {
-    /// <summary>
-    /// A helper class that manages the mod list GUI.
-    /// It creates or uses a FlowLayoutPanel for displaying mod entries and builds each entry panel.
-    /// </summary>
     public class ModListManager
     {
         public FlowLayoutPanel ModListPanel { get; private set; }
-
-        // Layout and theme settings.
         public Color PanelBackgroundColor { get; set; }
         public int RightMargin { get; set; } = 50;
         public int TopMargin { get; set; } = 80;
@@ -27,9 +21,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private Control parentControl;
 
-        /// <summary>
-        /// Constructor that creates its own FlowLayoutPanel.
-        /// </summary>
         public ModListManager(Control parent, int formWidth, int formHeight, Color panelBackColor)
         {
             parentControl = parent;
@@ -50,38 +41,23 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             parentControl.Controls.Add(ModListPanel);
         }
 
-        /// <summary>
-        /// Constructor that uses an existing FlowLayoutPanel.
-        /// </summary>
         public ModListManager(FlowLayoutPanel existingPanel)
         {
             ModListPanel = existingPanel;
         }
 
-        /// <summary>
-        /// Clears the mod list panel.
-        /// </summary>
         public void ClearMods() => ModListPanel.Controls.Clear();
 
-        /// <summary>
-        /// Represents a mod item for display.
-        /// </summary>
         public class ModItem
         {
             public string ModName { get; set; }
             public string ModPath { get; set; }
             public bool IsEnabled { get; set; }
-            public bool IsHDfix { get; set; } // Indicates if this mod is an HD Fix mod.
+            public bool IsHDfix { get; set; }
         }
 
-        /// <summary>
-        /// Delegate for mod actions.
-        /// </summary>
         public delegate void ModAction(string modName);
 
-        /// <summary>
-        /// Recursively attaches hover events to a control and its children.
-        /// </summary>
         private void AttachHoverEvents(Control control, string modName, Action<string, Control> onHoverEnter, Action onHoverLeave)
         {
             control.MouseEnter += (s, e) => onHoverEnter(modName, control);
@@ -92,16 +68,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
         }
 
-        /// <summary>
-        /// Loads the mod items into the GUI.
-        /// </summary>
-        /// <param name="mods">The list of mod items.</param>
-        /// <param name="onToggle">Callback for the toggle button.</param>
-        /// <param name="onRename">Callback for the rename button.</param>
-        /// <param name="onDelete">Callback for the delete button.</param>
-        /// <param name="onSettings">Optional callback for the settings button.</param>
-        /// <param name="onHoverEnter">Callback for mouse-enter events.</param>
-        /// <param name="onHoverLeave">Callback for mouse-leave events.</param>
         public void LoadMods(
             List<ModItem> mods,
             ModAction onToggle,
@@ -116,15 +82,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             foreach (var mod in mods)
             {
                 Panel modPanel = CreateModPanel(mod, entryWidth, onToggle, onRename, onDelete, onSettings);
-                // Recursively attach hover events to the entire mod panel.
                 AttachHoverEvents(modPanel, mod.ModName, onHoverEnter, onHoverLeave);
                 ModListPanel.Controls.Add(modPanel);
             }
         }
 
-        /// <summary>
-        /// Creates a panel for an individual mod.
-        /// </summary>
         private Panel CreateModPanel(ModItem mod, int entryWidth, ModAction onToggle, ModAction onRename, ModAction onDelete, ModAction onSettings)
         {
             Panel modPanel = new Panel
@@ -202,7 +164,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 settingsButton.Click += (s, e) => onSettings?.Invoke(mod.ModName);
             }
 
-            // Layout calculation.
             toggleButton.Location = new Point(LeftMargin, (modPanel.Height - toggleButton.Height) / 2);
             int currentRightX = modPanel.Width - RightButtonMargin;
             currentRightX -= deleteButton.Width;
@@ -221,7 +182,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             modLabel.Location = new Point(labelX, 0);
             modLabel.Size = new Size(labelWidth, modPanel.Height);
 
-            // Add controls to the panel.
             modPanel.Controls.Add(toggleButton);
             modPanel.Controls.Add(modLabel);
             modPanel.Controls.Add(renameButton);

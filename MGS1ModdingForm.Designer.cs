@@ -72,7 +72,10 @@
             DoubleBuffered = true;
             Font = new System.Drawing.Font("Consolas", 10.2F, System.Drawing.FontStyle.Bold);
             ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            MaximumSize = new System.Drawing.Size(903, 662);
+            MinimumSize = new System.Drawing.Size(903, 662);
             Name = "MGS1ModdingForm";
             Text = "Metal Gear Solid 1 - Modding Menu";
             Load += MGS1ModdingForm_Load;
