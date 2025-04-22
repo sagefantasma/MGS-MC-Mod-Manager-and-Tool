@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -16,14 +18,17 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         private Panel panelTextures;
         private string currentModelPath;
         private string currentMtlPath;
+        private readonly List<string> _allModels = new List<string>
+        {
+        "MGS3 Snake SE", "MGS3 GRU", "MGS3 KGB", "MGS3 Ocelot Unit", "MGS3 Officer",
+        "MGS2 Snake Tanker", "MGS2 Raiden", "MGS2 Tanker Guards", "MGS2 Big Shell Guards", "MGS2 NYPD"
+        };
 
         public TextureModelForm()
         {
             InitializeComponent();
             MinimumSize = new Size(800, 600);
             BackColor = Color.Black;
-            Load += TextureModelForm_Load;
-            FormClosing += TextureModelForm_FormClosing;
 
             panelTextures = new Panel
             {
@@ -47,12 +52,19 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             Controls.Add(elementHost);
             elementHost.BringToFront();
             AdjustElementHostSize();
+
+            ShowMgs2ModelsCheckBox.CheckedChanged += FilterModels;
+            ShowMgs3ModelsCheckBox.CheckedChanged += FilterModels;
+            ShowMgs2ModelsCheckBox.Checked = true;
+            ShowMgs3ModelsCheckBox.Checked = true;
+
+            Load += TextureModelForm_Load;
+            FormClosing += TextureModelForm_FormClosing;
         }
 
         private async void TextureModelForm_Load(object sender, EventArgs e)
         {
             var config = ConfigManager.LoadSettings();
-
             if (!await SetupModToolsAndAssetsAsync(config))
             {
                 ReturnToMainMenu();
@@ -60,10 +72,31 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 return;
             }
 
-            PopulateModelSelection();
+            RefreshModelSelection();
 
             if (!string.IsNullOrEmpty(currentMtlPath) && File.Exists(currentMtlPath))
                 RestoreAllMtlReferencesToOriginal(currentMtlPath);
+        }
+
+        private void FilterModels(object sender, EventArgs e)
+        {
+            RefreshModelSelection();
+        }
+
+        private void RefreshModelSelection()
+        {
+            ModelSelectionComboBox.Items.Clear();
+
+            if (ShowMgs2ModelsCheckBox.Checked)
+                foreach (var m in _allModels.Where(x => x.StartsWith("MGS2")))
+                    ModelSelectionComboBox.Items.Add(m);
+
+            if (ShowMgs3ModelsCheckBox.Checked)
+                foreach (var m in _allModels.Where(x => x.StartsWith("MGS3")))
+                    ModelSelectionComboBox.Items.Add(m);
+
+            if (ModelSelectionComboBox.Items.Count > 0)
+                ModelSelectionComboBox.SelectedIndex = 0;
         }
 
         private async Task<bool> SetupModToolsAndAssetsAsync(ConfigSettings config)
@@ -421,9 +454,9 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 modelFile = "sna_def.obj";
                 mtlFile = "sna_def.mtl";
                 textureFiles = new string[]
-                {                  
+                {
                     "sna_arm_ss.bmp.png",
-                    "sna_belt_leg.bmp.png",                  
+                    "sna_belt_leg.bmp.png",
                     "sna_body_ss01dt.bmp.png",
                     "sna_foot01dt.bmp.png",
                     "sna_hair3.bmp.png",
@@ -648,7 +681,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             string oldTexPath = pb.Tag.ToString();
 
             modelViewerControl.ClearModel();
-            
+
 
             string newTexPath = GetNextSuffixPath(oldTexPath);
 
@@ -688,7 +721,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             try
             {
                 modelViewerControl.ClearModel();
-                
+
 
                 RenameMtlTextureReference(currentMtlPath,
                     Path.GetFileName(newTexPath),
@@ -1189,23 +1222,20 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             string modDescription = PromptForInput("Enter mod description (optional):", "Mod Description");
 
             var cfg = ConfigManager.LoadSettings();
-            string modFolder = Path.Combine(cfg.MGS2ModFolderPath, modName);
-            Directory.CreateDirectory(modFolder);
+            string selectedModel = ModelSelectionComboBox.SelectedItem?.ToString() ?? "";
+            bool isMgs2 = selectedModel.StartsWith("MGS2", StringComparison.OrdinalIgnoreCase);
+            string baseModsPath = isMgs2 ? cfg.MGS2ModFolderPath : cfg.MGS3ModFolderPath;
 
+            string modFolder = Path.Combine(baseModsPath, modName);
+            Directory.CreateDirectory(modFolder);
             string detailsFolder = Path.Combine(modFolder, "Mod Details");
             Directory.CreateDirectory(detailsFolder);
 
             if (!string.IsNullOrEmpty(modImagePath))
-            {
-                try { File.Copy(modImagePath, Path.Combine(detailsFolder, "Mod Image.png"), true); }
-                catch (Exception ex) { MessageBox.Show("Error copying mod image: " + ex.Message); }
-            }
+                File.Copy(modImagePath, Path.Combine(detailsFolder, "Mod Image.png"), true);
 
             if (!string.IsNullOrEmpty(modDescription))
-            {
-                try { File.WriteAllText(Path.Combine(detailsFolder, "Mod Info.txt"), modDescription); }
-                catch (Exception ex) { MessageBox.Show("Error saving mod description: " + ex.Message); }
-            }
+                File.WriteAllText(Path.Combine(detailsFolder, "Mod Info.txt"), modDescription);
 
             if (!CheckAndPromptForModToolsPath(cfg) ||
                 !CheckAndPromptForGimpPythonScriptPath(cfg) ||
@@ -1222,6 +1252,25 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
             string conversionFolder = Path.Combine(modFolder, modName, "textures", "flatlist", "ovr_stm", "_win");
             Directory.CreateDirectory(conversionFolder);
+
+            using var progressForm = new Form
+            {
+                Text = "Building Mod Textures",
+                Width = 400,
+                Height = 100,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                StartPosition = FormStartPosition.CenterParent
+            };
+            var bar = new ProgressBar
+            {
+                Dock = DockStyle.Fill,
+                Minimum = 0,
+                Maximum = panelTextures.Controls.OfType<PictureBox>()
+                          .Count(pb => Path.GetExtension(pb.Tag.ToString()).Equals(".png", StringComparison.OrdinalIgnoreCase)),
+                Value = 0
+            };
+            progressForm.Controls.Add(bar);
+            progressForm.Show(this);
 
             foreach (Control ctrl in panelTextures.Controls)
             {
@@ -1242,34 +1291,32 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                         string err = proc.StandardError.ReadToEnd();
                         proc.WaitForExit();
                         if (proc.ExitCode != 0 || !File.Exists(ddsPath))
-                            Debug.WriteLine($"PNG→DDS failed for {Path.GetFileName(pngPath)}: {err}");
+                            Debug.WriteLine($"PNG→DDS failed: {err}");
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine($"PNG→DDS exception for {Path.GetFileName(pngPath)}: {ex.Message}");
+                        Debug.WriteLine($"PNG→DDS exception: {ex.Message}");
                     }
 
                     if (File.Exists(ddsPath))
                     {
-                        try
-                        {
-                            CtxrConverter.DdsToCtxr(ddsPath, ctxrToolExe);
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.WriteLine($"DDS→CTXR exception for {Path.GetFileName(ddsPath)}: {ex.Message}");
-                        }
+                        try { CtxrConverter.DdsToCtxr(ddsPath, ctxrToolExe); }
+                        catch (Exception ex) { Debug.WriteLine($"DDS→CTXR exception: {ex.Message}"); }
                     }
 
                     string ctxrPath = Path.ChangeExtension(pngPath, ".ctxr");
                     if (File.Exists(ctxrPath))
                     {
                         string cleanName = Path.GetFileName(RemoveSuffix(ctxrPath));
-                        string dest = Path.Combine(conversionFolder, cleanName);
-                        File.Copy(ctxrPath, dest, true);
+                        File.Copy(ctxrPath, Path.Combine(conversionFolder, cleanName), true);
                     }
+
+                    bar.Value++;
+                    Application.DoEvents();
                 }
             }
+
+            progressForm.Close();
 
             if (cfg.Mods.ActiveMods.ContainsKey(modName))
                 cfg.Mods.ActiveMods[modName] = true;
@@ -1277,7 +1324,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 cfg.Mods.ActiveMods.Add(modName, true);
             ConfigManager.SaveSettings(cfg);
 
-            MessageBox.Show("Mod created successfully in the MGS2 Mods folder.",
+            string gameLabel = isMgs2 ? "MGS2" : "MGS3";
+            MessageBox.Show($"Mod created successfully in the {gameLabel} Mods folder.",
                             "Mod Created", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -1308,5 +1356,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 return inputForm.ShowDialog() == DialogResult.OK ? txtInput.Text.Trim() : "";
             }
         }
+
+        
     }
 }

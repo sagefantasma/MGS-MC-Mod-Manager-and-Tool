@@ -71,5 +71,19 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             form7.Show();
             this.Hide();
         }
+
+        private void KoFiLink_Click(object sender, EventArgs e)
+        {
+            string url = "https://ko-fi.com/antibigboss";
+
+            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = url,
+                UseShellExecute = true
+            };
+
+            System.Diagnostics.Process.Start(psi);
+        }
+
     }
 }

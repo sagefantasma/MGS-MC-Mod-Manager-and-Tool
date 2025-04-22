@@ -42,3 +42,4 @@ C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\n
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.MGSHDFixSettingsForm.resources
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.MG1andMG2ModdingForm.resources
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.AudioSwapperForm-OuterHeaven2025.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Debug\net8.0-windows\ANTIBigBoss MGS Mod Manager_Content.g.cs

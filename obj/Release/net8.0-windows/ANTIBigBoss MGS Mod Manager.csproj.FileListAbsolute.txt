@@ -1,0 +1,45 @@
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Release\net8.0-windows\ANTIBigBoss MGS Mod Manager.exe
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Release\net8.0-windows\ANTIBigBoss MGS Mod Manager.dll.config
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Release\net8.0-windows\ANTIBigBoss MGS Mod Manager.deps.json
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Release\net8.0-windows\ANTIBigBoss MGS Mod Manager.runtimeconfig.json
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Release\net8.0-windows\ANTIBigBoss MGS Mod Manager.dll
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Release\net8.0-windows\ANTIBigBoss MGS Mod Manager.pdb
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Release\net8.0-windows\AssimpNet.dll
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Release\net8.0-windows\HelixToolkit.Wpf.dll
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Release\net8.0-windows\Microsoft.AspNetCore.SystemWebAdapters.dll
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Release\net8.0-windows\Newtonsoft.Json.dll
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Release\net8.0-windows\System.Runtime.Caching.dll
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Release\net8.0-windows\runtimes\linux-x64\native\libassimp.so
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Release\net8.0-windows\runtimes\osx-x64\native\libassimp.dylib
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Release\net8.0-windows\runtimes\win-x64\native\assimp.dll
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Release\net8.0-windows\runtimes\win-x86\native\assimp.dll
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Release\net8.0-windows\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss MGS Mod Manager.csproj.AssemblyReference.cache
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ModelViewerControl.g.cs
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss MGS Mod Manager_MarkupCompile.cache
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss MGS Mod Manager_MarkupCompile.lref
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ModelViewerControl.baml
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss MGS Mod Manager.g.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.AudioSwapperForm-OuterHeaven2025.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.AudioSwapperForm.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.DownloadForm.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.MainMenuForm.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.MG1andMG2ModdingForm.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.MGS1ModdingForm.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.MGS2ModdingForm.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.MGS3ModdingForm.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.MGSHDFixSettingsForm.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.ModResourcesForm.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.Properties.Resources.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.TextureModelForm.resources
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss MGS Mod Manager.csproj.GenerateResource.cache
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss MGS Mod Manager.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss MGS Mod Manager.csproj.CoreCompileInputs.cache
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss MGS Mod Manager.sourcelink.json
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigB.BC1BE56B.Up2Date
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss MGS Mod Manager.dll
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\refint\ANTIBigBoss MGS Mod Manager.dll
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss MGS Mod Manager.pdb
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss MGS Mod Manager.genruntimeconfig.cache
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ref\ANTIBigBoss MGS Mod Manager.dll
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss MGS Mod Manager_Content.g.cs

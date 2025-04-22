@@ -7,7 +7,11 @@
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <ApplicationIcon>Otacon Pray.ico</ApplicationIcon>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Otacon Pray.ico" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AssimpNet" Version="4.1.0" />
     <PackageReference Include="HelixToolkit.Wpf" Version="2.26.0" />

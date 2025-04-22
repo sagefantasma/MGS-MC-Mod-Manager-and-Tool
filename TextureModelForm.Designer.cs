@@ -38,6 +38,8 @@
             DdsToCtxr = new System.Windows.Forms.Button();
             ModelSelectionComboBox = new System.Windows.Forms.ComboBox();
             CreateModButton = new System.Windows.Forms.Button();
+            ShowMgs2ModelsCheckBox = new System.Windows.Forms.CheckBox();
+            ShowMgs3ModelsCheckBox = new System.Windows.Forms.CheckBox();
             SuspendLayout();
             // 
             // BackButton
@@ -76,7 +78,7 @@
             LoadGruButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             LoadGruButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
             LoadGruButton.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
-            LoadGruButton.Location = new System.Drawing.Point(14, 268);
+            LoadGruButton.Location = new System.Drawing.Point(12, 352);
             LoadGruButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             LoadGruButton.Name = "LoadGruButton";
             LoadGruButton.Size = new System.Drawing.Size(254, 36);
@@ -151,7 +153,7 @@
             ModelSelectionComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
             ModelSelectionComboBox.ForeColor = System.Drawing.SystemColors.Control;
             ModelSelectionComboBox.FormattingEnabled = true;
-            ModelSelectionComboBox.Location = new System.Drawing.Point(14, 310);
+            ModelSelectionComboBox.Location = new System.Drawing.Point(12, 394);
             ModelSelectionComboBox.Name = "ModelSelectionComboBox";
             ModelSelectionComboBox.Size = new System.Drawing.Size(254, 33);
             ModelSelectionComboBox.TabIndex = 19;
@@ -162,7 +164,7 @@
             CreateModButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             CreateModButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
             CreateModButton.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
-            CreateModButton.Location = new System.Drawing.Point(15, 349);
+            CreateModButton.Location = new System.Drawing.Point(13, 433);
             CreateModButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CreateModButton.Name = "CreateModButton";
             CreateModButton.Size = new System.Drawing.Size(254, 64);
@@ -171,6 +173,38 @@
             CreateModButton.UseVisualStyleBackColor = false;
             CreateModButton.Click += CreateModButton_Click;
             // 
+            // ShowMgs2ModelsCheckBox
+            // 
+            ShowMgs2ModelsCheckBox.AutoSize = true;
+            ShowMgs2ModelsCheckBox.BackColor = System.Drawing.Color.FromArgb(30, 30, 30);
+            ShowMgs2ModelsCheckBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            ShowMgs2ModelsCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            ShowMgs2ModelsCheckBox.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
+            ShowMgs2ModelsCheckBox.Location = new System.Drawing.Point(16, 268);
+            ShowMgs2ModelsCheckBox.MaximumSize = new System.Drawing.Size(254, 36);
+            ShowMgs2ModelsCheckBox.MinimumSize = new System.Drawing.Size(254, 36);
+            ShowMgs2ModelsCheckBox.Name = "ShowMgs2ModelsCheckBox";
+            ShowMgs2ModelsCheckBox.Size = new System.Drawing.Size(254, 36);
+            ShowMgs2ModelsCheckBox.TabIndex = 21;
+            ShowMgs2ModelsCheckBox.Text = "Show MGS2 Models";
+            ShowMgs2ModelsCheckBox.UseVisualStyleBackColor = false;
+            // 
+            // ShowMgs3ModelsCheckBox
+            // 
+            ShowMgs3ModelsCheckBox.AutoSize = true;
+            ShowMgs3ModelsCheckBox.BackColor = System.Drawing.Color.FromArgb(30, 30, 30);
+            ShowMgs3ModelsCheckBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            ShowMgs3ModelsCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            ShowMgs3ModelsCheckBox.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
+            ShowMgs3ModelsCheckBox.Location = new System.Drawing.Point(15, 310);
+            ShowMgs3ModelsCheckBox.MaximumSize = new System.Drawing.Size(254, 36);
+            ShowMgs3ModelsCheckBox.MinimumSize = new System.Drawing.Size(254, 36);
+            ShowMgs3ModelsCheckBox.Name = "ShowMgs3ModelsCheckBox";
+            ShowMgs3ModelsCheckBox.Size = new System.Drawing.Size(254, 36);
+            ShowMgs3ModelsCheckBox.TabIndex = 22;
+            ShowMgs3ModelsCheckBox.Text = "Show MGS3 Models";
+            ShowMgs3ModelsCheckBox.UseVisualStyleBackColor = false;
+            // 
             // TextureModelForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -178,6 +212,8 @@
             BackColor = System.Drawing.Color.FromArgb(30, 30, 30);
             BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             ClientSize = new System.Drawing.Size(1395, 722);
+            Controls.Add(ShowMgs3ModelsCheckBox);
+            Controls.Add(ShowMgs2ModelsCheckBox);
             Controls.Add(CreateModButton);
             Controls.Add(ModelSelectionComboBox);
             Controls.Add(DdsToCtxr);
@@ -193,6 +229,7 @@
             Name = "TextureModelForm";
             Text = "TextureModelForm";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -206,5 +243,7 @@
         private System.Windows.Forms.Button DdsToCtxr;
         private System.Windows.Forms.ComboBox ModelSelectionComboBox;
         private System.Windows.Forms.Button CreateModButton;
+        private System.Windows.Forms.CheckBox ShowMgs2ModelsCheckBox;
+        private System.Windows.Forms.CheckBox ShowMgs3ModelsCheckBox;
     }
 }
