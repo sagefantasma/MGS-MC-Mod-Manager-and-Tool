@@ -20,10 +20,10 @@
 
 ## 🎮 Supported games
 
-* **Metal Gear** & **Metal Gear 2: Solid Snake**  
-* **Metal Gear Solid** (1998 / Master Collection)  
-* **Metal Gear Solid 2: Sons of Liberty** (HD)  
-* **Metal Gear Solid 3: Snake Eater** (HD)
+* **Metal Gear** & **Metal Gear 2: Solid Snake** (Master Collection)  
+* **Metal Gear Solid** (Master Collection)
+* **Metal Gear Solid 2: Sons of Liberty** (Master Collection)  
+* **Metal Gear Solid 3: Snake Eater** (Master Collection)  
 
 (All refer to the **Master Collection Vol. 1** Steam release.)
 
