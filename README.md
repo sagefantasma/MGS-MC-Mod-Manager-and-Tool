@@ -9,12 +9,11 @@
 |           | What it means for you |
 |-----------|-----------------------|
 | **One-click install & uninstall** | Flip a switch to add or remove any mod—the manager copies files, updates logs, and cleans up after itself. |
-| **Automatic safety backups** | Your original game files are duplicated the very first time you run the app, so you can always roll back. |
-| **Built-in mod browser** | Browse curated GitHub and GameBanana mods, then download the newest release without leaving the manager. |
-| **Live texture & 3-D model viewer** | Preview characters, camos, and textures in a Helix-powered 3-D window before installing. |
-| **Camo / face-paint / box swapper** | Change Snake’s camo, face-paint, or cardboard boxes in seconds—no file-packing required. |
-| **Guard-route editors** | Visual editors for MGS 2 *.hzx* and MGS 3 *.geom* guard paths, with next/prev navigation. |
-| **Auto-download of modding tools** | CtxrTool, texconv, and other helpers are fetched automatically the first time you need them. |
+| **Automatic Safety Backups** | Your original game files are duplicated the very first time you run the app, so you can always roll back. Ensure your files are Vanilla when first downloading. |
+| **Live texture & 3-D model viewer** | Preview characters, camos, and textures in a Helix-powered 3-D window before installing. Like how a certain texture looks? Make it into a mod with a few easy clicks. |
+| **Camo / face-paint / box swapper** | Don't like a camo a modder picked as a replacement for their MGS3 Camo/Box mod? Then change Snake’s camo, face-paint, or cardboard boxes in seconds by selecting what should be replaced. |
+| **Guard-route editors** | Want make new scenarios or help out MGS2/3 Randomizer development? A visual editors for MGS2's *.hzx* and MGS3's *.geom* guard paths.|
+| **Auto-download of modding tools** | CtxrTool, texconv, and other helpers are fetched automatically when you need them. |
 
 ---
 
@@ -25,7 +24,7 @@
 * **Metal Gear Solid 2: Sons of Liberty** (Master Collection)  
 * **Metal Gear Solid 3: Snake Eater** (Master Collection)  
 
-(All refer to the **Master Collection Vol. 1** Steam release.)
+(All refer to the **Master Collection Vol. 1** Steam release. I may add Non-Master Collection title in the future.)
 
 ---
 
@@ -43,7 +42,7 @@
 
 | How | Steps |
 |-----|-------|
-| **Drag & drop** | Drop a mod folder into the MGS2 or MGS3 Mods folder |
+| **Drag & drop** | Drop a mod folder into the MGS2 Mods or MGS3 Mods folder |
 | **“Add Mod” button** | Browse to any folder or zip. |
 | **Mod browser** | Click the cloud-arrow icon, pick a mod, and the manager downloads & adds it automatically. |
 
@@ -63,8 +62,8 @@ Enable or disable a mod any time with the **Installed / Not Installed** toggle.
 ## 💡 Tips & troubleshooting
 
 * **Stuck scanning for games?** Open **Settings → Game Paths** and browse manually.  
-* **Undo everything** with **Restore Vanilla Files**—your backup goes back in minutes.  
-* **Logs** are saved to *Logs\\*.txt* next to the EXE; include them when asking for help.
+* **Undo everything** with **Restore Vanilla Files**—your backup goes back in minutes.
+* **3D Model Viewer Not Working?** Ensure that **Gimp** and **Python** are installed on your system. 
 
 ---
 
