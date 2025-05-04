@@ -43,3 +43,4 @@ C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss MGS Mod Manager.genruntimeconfig.cache
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ref\ANTIBigBoss MGS Mod Manager.dll
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss MGS Mod Manager_Content.g.cs
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\ANTIBigBoss_MGS_Mod_Manager.MultiModSelectorForm.resources

@@ -36,7 +36,6 @@
             label1 = new System.Windows.Forms.Label();
             RebuildVanillaFiles = new System.Windows.Forms.Button();
             RefreshMods = new System.Windows.Forms.Button();
-            DownloadModsMGS3 = new System.Windows.Forms.Button();
             BackButton = new System.Windows.Forms.Button();
             AudioSwap = new System.Windows.Forms.Button();
             pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -62,7 +61,7 @@
             AddMods.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             AddMods.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
             AddMods.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            AddMods.Location = new System.Drawing.Point(8, 147);
+            AddMods.Location = new System.Drawing.Point(8, 110);
             AddMods.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             AddMods.Name = "AddMods";
             AddMods.Size = new System.Drawing.Size(364, 35);
@@ -119,7 +118,7 @@
             RebuildVanillaFiles.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             RebuildVanillaFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
             RebuildVanillaFiles.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            RebuildVanillaFiles.Location = new System.Drawing.Point(8, 111);
+            RebuildVanillaFiles.Location = new System.Drawing.Point(8, 74);
             RebuildVanillaFiles.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             RebuildVanillaFiles.Name = "RebuildVanillaFiles";
             RebuildVanillaFiles.Size = new System.Drawing.Size(364, 35);
@@ -134,7 +133,7 @@
             RefreshMods.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             RefreshMods.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
             RefreshMods.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            RefreshMods.Location = new System.Drawing.Point(8, 75);
+            RefreshMods.Location = new System.Drawing.Point(8, 38);
             RefreshMods.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             RefreshMods.Name = "RefreshMods";
             RefreshMods.Size = new System.Drawing.Size(364, 35);
@@ -142,21 +141,6 @@
             RefreshMods.Text = "Refresh Mods";
             RefreshMods.UseVisualStyleBackColor = false;
             RefreshMods.Click += RefreshMods_Click;
-            // 
-            // DownloadModsMGS3
-            // 
-            DownloadModsMGS3.BackColor = System.Drawing.Color.FromArgb(149, 149, 125);
-            DownloadModsMGS3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            DownloadModsMGS3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            DownloadModsMGS3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            DownloadModsMGS3.Location = new System.Drawing.Point(8, 39);
-            DownloadModsMGS3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            DownloadModsMGS3.Name = "DownloadModsMGS3";
-            DownloadModsMGS3.Size = new System.Drawing.Size(364, 35);
-            DownloadModsMGS3.TabIndex = 16;
-            DownloadModsMGS3.Text = "Download Mods";
-            DownloadModsMGS3.UseVisualStyleBackColor = false;
-            DownloadModsMGS3.Click += DownloadModsMGS3_Click;
             // 
             // BackButton
             // 
@@ -179,7 +163,7 @@
             AudioSwap.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             AudioSwap.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
             AudioSwap.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            AudioSwap.Location = new System.Drawing.Point(8, 182);
+            AudioSwap.Location = new System.Drawing.Point(8, 145);
             AudioSwap.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             AudioSwap.Name = "AudioSwap";
             AudioSwap.Size = new System.Drawing.Size(364, 35);
@@ -217,7 +201,6 @@
             Controls.Add(label1);
             Controls.Add(RebuildVanillaFiles);
             Controls.Add(RefreshMods);
-            Controls.Add(DownloadModsMGS3);
             Controls.Add(BackButton);
             DoubleBuffered = true;
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
@@ -240,7 +223,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button RebuildVanillaFiles;
         private System.Windows.Forms.Button RefreshMods;
-        private System.Windows.Forms.Button DownloadModsMGS3;
         private System.Windows.Forms.Button BackButton;
         private System.Windows.Forms.Button AudioSwap;
         private System.Windows.Forms.PictureBox pictureBox1;

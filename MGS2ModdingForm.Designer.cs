@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MGS2ModdingForm));
             BackButton = new System.Windows.Forms.Button();
-            DownloadModsMGS2 = new System.Windows.Forms.Button();
             RefreshMods = new System.Windows.Forms.Button();
             RebuildVanillaFiles = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
@@ -57,20 +56,6 @@
             BackButton.Text = "Back";
             BackButton.UseVisualStyleBackColor = false;
             BackButton.Click += BackButton_Click;
-            // 
-            // DownloadModsMGS2
-            // 
-            DownloadModsMGS2.BackColor = System.Drawing.Color.FromArgb(15, 57, 48);
-            DownloadModsMGS2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            DownloadModsMGS2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            DownloadModsMGS2.ForeColor = System.Drawing.SystemColors.Control;
-            DownloadModsMGS2.Location = new System.Drawing.Point(14, 52);
-            DownloadModsMGS2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            DownloadModsMGS2.Name = "DownloadModsMGS2";
-            DownloadModsMGS2.Size = new System.Drawing.Size(364, 36);
-            DownloadModsMGS2.TabIndex = 7;
-            DownloadModsMGS2.Text = "Download Mods";
-            DownloadModsMGS2.UseVisualStyleBackColor = false;
             // 
             // RefreshMods
             // 
@@ -201,7 +186,6 @@
             Controls.Add(label1);
             Controls.Add(RebuildVanillaFiles);
             Controls.Add(RefreshMods);
-            Controls.Add(DownloadModsMGS2);
             Controls.Add(BackButton);
             DoubleBuffered = true;
             ForeColor = System.Drawing.SystemColors.Control;
@@ -219,7 +203,6 @@
 
         #endregion
         private System.Windows.Forms.Button BackButton;
-        private System.Windows.Forms.Button DownloadModsMGS2;
         private System.Windows.Forms.Button RefreshMods;
         private System.Windows.Forms.Button RebuildVanillaFiles;
         private System.Windows.Forms.Label label1;

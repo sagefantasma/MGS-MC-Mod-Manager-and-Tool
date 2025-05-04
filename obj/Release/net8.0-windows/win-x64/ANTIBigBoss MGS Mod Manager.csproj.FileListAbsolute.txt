@@ -44,3 +44,4 @@ C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\win-x64\ANTIBigBoss MGS Mod Manager.pdb
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\win-x64\ref\ANTIBigBoss MGS Mod Manager.dll
 C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\win-x64\ANTIBigBoss MGS Mod Manager_Content.g.cs
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\obj\Release\net8.0-windows\win-x64\ANTIBigBoss_MGS_Mod_Manager.MultiModSelectorForm.resources

@@ -293,7 +293,9 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
             modListPanel.Controls.Clear();
 
-            string[] modDirectories = Directory.GetDirectories(fileExplorerManager.ModFolder);
+            string[] modDirectories = Directory.GetDirectories(fileExplorerManager.ModFolder)
+                .Where(d => !Path.GetFileName(d).Equals("Mod Details", StringComparison.OrdinalIgnoreCase))
+                .ToArray();
 
             int entryWidth = modListPanel.Width - 20;
             int buttonSpacing = 10;
@@ -326,7 +328,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     FlatStyle = FlatStyle.Flat
                 };
                 toggleButton.FlatAppearance.BorderSize = 0;
-                toggleButton.Click += fileExplorerManager.ToggleModState;
+                toggleButton.Click += async (s, e) =>
+                {
+                    await fileExplorerManager.ToggleModStateByNameAsync(modName, config.GamePaths["MGS3"]);
+                    LoadModsIntoUI();
+                };
 
                 Label modLabel = new Label
                 {
@@ -337,19 +343,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     TextAlign = ContentAlignment.MiddleLeft,
                     Padding = new Padding(5, 0, 0, 0)
                 };
-
-                Button renameButton = new Button
-                {
-                    Text = "Edit",
-                    Size = new Size(100, 40),
-                    Tag = modName,
-                    Font = new Font(Font.FontFamily, Font.Size + 4, FontStyle.Bold),
-                    BackColor = Color.LightBlue,
-                    ForeColor = Color.Black,
-                    FlatStyle = FlatStyle.Flat
-                };
-                renameButton.FlatAppearance.BorderSize = 0;
-                renameButton.Click += RenameMod;
 
                 Button deleteButton = new Button
                 {
@@ -364,22 +357,73 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 deleteButton.FlatAppearance.BorderSize = 0;
                 deleteButton.Click += fileExplorerManager.DeleteMod;
 
-                Button settingsButton = null;
+                Button renameButton = new Button
+                {
+                    Text = "Edit",
+                    Size = new Size(80, 40),
+                    Tag = modName,
+                    Font = new Font(Font.FontFamily, Font.Size + 4, FontStyle.Bold),
+                    BackColor = Color.LightBlue,
+                    ForeColor = Color.Black,
+                    FlatStyle = FlatStyle.Flat
+                };
+                renameButton.FlatAppearance.BorderSize = 0;
+                renameButton.Click += RenameMod;
 
+                Button variantButton = null;
+                var variants = fileExplorerManager.FindVariantFolders(modPath);
+
+                if (variants.Count > 1)
+                {
+                    variantButton = new Button
+                    {
+                        Text = "Select Mod",
+                        Size = new Size(120, 40),
+                        Tag = modName,
+                        Font = new Font(Font.FontFamily, Font.Size + 3, FontStyle.Bold),
+                        BackColor = Color.Orange,
+                        ForeColor = Color.Black,
+                        FlatStyle = FlatStyle.Flat
+                    };
+
+                    variantButton.Click += async (s, e) =>
+                    {
+                        using var dlg = new MultiModSelectorForm(variants)
+                        {
+                            StartPosition = FormStartPosition.CenterParent
+                        };
+
+                        if (dlg.ShowDialog(this) == DialogResult.OK && dlg.SelectedMod != null)
+                        {
+                            config.Mods.ActiveVariants[modName] = dlg.SelectedMod;
+                            ConfigManager.SaveSettings(config);
+
+                            if (config.Mods.ActiveMods.TryGetValue(modName, out bool isEnabled) && isEnabled)
+                            {
+                                await fileExplorerManager.ToggleModStateByNameAsync(modName, config.GamePaths["MGS3"]);
+                                await fileExplorerManager.ToggleModStateByNameAsync(modName, config.GamePaths["MGS3"]);
+                                LoadModsIntoUI();
+                            }
+                        }
+                        this.ActiveControl = modListPanel;
+                    };
+                }
+
+                Button settingsButton = null;
                 if (fileExplorerManager.IsMGSHDFixMod(modPath))
                 {
-                    Button btnSettings = new Button
+                    settingsButton = new Button
                     {
                         Text = "HDFix Settings",
-                        Size = new Size(160, 40),
+                        Size = new Size(120, 40),
                         Tag = modName,
                         Font = new Font(Font.FontFamily, Font.Size + 4, FontStyle.Bold),
                         BackColor = Color.LightBlue,
                         ForeColor = Color.Black,
                         FlatStyle = FlatStyle.Flat
                     };
-                    btnSettings.FlatAppearance.BorderSize = 0;
-                    btnSettings.Click += (s, e) =>
+                    settingsButton.FlatAppearance.BorderSize = 0;
+                    settingsButton.Click += (s, e) =>
                     {
                         string iniPath = Path.Combine(modPath, "MGSHDFix.ini");
                         if (!File.Exists(iniPath))
@@ -387,15 +431,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                             MessageBox.Show("MGSHDFix.ini not found in mod folder.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
-                        MGSHDFixSettingsForm settingsForm = new MGSHDFixSettingsForm("MGS3", this);
-                        settingsForm.ShowDialog();
+                        new MGSHDFixSettingsForm("MGS3", this).ShowDialog();
                         this.ActiveControl = modListPanel;
                     };
-                    // Add btnSettings to your container (e.g., modListPanel or another control)
-                    settingsButton = btnSettings;
                 }
-
-
                 else
                 {
                     var (foundCamos, foundBoxes, foundFaces) = fileExplorerManager.GetRecognizedTextures(modPath);
@@ -408,119 +447,111 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     {
                         if (foundCamos.Count > 0)
                         {
-                            if (foundCamos.Count == 1)
-                            {
-                                settingsButton = MGS3TextureRenamer.CreateChangeButton("Change Camo", modName, (s, e) =>
-                                {
-                                    MGS3TextureRenamer.ShowSingleCamoSwapDialog(
-                                        config,
-                                        modName,
-                                        modPath,
-                                        foundCamos[0],
-                                        config.GamePaths["MGS3"],
-                                        fileExplorerManager.RestoreVanillaFiles,
-                                        fileExplorerManager.ApplyModFiles,
-                                        fileExplorerManager.ReplaceOrAppendModInfoLine
-                                    );
-                                    this.ActiveControl = modListPanel;
-                                });
-                            }
-                            else
-                            {
-                                settingsButton = MGS3TextureRenamer.CreateChangeButton("Change Camos", modName, (s, e) =>
-                                {
-                                    MGS3TextureRenamer.ShowMultiCamoSwapDialog(
-                                        config,
-                                        modName,
-                                        modPath,
-                                        foundCamos,
-                                        config.GamePaths["MGS3"],
-                                        fileExplorerManager.RestoreVanillaFiles,
-                                        fileExplorerManager.ApplyModFiles,
-                                        fileExplorerManager.ReplaceOrAppendModInfoLine
-                                    );
-                                    this.ActiveControl = modListPanel;
-                                });
-                            }
+                            settingsButton = MGS3TextureRenamer.CreateChangeButton(
+                                foundCamos.Count == 1 ? "Change Camo" : "Change Camos",
+                                modName,
+                                (s, e) => HandleTextureChange()
+                            );
                         }
                         else if (foundBoxes.Count > 0)
                         {
-                            if (foundBoxes.Count == 1)
-                            {
-                                settingsButton = MGS3TextureRenamer.CreateChangeButton("Change Box", modName, (s, e) =>
-                                {
-                                    MGS3TextureRenamer.ShowSingleBoxSwapDialog(
-                                        config,
-                                        modName,
-                                        modPath,
-                                        foundBoxes[0],
-                                        config.GamePaths["MGS3"],
-                                        fileExplorerManager.RestoreVanillaFiles,
-                                        fileExplorerManager.ApplyModFiles,
-                                        fileExplorerManager.ReplaceOrAppendModInfoLine
-                                    );
-                                    this.ActiveControl = modListPanel;
-                                });
-                            }
-                            else
-                            {
-                                settingsButton = MGS3TextureRenamer.CreateChangeButton("Change Boxes", modName, (s, e) =>
-                                {
-                                    MGS3TextureRenamer.ShowMultiBoxSwapDialog(
-                                        config,
-                                        modName,
-                                        modPath,
-                                        foundBoxes,
-                                        config.GamePaths["MGS3"],
-                                        fileExplorerManager.RestoreVanillaFiles,
-                                        fileExplorerManager.ApplyModFiles,
-                                        fileExplorerManager.ReplaceOrAppendModInfoLine
-                                    );
-                                    this.ActiveControl = modListPanel;
-                                });
-                            }
+                            settingsButton = MGS3TextureRenamer.CreateChangeButton(
+                                foundBoxes.Count == 1 ? "Change Box" : "Change Boxes",
+                                modName,
+                                (s, e) => HandleTextureChange()
+                            );
                         }
                         else
                         {
-                            settingsButton = MGS3TextureRenamer.CreateChangeButton("Change Face(s)", modName, (s, e) =>
+                            settingsButton = MGS3TextureRenamer.CreateChangeButton(
+                                "Change Face(s)",
+                                modName,
+                                (s, e) => HandleTextureChange()
+                            );
+                        }
+                    }
+                    else if (categoryCount > 1)
+                    {
+                        settingsButton = MGS3TextureRenamer.CreateChangeButton(
+                            "Change Textures",
+                            modName,
+                            (s, e) => HandleTextureChange()
+                        );
+                    }
+
+                    void HandleTextureChange()
+                    {
+                        if (foundCamos.Count > 0 && foundBoxes.Count == 0 && foundFaces.Count == 0)
+                        {
+                            if (foundCamos.Count == 1)
                             {
-                                var faceList = (foundFaces.Count == 1) ? new List<string> { foundFaces[0] } : foundFaces;
-                                MGS3TextureRenamer.ShowUnifiedFaceSwapDialog(
-                                    config,
-                                    modName,
-                                    modPath,
-                                    faceList,
+                                MGS3TextureRenamer.ShowSingleCamoSwapDialog(
+                                    config, modName, modPath, foundCamos[0],
                                     config.GamePaths["MGS3"],
                                     fileExplorerManager.RestoreVanillaFiles,
                                     fileExplorerManager.ApplyModFiles,
                                     fileExplorerManager.ReplaceOrAppendModInfoLine
                                 );
-                                this.ActiveControl = modListPanel;
-                            });                          
+                            }
+                            else
+                            {
+                                MGS3TextureRenamer.ShowMultiCamoSwapDialog(
+                                    config, modName, modPath, foundCamos,
+                                    config.GamePaths["MGS3"],
+                                    fileExplorerManager.RestoreVanillaFiles,
+                                    fileExplorerManager.ApplyModFiles,
+                                    fileExplorerManager.ReplaceOrAppendModInfoLine
+                                );
+                            }
                         }
-                    }
-                    else if (categoryCount > 1)
-                    {
-                        settingsButton = MGS3TextureRenamer.CreateChangeButton("Change Textures", modName, (s, e) =>
+                        else if (foundBoxes.Count > 0 && foundCamos.Count == 0 && foundFaces.Count == 0)
                         {
-                            MGS3TextureRenamer.ShowMultiTextureSwapDialog(
-                                config,
-                                modName,
-                                modPath,
-                                foundCamos,
-                                foundBoxes,
-                                foundFaces,
+                            if (foundBoxes.Count == 1)
+                            {
+                                MGS3TextureRenamer.ShowSingleBoxSwapDialog(
+                                    config, modName, modPath, foundBoxes[0],
+                                    config.GamePaths["MGS3"],
+                                    fileExplorerManager.RestoreVanillaFiles,
+                                    fileExplorerManager.ApplyModFiles,
+                                    fileExplorerManager.ReplaceOrAppendModInfoLine
+                                );
+                            }
+                            else
+                            {
+                                MGS3TextureRenamer.ShowMultiBoxSwapDialog(
+                                    config, modName, modPath, foundBoxes,
+                                    config.GamePaths["MGS3"],
+                                    fileExplorerManager.RestoreVanillaFiles,
+                                    fileExplorerManager.ApplyModFiles,
+                                    fileExplorerManager.ReplaceOrAppendModInfoLine
+                                );
+                            }
+                        }
+                        else if (foundFaces.Count > 0 && foundCamos.Count == 0 && foundBoxes.Count == 0)
+                        {
+                            var faceList = foundFaces.Count == 1 ? new List<string> { foundFaces[0] } : foundFaces;
+                            MGS3TextureRenamer.ShowUnifiedFaceSwapDialog(
+                                config, modName, modPath, faceList,
                                 config.GamePaths["MGS3"],
                                 fileExplorerManager.RestoreVanillaFiles,
                                 fileExplorerManager.ApplyModFiles,
                                 fileExplorerManager.ReplaceOrAppendModInfoLine
                             );
-                            this.ActiveControl = modListPanel;
-                        });
+                        }
+                        else
+                        {
+                            MGS3TextureRenamer.ShowMultiTextureSwapDialog(
+                                config, modName, modPath,
+                                foundCamos, foundBoxes, foundFaces,
+                                config.GamePaths["MGS3"],
+                                fileExplorerManager.RestoreVanillaFiles,
+                                fileExplorerManager.ApplyModFiles,
+                                fileExplorerManager.ReplaceOrAppendModInfoLine
+                            );
+                        }
+                        this.ActiveControl = modListPanel;
                     }
                 }
-
-                toggleButton.Location = new Point(leftMargin, (modPanel.Height - toggleButton.Height) / 2);
 
                 int currentRightX = modPanel.Width - rightMargin;
 
@@ -532,6 +563,13 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 renameButton.Location = new Point(currentRightX, (modPanel.Height - renameButton.Height) / 2);
                 currentRightX -= buttonSpacing;
 
+                if (variantButton != null)
+                {
+                    currentRightX -= variantButton.Width;
+                    variantButton.Location = new Point(currentRightX, (modPanel.Height - variantButton.Height) / 2);
+                    currentRightX -= buttonSpacing;
+                }
+
                 if (settingsButton != null)
                 {
                     currentRightX -= settingsButton.Width;
@@ -539,17 +577,19 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     currentRightX -= buttonSpacing;
                 }
 
+                toggleButton.Location = new Point(leftMargin, (modPanel.Height - toggleButton.Height) / 2);
+
                 int labelX = toggleButton.Right + buttonSpacing;
-                int labelWidth = currentRightX - labelX - buttonSpacing;
+                int labelWidth = currentRightX - labelX;
                 modLabel.Location = new Point(labelX, 0);
                 modLabel.Size = new Size(labelWidth, modPanel.Height);
 
                 modPanel.Controls.Add(toggleButton);
                 modPanel.Controls.Add(modLabel);
-                modPanel.Controls.Add(renameButton);
                 modPanel.Controls.Add(deleteButton);
-                if (settingsButton != null)
-                    modPanel.Controls.Add(settingsButton);
+                modPanel.Controls.Add(renameButton);
+                if (variantButton != null) modPanel.Controls.Add(variantButton);
+                if (settingsButton != null) modPanel.Controls.Add(settingsButton);
 
                 void AttachHoverEvents(Control c)
                 {
@@ -559,17 +599,18 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 AttachHoverEvents(modPanel);
                 AttachHoverEvents(toggleButton);
                 AttachHoverEvents(modLabel);
-                AttachHoverEvents(renameButton);
                 AttachHoverEvents(deleteButton);
+                AttachHoverEvents(renameButton);
+                if (variantButton != null) AttachHoverEvents(variantButton);
                 if (settingsButton != null) AttachHoverEvents(settingsButton);
 
                 modListPanel.Controls.Add(modPanel);
             }
-        }      
+        }
 
         #endregion
 
-        
+
         #region Hover Methods
         private void ShowModImage(string modName, Control modControl)
         {

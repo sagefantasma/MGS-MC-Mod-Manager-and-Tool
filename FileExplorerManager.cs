@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using IOSearchOption = System.IO.SearchOption;
+using System.Threading.Tasks;
 
 namespace ANTIBigBoss_MGS_Mod_Manager
 {
@@ -21,7 +22,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         private string backupRoot;
         private string modFolder;
 
-        // Expose the internal mod folder and backup root as read-only properties.
         public string BackupRoot
         {
             get { return backupRoot; }
@@ -32,10 +32,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             get { return modFolder; }
         }
 
-        /// <summary>
-        /// Constructs a FileExplorerManager for the specified game.
-        /// expectedPaths should be provided as appropriate for the game.
-        /// </summary>
         public FileExplorerManager(ConfigSettings config, Form parentForm, FlowLayoutPanel modListPanel, string gameKey, string[] expectedPaths)
         {
             this.config = config;
@@ -88,25 +84,21 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         public async Task ToggleModStateByNameAsync(string modName, string gameInstallPath)
         {
-            // Determine the current state.
-            bool isEnabled = config.Mods.ActiveMods.ContainsKey(modName) && config.Mods.ActiveMods[modName];
+            bool isEnabled = config.Mods.ActiveMods.TryGetValue(modName, out var enabled) && enabled;
             string modPath = Path.Combine(modFolder, modName);
-            if (!Directory.Exists(gameInstallPath))
-            {
-                throw new Exception("Game installation not found, cannot apply mods.");
-            }
 
-            // Perform the file operations asynchronously.
             await Task.Run(() =>
             {
                 if (isEnabled)
                 {
                     RestoreVanillaFiles(modPath, gameInstallPath);
                     config.Mods.ActiveMods[modName] = false;
+                    config.Mods.ActiveVariants.Remove(modName);
                 }
                 else
                 {
-                    ApplyModFiles(modPath, gameInstallPath);
+                    string selectedVariant = config.Mods.ActiveVariants.TryGetValue(modName, out var variant) ? variant : null;
+                    ApplyModFiles(modPath, gameInstallPath, selectedVariant);
                     config.Mods.ActiveMods[modName] = true;
                 }
             });
@@ -114,8 +106,72 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             ConfigManager.SaveSettings(config);
         }
 
+        private async Task<string> ShowVariantSelectionDialog(List<string> variants)
+        {
+            string selectedVariant = null;
+            await Task.Run(() =>
+            {
+                parentForm.Invoke((MethodInvoker)delegate
+                {
+                    using var selector = new MultiModSelectorForm(variants)
+                    {
+                        StartPosition = FormStartPosition.CenterParent
+                    };
+                    if (selector.ShowDialog(parentForm) == DialogResult.OK)
+                    {
+                        selectedVariant = selector.SelectedMod;
+                    }
+                });
+            });
+            return selectedVariant;
+        }
+
+        public List<string> FindVariantFolders(string modRoot)
+        {
+            var variants = new List<string>();
+
+            foreach (var dir in Directory.GetDirectories(modRoot))
+            {
+                string dirName = Path.GetFileName(dir);
+
+                if (dirName.Equals("Mod Details", StringComparison.OrdinalIgnoreCase) ||
+                    dirName.Equals("assets", StringComparison.OrdinalIgnoreCase) ||
+                    dirName.Equals("EngineSupport", StringComparison.OrdinalIgnoreCase) ||
+                    dirName.Equals("fr", StringComparison.OrdinalIgnoreCase) ||
+                    dirName.Equals("gr", StringComparison.OrdinalIgnoreCase) ||
+                    dirName.Equals("hqmovie", StringComparison.OrdinalIgnoreCase) ||
+                    dirName.Equals("mgs3_savedata_win", StringComparison.OrdinalIgnoreCase) ||
+                    dirName.Equals("Misc", StringComparison.OrdinalIgnoreCase) ||
+                    dirName.Equals("MonoBleedingEdge", StringComparison.OrdinalIgnoreCase) ||
+                    dirName.Equals("sp", StringComparison.OrdinalIgnoreCase) ||
+                    dirName.Equals("us", StringComparison.OrdinalIgnoreCase) ||
+                    dirName.Equals("End", StringComparison.OrdinalIgnoreCase) ||
+                    dirName.Equals("Fear", StringComparison.OrdinalIgnoreCase) ||
+                    dirName.Equals("Pain", StringComparison.OrdinalIgnoreCase) ||
+                    dirName.Equals("Save Menus (MSX + MGS3)", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                variants.Add(dirName);
+            }
+
+            return variants.Count > 1 ? variants : new List<string>();
+        }
+
         public void ReplaceOrAppendModInfoLine(string modInfoPath, string newLine)
         {
+            string directory = Path.GetDirectoryName(modInfoPath);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            if (!File.Exists(modInfoPath))
+            {
+                File.WriteAllText(modInfoPath, string.Empty);
+            }
+
             var lines = File.ReadAllLines(modInfoPath).ToList();
             bool replaced = false;
             string prefix = "This mod is currently replacing the ";
@@ -135,65 +191,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 lines.Add(newLine);
             }
             File.WriteAllLines(modInfoPath, lines);
-        }
-
-        public async void ToggleModState(object sender, EventArgs e)
-        {
-            Button button = sender as Button;
-            if (button == null)
-                return;
-
-            string modName = button.Tag.ToString();
-            bool isEnabled = config.Mods.ActiveMods.ContainsKey(modName) && config.Mods.ActiveMods[modName];
-            string modPath = Path.Combine(modFolder, modName);
-            string gameInstallPath = config.GamePaths[gameKey];
-
-            if (!Directory.Exists(gameInstallPath))
-            {
-                MessageBox.Show("Game installation not found, cannot apply mods.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            button.Enabled = false;
-
-            try
-            {
-                await Task.Run(() =>
-                {
-                    if (isEnabled)
-                    {
-                        RestoreVanillaFiles(modPath, gameInstallPath);
-                        config.Mods.ActiveMods[modName] = false;
-                    }
-                    else
-                    {
-                        ApplyModFiles(modPath, gameInstallPath);
-                        config.Mods.ActiveMods[modName] = true;
-                    }
-                });
-
-                if (isEnabled)
-                {
-                    button.Text = "Not Installed";
-                    button.BackColor = Color.Red;
-                }
-                else
-                {
-                    button.Text = "Installed";
-                    button.BackColor = Color.Green;
-                }
-                ConfigManager.SaveSettings(config);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                button.Enabled = true;
-                parentForm.ActiveControl = modListPanel;
-            }
-        }
+        }      
 
         public void DeleteMod(object sender, EventArgs e)
         {
@@ -234,8 +232,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 }
             }
         }
-
-
 
         public void ProcessModFolder(string modPath)
         {
@@ -298,7 +294,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 filesInRoot.Any(f => string.Equals(f, reqFile, StringComparison.OrdinalIgnoreCase)));
         }
 
-        public void ApplyModFiles(string modPath, string gameInstallPath)
+        public void ApplyModFiles(string modPath, string gameInstallPath, string selectedVariant = null)
         {
             string modInfoPath = Path.Combine(modPath, "modinfo.json");
             string modName = new DirectoryInfo(modPath).Name;
@@ -378,47 +374,81 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             {
                 List<ModMapping> fallbackMappings = new List<ModMapping>();
                 List<string> replacedFiles = new List<string>();
-                foreach (string expected in expectedPaths)
+
+                if (!string.IsNullOrEmpty(selectedVariant))
                 {
-                    var matchingDirs = FindDirectoriesEndingWith(modPath, expected);
-                    foreach (var dir in matchingDirs)
+                    string variantFolderPath = Path.Combine(modPath, selectedVariant);
+                    if (Directory.Exists(variantFolderPath))
                     {
-                        foreach (var file in Directory.GetFiles(dir, "*", IOSearchOption.AllDirectories))
+                        string targetDirectory = Path.Combine(gameInstallPath, @"textures\flatlist\ovr_stm\_win");
+
+                        Directory.CreateDirectory(targetDirectory);
+
+                        LoggingManager.Instance.Log($"Applying variant '{selectedVariant}' to: {targetDirectory}");
+
+                        foreach (var file in Directory.GetFiles(variantFolderPath, "*.ctxr", IOSearchOption.AllDirectories))
                         {
-                            string localRelPath = file.Substring(dir.Length).TrimStart(Path.DirectorySeparatorChar);
-                            string effectiveRelPath = Path.Combine(expected.Replace('/', Path.DirectorySeparatorChar), localRelPath);
-                            string destinationPath = Path.Combine(gameInstallPath, effectiveRelPath);
-                            Directory.CreateDirectory(Path.GetDirectoryName(destinationPath));
-                            CopyFileWithLogging(file, destinationPath);
-                            fallbackMappings.Add(new ModMapping { ModFile = effectiveRelPath, TargetPath = effectiveRelPath });
-                            replacedFiles.Add(effectiveRelPath);
+                            string fileName = Path.GetFileName(file);
+                            string destinationPath = Path.Combine(targetDirectory, fileName);
+
+                            LoggingManager.Instance.Log($"Copying CTXR file:\nSource: {file}\nDestination: {destinationPath}");
+
+                            File.Copy(file, destinationPath, true);
+
+                            string gameRelativePath = Path.Combine(@"textures\flatlist\ovr_stm\_win", fileName);
+                            replacedFiles.Add(gameRelativePath);
+                            fallbackMappings.Add(new ModMapping
+                            {
+                                ModFile = Path.Combine(selectedVariant, fileName),
+                                TargetPath = gameRelativePath
+                            });
+                        }
+
+                        config.Mods.ModMappings[modName] = fallbackMappings;
+                        config.Mods.ReplacedFiles[modName] = replacedFiles;
+                        ConfigManager.SaveSettings(config);
+                    }
+                    else
+                    {
+                        LoggingManager.Instance.Log($"Variant folder not found: {variantFolderPath}");
+                        MessageBox.Show($"Variant folder '{selectedVariant}' not found in mod directory!",
+                                       "Missing Variant", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+
+                else
+                {
+                    foreach (string expected in expectedPaths)
+                    {
+                        var matchingDirs = FindDirectoriesEndingWith(modPath, expected);
+                        foreach (var dir in matchingDirs)
+                        {
+                            foreach (var file in Directory.GetFiles(dir, "*", IOSearchOption.AllDirectories))
+                            {
+                                string localRelPath = file.Substring(dir.Length).TrimStart(Path.DirectorySeparatorChar);
+                                string effectiveRelPath = Path.Combine(expected.Replace('/', Path.DirectorySeparatorChar), localRelPath);
+                                string destinationPath = Path.Combine(gameInstallPath, effectiveRelPath);
+                                Directory.CreateDirectory(Path.GetDirectoryName(destinationPath));
+                                CopyFileWithLogging(file, destinationPath);
+                                fallbackMappings.Add(new ModMapping { ModFile = effectiveRelPath, TargetPath = effectiveRelPath });
+                                replacedFiles.Add(effectiveRelPath);
+                            }
                         }
                     }
                 }
-                if (fallbackMappings.Count == 0)
-                {
-                    foreach (var file in Directory.GetFiles(modPath, "*", IOSearchOption.AllDirectories))
-                    {
-                        string targetRelativePath = GetTargetRelativePath(file, modPath);
-                        if (!string.IsNullOrEmpty(targetRelativePath))
-                        {
-                            string destinationPath = Path.Combine(gameInstallPath, targetRelativePath);
-                            Directory.CreateDirectory(Path.GetDirectoryName(destinationPath));
-                            CopyFileWithLogging(file, destinationPath);
-                            fallbackMappings.Add(new ModMapping { ModFile = targetRelativePath, TargetPath = targetRelativePath });
-                            replacedFiles.Add(targetRelativePath);
-                        }
-                    }
-                }
+
                 if (fallbackMappings.Count > 0)
                 {
                     config.Mods.ModMappings[modName] = fallbackMappings;
                     config.Mods.ReplacedFiles[modName] = replacedFiles;
-                    newModReplacedFiles = replacedFiles;
                     ConfigManager.SaveSettings(config);
                 }
             }
-            ResolveModConflicts(modName, newModReplacedFiles);
+        }
+
+        public void ApplyModFiles(string modPath, string gameInstallPath)
+        {
+            ApplyModFiles(modPath, gameInstallPath, null);
         }
 
         public List<string> FindDirectoriesEndingWith(string root, string expected)
@@ -481,6 +511,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     RemoveEmptyDirectories(Path.GetDirectoryName(destinationPath));
                 }
             }
+            if (config.Mods.ActiveVariants.ContainsKey(modName))
+            {
+                config.Mods.ActiveVariants.Remove(modName);
+            }
         }
 
         public void RemoveEmptyDirectories(string directory)
@@ -494,12 +528,13 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         public static string GetRelativePath(string relativeTo, string path)
         {
-            if (!relativeTo.EndsWith(Path.DirectorySeparatorChar.ToString()))
-                relativeTo += Path.DirectorySeparatorChar;
-            Uri baseUri = new Uri(relativeTo);
-            Uri fullUri = new Uri(path);
-            Uri relativeUri = baseUri.MakeRelativeUri(fullUri);
-            return Uri.UnescapeDataString(relativeUri.ToString()).Replace('/', Path.DirectorySeparatorChar);
+            var relativeToUri = new Uri(relativeTo.EndsWith(Path.DirectorySeparatorChar.ToString())
+                                        ? relativeTo
+                                        : relativeTo + Path.DirectorySeparatorChar);
+            var pathUri = new Uri(path);
+            var relativeUri = relativeToUri.MakeRelativeUri(pathUri);
+            return Uri.UnescapeDataString(relativeUri.ToString())
+                     .Replace('/', Path.DirectorySeparatorChar);
         }
 
         public string GetTargetRelativePath(string file, string modPath)
@@ -571,7 +606,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             foreach (string file in ctxrFiles)
             {
                 string fileNameNoExt = Path.GetFileNameWithoutExtension(file);
-                // Use the dictionaries from MGS3TextureRenamer (or adjust if you use another source)
                 if (MGS3TextureRenamer.CamoMappings.ContainsKey(fileNameNoExt))
                 {
                     foundCamos.Add(file);

@@ -63,17 +63,6 @@ public static class CtxrConverter
         DdsToCtxr(ddsPath, ctxrToolExe);
     }
 
-    /// <summary>
-    /// This seems to only work with Snake's BDUs in MGS3. It causes non-stop issues 
-    /// with literally every other type of PNG file. Going to keep it here in case I 
-    /// can make it work later, for now we'll default to the GIMP/Python-FU logic 
-    /// I got in TextureModelForm.cs.
-    /// </summary>
-    /// <param name="texconvExePath"></param>
-    /// <param name="inputPng"></param>
-    /// <param name="outputDds"></param>
-    /// <exception cref="FileNotFoundException"></exception>
-    /// <exception cref="Exception"></exception>
     public static void PngToDdsWithTexconv(string texconvExePath, string inputPng, string outputDds)
     {
         if (!File.Exists(texconvExePath))

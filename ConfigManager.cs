@@ -28,14 +28,12 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                            ?? new ConfigSettings();
             }
 
-            // Always ensure AssetsConfig paths are up to date
             settings.Assets.ModelsAndTexturesFolder = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                 "MGS Mod Manager and Trainer",
                 "MGS Modding Tools",
                 "3D Models and Textures"
             );
-            // PythonScriptsFolderPath and PythonScriptPath are computed properties
 
             return settings;
         }
@@ -49,6 +47,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
     public class ConfigSettings
     {
+        
+
         public Dictionary<string, string> GamePaths { get; set; } = new Dictionary<string, string>
         {
             { "MG1andMG2", "" },
@@ -166,6 +166,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
     public class ModTracking
     {
+        public Dictionary<string, string> ActiveVariants { get; set; } = new Dictionary<string, string>();
         public bool ModFolderCreated { get; set; } = false;
         public Dictionary<string, bool> ActiveMods { get; set; } = new Dictionary<string, bool>();
         public Dictionary<string, List<ModMapping>> ModMappings { get; set; } = new Dictionary<string, List<ModMapping>>();
