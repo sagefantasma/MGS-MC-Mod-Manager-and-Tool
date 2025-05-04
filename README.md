@@ -79,7 +79,7 @@ Enable or disable a mod any time with the **Installed / Not Installed** toggle.
   A lot of his work helped me in understanding how to get the C# code to convert the CTXR Files into PNG Files.
 
 - **[GIMP Developers](https://www.gimp.org/):**  
-  Helped me enable conversion of PNGs into DDS
+  Helped me enable conversion of PNGs into DDS with mip map support.
 
 - **[Python Developers](https://www.python.org/):**  
   Allowed me to set up a script that enabled me to make GIMP work headlessly with GIMP's built in Python-Fu.
