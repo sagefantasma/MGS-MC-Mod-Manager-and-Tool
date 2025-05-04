@@ -55,8 +55,8 @@ Enable or disable a mod any time with the **Installed / Not Installed** toggle.
 
 * **Texture / Model Workshop** – Convert CTXR ↔ PNG, preview models, send textures straight to GIMP or Photoshop or create a mod with the current textures selected.
 * **MGSHDFix & MGSM2Fix INI editors** – Tweak Master Collection fixes from inside the manager.  
-* **Audio SDT Replacement ** – Swap songs between MG1/2 and or MGS3, really like the MG2 alert put it as the alert in MGS3 if you so desire.
-* * **Guard Position Changer** – Want make new scenarios or help out MGS2/3 Randomizer development? Simple to use tool can change guard locations based on where your character is in game.
+* **Audio SDT Replacement** – Swap songs between MG1/2 and or MGS3, really like the MG2 alert put it as the alert in MGS3 if you so desire.
+* **Guard Position Changer** – Want make new scenarios or help out MGS2/3 Randomizer development? Simple to use tool can change guard locations based on where your character is in game.
 
 ---
 
