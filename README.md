@@ -67,4 +67,31 @@ Enable or disable a mod any time with the **Installed / Not Installed** toggle.
 
 ---
 
+## Credits
 
+- **[SageFantasma](https://github.com/SageFantasma):**  
+  Continued helped with the trainers, randomizers and all of our joint MGS2/3 MC Modding projects.
+
+- **[Afevis/ShizCalev](https://github.com/ShizCalev):**  
+  Helped me with integrating MGSHDFix and parsing textures from the PS2 -> Master Collection.
+
+- **[shalashaska/316austin316](https://github.com/316austin316):**  
+  A lot of his work helped me in understanding how to get the C# code to convert the CTXR Files into PNG Files.
+
+- **[GIMP Developers](https://www.gimp.org/):**  
+  Helped me enable conversion of PNGs into DDS
+
+- **[Python Developers](https://www.python.org/):**  
+  Allowed me to set up a script that enabled me to make GIMP work headlessly with GIMP's built in Python-Fu.
+
+- **[CTXRTool Developer Jayveer](https://github.com/Jayveer/CtxrTool):**  
+  Helped me enable conversion of DDS into CTXR.
+
+- **[ANTIBigBoss (Me)](https://github.com/ANTIBigBoss):** 
+  Creator of the Mod Manager.
+  
+---
+## Donations (Optional)
+  - If you like my projects and would like to support me as a developer you can do so at the Ko-Fi link provided below:
+  - [Ko-Fi](https://ko-fi.com/antibigboss)
+---
