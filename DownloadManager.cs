@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 
 namespace ANTIBigBoss_MGS_Mod_Manager
 {
@@ -156,10 +157,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     ctxrToolPath
                 );
             }
-            else
-            {
-                LoggingManager.Instance.Log("CtxrTool.exe already exists.");
-            }
 
             string texconvPath = Path.Combine(modToolsPath, "texconv.exe");
             if (!File.Exists(texconvPath))
@@ -170,46 +167,87 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     texconvPath
                 );
             }
-            else
-            {
-                LoggingManager.Instance.Log("texconv.exe already exists.");
-            }
 
             string assetsFolder = Path.Combine(modToolsPath, "3D Models and Textures");
-            if (!Directory.Exists(assetsFolder))
+            string assetsZipUrl =
+                "https://github.com/ANTIBigBoss/MGS-MC-Mod-Manager-and-Tool/releases/download/ToolsModelsandTextures/3D.Models.and.Textures.zip";
+            string tempZipPath = Path.Combine(Path.GetTempPath(), "3DModelsAndTextures.zip");
+
+            string[] requiredFolders = new[]
             {
-                LoggingManager.Instance.Log("Assets folder not found. Downloading assets zip...");
-                string assetsZipUrl = "https://github.com/ANTIBigBoss/MGS-MC-Mod-Manager-and-Tool/releases/download/ToolsModelsandTextures/3D.Models.and.Textures.zip";
-                string tempZipPath = Path.Combine(Path.GetTempPath(), "3DModelsAndTextures.zip");
+        "MGS3 Snake SE","MGS3 Snake Sneaking Suit", "MGS3 Tanya (Eva)", "MGS3 Raikov", "MGS3 GRU", "MGS3 KGB", "MGS3 Ocelot Unit", "MGS3 Officer", "MGS3 Scientist",
+        "MGS2 Snake Tanker", "MGS2 Raiden", "MGS2 Tanker Guards", "MGS2 Big Shell Guards", "MGS2 Ames", "MGS2 Coolant Spray", "MGS2 Cypher", "MGS2 Directional Microphone", "MGS2 Fatman Bombs", "MGS2 Item Box 1", "MGS2 Item Box 2", "MGS2 M4", "MGS2 M9", "MGS2 Marine", "MGS2 Meryl",  "MGS2 Ocelot", "MGS2 Olga Ninja", "MGS2 Olga Plant", "MGS2 Olga Tanker", "MGS2 Otacon", "MGS2 Pliskin", "MGS2 Raiden", "MGS2 Raiden Ninja", "MGS2 Raiden Scuba", "MGS2 SAA", "MGS2 Scott Dolph", "MGS2 Seal", "MGS2 Snake (MGS1)", "MGS2 Snake Tanker", "MGS2 Socom", "MGS2 Solidus", "MGS2 Stillman", "MGS2 Tuxedo Snake", "MGS2 USP",
+        "Scripts"
+    };
 
+            bool needsExtract =
+                !Directory.Exists(assetsFolder) ||
+                requiredFolders.Any(f => !Directory.Exists(Path.Combine(assetsFolder, f)));
+
+            if (needsExtract)
+            {
                 await DownloadModFile(assetsZipUrl, tempZipPath);
-                LoggingManager.Instance.Log("Extracting assets zip...");
-                ZipFile.ExtractToDirectory(tempZipPath, modToolsPath);
 
-                string extractedFolder = Path.Combine(modToolsPath, "3D.Models.and.Textures");
-                if (Directory.Exists(extractedFolder))
+                using (var archive = ZipFile.OpenRead(tempZipPath))
                 {
-                    Directory.Move(extractedFolder, assetsFolder);
-                    LoggingManager.Instance.Log($"Renamed extracted folder to: {assetsFolder}");
+                    foreach (var entry in archive.Entries)
+                    {
+                        if (string.IsNullOrEmpty(entry.Name))
+                            continue;
+
+                        var parts = entry.FullName.Split(new[] { '/', '\\' }, 2);
+                        if (parts.Length != 2)
+                            continue;
+                        string relative = parts[1];
+
+                        if (relative.Equals("Scripts/PythonFU.py", StringComparison.OrdinalIgnoreCase))
+                            continue;
+
+                        string destPath = Path.Combine(assetsFolder, relative);
+                        string destDir = Path.GetDirectoryName(destPath);
+                        Directory.CreateDirectory(destDir);
+
+                        if (!File.Exists(destPath))
+                        {
+                            entry.ExtractToFile(destPath);
+                            LoggingManager.Instance.Log($"Extracted asset: {relative}");
+                        }
+                    }
                 }
 
                 File.Delete(tempZipPath);
-                LoggingManager.Instance.Log("Deleted temporary assets zip.");
-            }
-            else
-            {
-                LoggingManager.Instance.Log("Assets folder already exists.");
             }
 
             string scriptsFolder = Path.Combine(assetsFolder, "Scripts");
-            if (!Directory.Exists(scriptsFolder))
+            Directory.CreateDirectory(scriptsFolder);
+
+            string scriptName = "PythonFU.py";
+            string scriptPath = Path.Combine(scriptsFolder, scriptName);
+            DateTime requiredDate = new DateTime(2025, 4, 19);
+
+            bool needScriptUpdate =
+                !File.Exists(scriptPath) ||
+                File.GetLastWriteTime(scriptPath).Date != requiredDate;
+
+            if (needScriptUpdate)
             {
-                Directory.CreateDirectory(scriptsFolder);
-                LoggingManager.Instance.Log($"Created Scripts folder: {scriptsFolder}");
-            }
-            else
-            {
-                LoggingManager.Instance.Log("Scripts folder already exists.");
+                await DownloadModFile(assetsZipUrl, tempZipPath);
+
+                using (var archive = ZipFile.OpenRead(tempZipPath))
+                {
+                    var entry = archive.Entries.FirstOrDefault(e =>
+                        e.FullName.Replace('\\', '/').EndsWith("Scripts/" + scriptName,
+                                                             StringComparison.OrdinalIgnoreCase)
+                    );
+                    if (entry != null)
+                    {
+                        entry.ExtractToFile(scriptPath, overwrite: true);
+                        LoggingManager.Instance.Log(
+                            $"Updated {scriptName} to version dated {requiredDate:yyyy-MM-dd}"
+                        );
+                    }
+                }
+                File.Delete(tempZipPath);
             }
         }
 

@@ -40,6 +40,7 @@
             CreateModButton = new System.Windows.Forms.Button();
             ShowMgs2ModelsCheckBox = new System.Windows.Forms.CheckBox();
             ShowMgs3ModelsCheckBox = new System.Windows.Forms.CheckBox();
+            HelpFaqButton = new System.Windows.Forms.Button();
             SuspendLayout();
             // 
             // BackButton
@@ -205,6 +206,21 @@
             ShowMgs3ModelsCheckBox.Text = "Show MGS3 Models";
             ShowMgs3ModelsCheckBox.UseVisualStyleBackColor = false;
             // 
+            // HelpFaqButton
+            // 
+            HelpFaqButton.BackColor = System.Drawing.Color.FromArgb(51, 51, 51);
+            HelpFaqButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            HelpFaqButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            HelpFaqButton.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
+            HelpFaqButton.Location = new System.Drawing.Point(12, 503);
+            HelpFaqButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            HelpFaqButton.Name = "HelpFaqButton";
+            HelpFaqButton.Size = new System.Drawing.Size(254, 64);
+            HelpFaqButton.TabIndex = 23;
+            HelpFaqButton.Text = "Help/FAQ";
+            HelpFaqButton.UseVisualStyleBackColor = false;
+            HelpFaqButton.Click += HelpFaqButton_Click;
+            // 
             // TextureModelForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -212,6 +228,7 @@
             BackColor = System.Drawing.Color.FromArgb(30, 30, 30);
             BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             ClientSize = new System.Drawing.Size(1395, 722);
+            Controls.Add(HelpFaqButton);
             Controls.Add(ShowMgs3ModelsCheckBox);
             Controls.Add(ShowMgs2ModelsCheckBox);
             Controls.Add(CreateModButton);
@@ -245,5 +262,6 @@
         private System.Windows.Forms.Button CreateModButton;
         private System.Windows.Forms.CheckBox ShowMgs2ModelsCheckBox;
         private System.Windows.Forms.CheckBox ShowMgs3ModelsCheckBox;
+        private System.Windows.Forms.Button HelpFaqButton;
     }
 }
