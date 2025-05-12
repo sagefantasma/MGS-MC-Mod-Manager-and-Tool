@@ -7,6 +7,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 
+
 namespace ANTIBigBoss_MGS_Mod_Manager
 {
     public class DownloadManager
@@ -259,7 +260,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 LoggingManager.Instance.Log($"Created MGSM2Fix folder: {mgsm2FixFolder}");
             }
 
-            string expectedFile = Path.Combine(mgsm2FixFolder, "MGSM2Fix.exe");
+            string expectedFile = Path.Combine(mgsm2FixFolder, "MGSM2Fix.ini");
             if (File.Exists(expectedFile))
             {
                 LoggingManager.Instance.Log("MGSM2Fix mod already exists. No download necessary.");
@@ -299,22 +300,22 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             if (!Directory.Exists(mgsHDFixFolder))
             {
                 Directory.CreateDirectory(mgsHDFixFolder);
-                LoggingManager.Instance.Log($"Created MGSM2Fix folder: {mgsHDFixFolder}");
+                LoggingManager.Instance.Log($"Created MGSHDFix folder: {mgsHDFixFolder}");
             }
 
-            string expectedFile = Path.Combine(mgsHDFixFolder, "MGSM2Fix.exe");
+            string expectedFile = Path.Combine(mgsHDFixFolder, "MGSHDFix.ini");
             if (File.Exists(expectedFile))
             {
-                LoggingManager.Instance.Log("MGSM2Fix mod already exists. No download necessary.");
+                LoggingManager.Instance.Log("MGSHDFix mod already exists. No download necessary.");
                 return;
             }
 
-            LoggingManager.Instance.Log("MGSM2Fix mod not found. Downloading...");
-            string downloadUrl = "https://github.com/Lyall/MGSHDFix/releases/download/v2.3/MGSHDFix_v2.3.zip";
+            LoggingManager.Instance.Log("MGSHDFix mod not found. Downloading...");
+            string downloadUrl = "https://github.com/Lyall/MGSHDFix/releases/download/2.4.1/MGSHDFix_2.4.1.zip";
             string tempZipPath = Path.Combine(Path.GetTempPath(), "MGSM2Fix.zip");
 
             await DownloadModFile(downloadUrl, tempZipPath);
-            LoggingManager.Instance.Log("Extracting MGSM2Fix zip...");
+            LoggingManager.Instance.Log("Extracting MGSHDFix zip...");
 
             using (var archive = System.IO.Compression.ZipFile.OpenRead(tempZipPath))
             {
@@ -334,8 +335,93 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
 
             File.Delete(tempZipPath);
-            LoggingManager.Instance.Log("MGSM2Fix downloaded and extracted successfully.");
+            LoggingManager.Instance.Log("MGSHDFix downloaded and extracted successfully.");
         }
 
+        public async Task EnsureMgsFpsUnlockDownloaded(string MgsFpsUnlockFolder)
+        {
+            if (!Directory.Exists(MgsFpsUnlockFolder))
+            {
+                Directory.CreateDirectory(MgsFpsUnlockFolder);
+                LoggingManager.Instance.Log($"Created MgsFpsUnlock folder: {MgsFpsUnlockFolder}");
+            }
+
+            string expectedFile = Path.Combine(MgsFpsUnlockFolder, "MGSFPSUnlock.ini");
+            if (File.Exists(expectedFile))
+            {
+                LoggingManager.Instance.Log("MGSFPSUnlock mod already exists. No download necessary.");
+                return;
+            }
+
+            LoggingManager.Instance.Log("MGSFPSUnlock mod not found. Downloading...");
+            string downloadUrl = "https://github.com/cipherxof/MGSFPSUnlock/releases/tag/0.0.6";
+            string tempZipPath = Path.Combine(Path.GetTempPath(), "MGSFPSUnlock.zip");
+
+            await DownloadModFile(downloadUrl, tempZipPath);
+            LoggingManager.Instance.Log("Extracting MGSFPSUnlock zip...");
+
+            using (var archive = System.IO.Compression.ZipFile.OpenRead(tempZipPath))
+            {
+                foreach (var entry in archive.Entries)
+                {
+                    string destinationPath = Path.Combine(MgsFpsUnlockFolder, entry.FullName);
+                    if (string.IsNullOrEmpty(entry.Name))
+                    {
+                        Directory.CreateDirectory(destinationPath);
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(destinationPath));
+                        entry.ExtractToFile(destinationPath, true);
+                    }
+                }
+            }
+
+            File.Delete(tempZipPath);
+            LoggingManager.Instance.Log("MGSFPSUnlock downloaded and extracted successfully.");
+        }
+
+        public async Task EnsureMgs3CrouchWalkDownloaded(string Mgs3CrouchWalkFolder)
+        {
+            if (!Directory.Exists(Mgs3CrouchWalkFolder))
+            {
+                Directory.CreateDirectory(Mgs3CrouchWalkFolder);
+                LoggingManager.Instance.Log($"Created Mgs3CrouchWalk folder: {Mgs3CrouchWalkFolder}");
+            }
+
+            string expectedFile = Path.Combine(Mgs3CrouchWalkFolder, "Mgs3CrouchWalk.ini");
+            if (File.Exists(expectedFile))
+            {
+                LoggingManager.Instance.Log("Mgs3CrouchWalk mod already exists. No download necessary.");
+                return;
+            }
+
+            LoggingManager.Instance.Log("Mgs3CrouchWalk mod not found. Downloading...");
+            string downloadUrl = "https://github.com/cipherxof/MGS3CrouchWalk/releases/download/0.2.1/MGS3CrouchWalk.zip";
+            string tempZipPath = Path.Combine(Path.GetTempPath(), "Mgs3CrouchWalkFolder.zip");
+
+            await DownloadModFile(downloadUrl, tempZipPath);
+            LoggingManager.Instance.Log("Extracting Mgs3CrouchWalkFolder zip...");
+
+            using (var archive = System.IO.Compression.ZipFile.OpenRead(tempZipPath))
+            {
+                foreach (var entry in archive.Entries)
+                {
+                    string destinationPath = Path.Combine(Mgs3CrouchWalkFolder, entry.FullName);
+                    if (string.IsNullOrEmpty(entry.Name))
+                    {
+                        Directory.CreateDirectory(destinationPath);
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(destinationPath));
+                        entry.ExtractToFile(destinationPath, true);
+                    }
+                }
+            }
+
+            File.Delete(tempZipPath);
+            LoggingManager.Instance.Log("MGS3CrouchWalk downloaded and extracted successfully.");
+        }
     }
 }

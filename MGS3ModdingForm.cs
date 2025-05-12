@@ -327,12 +327,46 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     ForeColor = Color.White,
                     FlatStyle = FlatStyle.Flat
                 };
+
                 toggleButton.FlatAppearance.BorderSize = 0;
                 toggleButton.Click += async (s, e) =>
                 {
-                    await fileExplorerManager.ToggleModStateByNameAsync(modName, config.GamePaths["MGS3"]);
+                    Point savedScroll = modListPanel.AutoScrollPosition;
+
+                    bool isEnabled = config.Mods.ActiveMods.TryGetValue(modName, out var on) && on;
+                    string gamePath = config.GamePaths["MGS3"];
+                    string modFolder = Path.Combine(config.MGS3ModFolderPath, modName);
+
+                    if (modName.Equals("MGSFPSUnlock", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (!isEnabled)
+                            await MGSFPSUnlockManager.EnsureDownloadedAsync(modFolder);
+
+                        if (isEnabled)
+                            MGSFPSUnlockManager.Disable(gamePath, config);
+                        else
+                            MGSFPSUnlockManager.Enable(modFolder, gamePath, config);
+                    }
+                    else if (modName.Equals("MGS3CrouchWalk", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (!isEnabled)
+                            await MGS3CrouchWalkManager.EnsureDownloadedAsync(modFolder);
+
+                        if (isEnabled)
+                            MGS3CrouchWalkManager.Disable(modFolder, gamePath, fileExplorerManager, config);
+                        else
+                            MGS3CrouchWalkManager.Enable(modFolder, gamePath, fileExplorerManager, config);
+                    }
+                    else
+                    {
+                        await fileExplorerManager.ToggleModStateByNameAsync(modName, gamePath);
+                    }
+
                     LoadModsIntoUI();
+
+                    modListPanel.AutoScrollPosition = new Point(-savedScroll.X, -savedScroll.Y);
                 };
+
 
                 Label modLabel = new Label
                 {
@@ -415,9 +449,9 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     settingsButton = new Button
                     {
                         Text = "HDFix Settings",
-                        Size = new Size(120, 40),
+                        Size = new Size(150, 40),
                         Tag = modName,
-                        Font = new Font(Font.FontFamily, Font.Size + 4, FontStyle.Bold),
+                        Font = new Font(Font.FontFamily, Font.Size + 3, FontStyle.Bold),
                         BackColor = Color.LightBlue,
                         ForeColor = Color.Black,
                         FlatStyle = FlatStyle.Flat
@@ -924,12 +958,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     LoadModsIntoUI();
                 }
             }
-        }
-
-        private void DownloadModsMGS3_Click(object sender, EventArgs e)
-        {
-            DownloadForm downloadManager = new DownloadForm();
-            downloadManager.ShowDialog();
         }
 
         private void AudioSwap_Click(object sender, EventArgs e)

@@ -36,6 +36,7 @@
             ModResourcesFormSwap = new System.Windows.Forms.Button();
             KoFiLink = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
+            HelpFaqButton = new System.Windows.Forms.Button();
             SuspendLayout();
             // 
             // MG1FormSwap
@@ -124,7 +125,7 @@
             KoFiLink.Location = new System.Drawing.Point(507, 299);
             KoFiLink.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             KoFiLink.Name = "KoFiLink";
-            KoFiLink.Size = new System.Drawing.Size(243, 280);
+            KoFiLink.Size = new System.Drawing.Size(243, 205);
             KoFiLink.TabIndex = 8;
             KoFiLink.UseVisualStyleBackColor = true;
             KoFiLink.Click += KoFiLink_Click;
@@ -140,6 +141,21 @@
             label1.TabIndex = 9;
             label1.Text = "Support me here";
             // 
+            // HelpFaqButton
+            // 
+            HelpFaqButton.BackColor = System.Drawing.Color.FromArgb(51, 51, 51);
+            HelpFaqButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            HelpFaqButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            HelpFaqButton.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
+            HelpFaqButton.Location = new System.Drawing.Point(507, 510);
+            HelpFaqButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            HelpFaqButton.Name = "HelpFaqButton";
+            HelpFaqButton.Size = new System.Drawing.Size(243, 73);
+            HelpFaqButton.TabIndex = 24;
+            HelpFaqButton.Text = "Change Log/Updates";
+            HelpFaqButton.UseVisualStyleBackColor = false;
+            HelpFaqButton.Click += HelpFaqButton_Click;
+            // 
             // MainMenuForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -147,6 +163,7 @@
             BackColor = System.Drawing.Color.FromArgb(30, 30, 30);
             BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             ClientSize = new System.Drawing.Size(756, 591);
+            Controls.Add(HelpFaqButton);
             Controls.Add(label1);
             Controls.Add(KoFiLink);
             Controls.Add(ModResourcesFormSwap);
@@ -158,7 +175,7 @@
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Name = "MainMenuForm";
-            Text = "ANTIBigBoss's MGS Mod Manager - Version 1.0.0.3";
+            Text = "ANTIBigBoss's MGS Mod Manager - Version 1.0.0.4";
             Load += MainMenuForm_Load;
             ResumeLayout(false);
             PerformLayout();
@@ -173,6 +190,7 @@
         private System.Windows.Forms.Button ModResourcesFormSwap;
         private System.Windows.Forms.Button KoFiLink;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button HelpFaqButton;
     }
 }
 

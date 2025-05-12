@@ -25,6 +25,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "assets/hzx/eu",
             "assets/hzx/us",
             "assets/mar/us",
+            "assets/evm/us",
+            "assets/kms/us",
             "textures/flatlist/_win",
             "textures/flatlist/ovr_eu/_win",
             "textures/flatlist/ovr_PS3/_win",
@@ -266,6 +268,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 onHoverLeave: () => HideModImage());
 
             modListManager.ModListPanel.AutoScrollPosition = new Point(-savedScroll.X, -savedScroll.Y);
+
+
         }
 
         #endregion
@@ -277,9 +281,30 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             string gameInstallPath = config.GamePaths["MGS2"];
             if (!Directory.Exists(gameInstallPath))
             {
-                MessageBox.Show("Game installation not found, cannot apply mods.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Game installation not found, cannot apply mods.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
                 return;
             }
+
+            // special-case FPS-Unlock
+            if (modName.Equals("MGSFPSUnlock", StringComparison.OrdinalIgnoreCase))
+            {
+                bool isEnabled = config.Mods.ActiveMods.TryGetValue(modName, out var on) && on;
+                string fpsFolder = Path.Combine(config.MGS2ModFolderPath, modName);
+
+                if (isEnabled)
+                    MGSFPSUnlockManager.Disable(gameInstallPath, config);
+                else
+                    MGSFPSUnlockManager.Enable(fpsFolder, gameInstallPath, config);
+
+                LoadModsIntoUI();
+                return;
+            }
+
             try
             {
                 Point savedScroll = modListManager.ModListPanel.AutoScrollPosition;
@@ -289,9 +314,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"An error occurred: {ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
+
 
         private void RenameModAction(string modName)
         {
@@ -650,12 +681,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     LoadModsIntoUI();
                 }
             }
-        }
-
-        private void DownloadModsMGS2_Click(object sender, EventArgs e)
-        {
-            DownloadForm downloadManager = new DownloadForm();
-            downloadManager.ShowDialog();
         }
 
         #endregion

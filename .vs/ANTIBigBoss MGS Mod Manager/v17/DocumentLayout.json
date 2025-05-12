@@ -3,12 +3,52 @@
   "WorkspaceRootPath": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\texturemodelform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:texturemodelform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\mainmenuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mainmenuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\mgs3moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mgs3moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\fileexplorermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:fileexplorermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\mgs3crouchwalkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mgs3crouchwalkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\configmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:configmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\downloadmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:downloadmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\mgsfpsunlockmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mgsfpsunlockmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\mgs3moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mgs3moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\mgs2moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mgs2moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\mgshdfixsettingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mgshdfixsettingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\mgshdfixsettingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mgshdfixsettingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\mgs2moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mgs2moddingform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\texturemodelform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
@@ -19,16 +59,16 @@
       "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:hzxeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\texturemodelform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:texturemodelform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\mainmenuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mainmenuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\configmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:configmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\mainmenuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mainmenuform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|c:\\users\\mitch\\onedrive\\documents\\github\\mgs-mc-mod-manager-and-tool\\mainmenuform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{795577E6-A4AC-461C-AF00-AFA274E29EE1}|ANTIBigBoss MGS Mod Manager.csproj|solutionrelative:mainmenuform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,7 +78,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 229,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,46 +86,198 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "MainMenuForm.cs",
-              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MainMenuForm.cs",
-              "RelativeDocumentMoniker": "MainMenuForm.cs",
-              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MainMenuForm.cs",
-              "RelativeToolTip": "MainMenuForm.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFkAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "MGS3CrouchWalkManager.cs",
+              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MGS3CrouchWalkManager.cs",
+              "RelativeDocumentMoniker": "MGS3CrouchWalkManager.cs",
+              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MGS3CrouchWalkManager.cs",
+              "RelativeToolTip": "MGS3CrouchWalkManager.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAuwEEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-22T18:37:24.52Z",
+              "WhenOpened": "2025-05-11T23:32:50.985Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "MGS3ModdingForm.cs",
+              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MGS3ModdingForm.cs",
+              "RelativeDocumentMoniker": "MGS3ModdingForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MGS3ModdingForm.cs",
+              "RelativeToolTip": "MGS3ModdingForm.cs",
+              "ViewState": "AgIAALgBAAAAAAAAAAAawMUBAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-11T22:22:33.602Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "MGS3ModdingForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MGS3ModdingForm.cs",
+              "RelativeDocumentMoniker": "MGS3ModdingForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MGS3ModdingForm.cs [Design]",
+              "RelativeToolTip": "MGS3ModdingForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-11T22:22:29.962Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "MGSFPSUnlockManager.cs",
+              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MGSFPSUnlockManager.cs",
+              "RelativeDocumentMoniker": "MGSFPSUnlockManager.cs",
+              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MGSFPSUnlockManager.cs",
+              "RelativeToolTip": "MGSFPSUnlockManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-11T22:13:57.169Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "FileExplorerManager.cs",
+              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\FileExplorerManager.cs",
+              "RelativeDocumentMoniker": "FileExplorerManager.cs",
+              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\FileExplorerManager.cs",
+              "RelativeToolTip": "FileExplorerManager.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA4AAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-11T22:08:12.602Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "MGSHDFixSettingsForm.cs",
+              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MGSHDFixSettingsForm.cs",
+              "RelativeDocumentMoniker": "MGSHDFixSettingsForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MGSHDFixSettingsForm.cs",
+              "RelativeToolTip": "MGSHDFixSettingsForm.cs",
+              "ViewState": "AgIAAC4AAAAAAAAAAAA0wDoAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-11T21:57:16.123Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "MGSHDFixSettingsForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MGSHDFixSettingsForm.cs",
+              "RelativeDocumentMoniker": "MGSHDFixSettingsForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MGSHDFixSettingsForm.cs [Design]",
+              "RelativeToolTip": "MGSHDFixSettingsForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-11T21:57:13.929Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "MGS2ModdingForm.cs",
+              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MGS2ModdingForm.cs",
+              "RelativeDocumentMoniker": "MGS2ModdingForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MGS2ModdingForm.cs",
+              "RelativeToolTip": "MGS2ModdingForm.cs",
+              "ViewState": "AgIAAJECAAAAAAAAAAAmwLACAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-11T21:46:41.826Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "MGS2ModdingForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MGS2ModdingForm.cs",
+              "RelativeDocumentMoniker": "MGS2ModdingForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MGS2ModdingForm.cs [Design]",
+              "RelativeToolTip": "MGS2ModdingForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-11T21:46:39.021Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "MainMenuForm.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MainMenuForm.Designer.cs",
+              "RelativeDocumentMoniker": "MainMenuForm.Designer.cs",
+              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MainMenuForm.Designer.cs",
+              "RelativeToolTip": "MainMenuForm.Designer.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAADwvysAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-11T20:39:10.312Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainMenuForm.cs",
+              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MainMenuForm.cs",
+              "RelativeDocumentMoniker": "MainMenuForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MainMenuForm.cs",
+              "RelativeToolTip": "MainMenuForm.cs",
+              "ViewState": "AgIAADIAAAAAAAAAAAAwwEAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-11T20:32:45.246Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "DownloadManager.cs",
               "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\DownloadManager.cs",
               "RelativeDocumentMoniker": "DownloadManager.cs",
               "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\DownloadManager.cs",
               "RelativeToolTip": "DownloadManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAApAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-19T02:01:46.577Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 14,
+              "Title": "TextureModelForm.cs",
+              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\TextureModelForm.cs",
+              "RelativeDocumentMoniker": "TextureModelForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\TextureModelForm.cs",
+              "RelativeToolTip": "TextureModelForm.cs",
+              "ViewState": "AgIAACEKAAAAAAAAAAAUwCcKAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-10T22:01:04.874Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "TextureModelForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\TextureModelForm.cs",
+              "RelativeDocumentMoniker": "TextureModelForm.cs",
+              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\TextureModelForm.cs [Design]",
+              "RelativeToolTip": "TextureModelForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-10T22:00:59.679Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
               "Title": "HzxEditor.cs",
               "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\HzxEditor.cs",
               "RelativeDocumentMoniker": "HzxEditor.cs",
               "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\HzxEditor.cs",
               "RelativeToolTip": "HzxEditor.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAF0AAAA3AAAAAAAAAA==",
+              "ViewState": "AgIAAOUBAAAAAAAAAADgv/cBAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-06T23:43:20.833Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 15,
               "Title": "MainMenuForm.cs [Design]",
               "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\MainMenuForm.cs",
               "RelativeDocumentMoniker": "MainMenuForm.cs",
@@ -97,41 +289,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "ConfigManager.cs",
               "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\ConfigManager.cs",
               "RelativeDocumentMoniker": "ConfigManager.cs",
               "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\ConfigManager.cs",
               "RelativeToolTip": "ConfigManager.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAowCQAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAMYAAAAAAAAAAAA2wNsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-10T23:39:54.297Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TextureModelForm.cs",
-              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\TextureModelForm.cs",
-              "RelativeDocumentMoniker": "TextureModelForm.cs",
-              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\TextureModelForm.cs",
-              "RelativeToolTip": "TextureModelForm.cs",
-              "ViewState": "AgIAAKEBAAAAAAAAAAAIwK0BAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-10T22:01:04.874Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "TextureModelForm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\TextureModelForm.cs",
-              "RelativeDocumentMoniker": "TextureModelForm.cs",
-              "ToolTip": "C:\\Users\\Mitch\\OneDrive\\Documents\\GitHub\\MGS-MC-Mod-Manager-and-Tool\\TextureModelForm.cs [Design]",
-              "RelativeToolTip": "TextureModelForm.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-10T22:00:59.679Z",
-              "EditorCaption": " [Design]"
             }
           ]
         }

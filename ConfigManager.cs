@@ -8,12 +8,17 @@ namespace ANTIBigBoss_MGS_Mod_Manager
     public static class ConfigManager
     {
         private static readonly string configPath = Path.Combine(
-            AppDomain.CurrentDomain.BaseDirectory,
-            "NotificationsAndSettings.json"
-        );
+    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+    "MGS Mod Manager and Trainer",
+    "NotificationsAndSettings.json"
+    );
 
         public static ConfigSettings LoadSettings()
         {
+            string configDirectory = Path.GetDirectoryName(configPath);
+            if (!Directory.Exists(configDirectory))
+                Directory.CreateDirectory(configDirectory);
+
             ConfigSettings settings;
 
             if (!File.Exists(configPath))
@@ -38,6 +43,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             return settings;
         }
 
+
         public static void SaveSettings(ConfigSettings settings)
         {
             var json = JsonConvert.SerializeObject(settings, Formatting.Indented);
@@ -47,7 +53,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
     public class ConfigSettings
     {
-        
+
 
         public Dictionary<string, string> GamePaths { get; set; } = new Dictionary<string, string>
         {
@@ -178,7 +184,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         public bool AutoDetectGamePaths { get; set; } = true;
         public bool EnableLogging { get; set; } = true;
         public bool ShowNotifications { get; set; } = true;
+
+        public string LastSeenVersion { get; set; } = "0.0.0";
     }
+
 
     public class ModInfo
     {

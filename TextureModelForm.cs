@@ -21,7 +21,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         private readonly List<string> _allModels = new List<string>
         {
         "MGS3 Snake SE","MGS3 Snake Sneaking Suit", "MGS3 Tanya (Eva)", "MGS3 Raikov", "MGS3 GRU", "MGS3 KGB", "MGS3 Ocelot Unit", "MGS3 Officer", "MGS3 Scientist",
-        "MGS2 Snake Tanker", "MGS2 Raiden", "MGS2 Tanker Guards", "MGS2 Big Shell Guards", "MGS2 Ames", "MGS2 Coolant Spray", "MGS2 Cypher", "MGS2 Directional Microphone", "MGS2 Fatman Bombs", "MGS2 Item Box 1", "MGS2 Item Box 2", "MGS2 M4", "MGS2 M9", "MGS2 Marine", "MGS2 Meryl",  "MGS2 Ocelot", "MGS2 Olga Ninja", "MGS2 Olga Plant", "MGS2 Olga Tanker", "MGS2 Otacon", "MGS2 Pliskin", "MGS2 Raiden", "MGS2 Raiden Ninja", "MGS2 Raiden Scuba", "MGS2 SAA", "MGS2 Scott Dolph", "MGS2 Seal", "MGS2 Snake (MGS1)", "MGS2 Snake Tanker", "MGS2 Socom", "MGS2 Solidus", "MGS2 Stillman", "MGS2 Tuxedo Snake", "MGS2 USP"
+        "MGS2 Snake Tanker", "MGS2 Pliskin", "MGS2 Tuxedo Snake", "MGS2 Snake (MGS1)", "MGS2 Raiden", "MGS2 Raiden Ninja", "MGS2 Raiden Scuba","MGS2 Tanker Guards", "MGS2 Big Shell Guards", "MGS2 Cypher", "MGS2 Ames", "MGS2 Marine", "MGS2 Meryl", "MGS2 Ocelot", "MGS2 Olga Ninja", "MGS2 Olga Plant", "MGS2 Olga Tanker", "MGS2 Otacon", "MGS2 Scott Dolph", "MGS2 Seal", "MGS2 Solidus", "MGS2 Stillman", "MGS2 Fatman Bombs", "MGS2 Directional Microphone", "MGS2 Item Box 1", "MGS2 Item Box 2", "MGS2 M4", "MGS2 M9", "MGS2 Coolant Spray", "MGS2 Socom", "MGS2 SAA", "MGS2 USP"
 
         };
 
@@ -2597,10 +2597,74 @@ usp_sb_all2.bmp.png*/
             }
         }
 
+        private void ShowHelpFaq()
+        {
+            using (Form faq = new Form())
+            {
+                faq.Text = "Help & FAQ";
+                faq.StartPosition = FormStartPosition.CenterParent;
+                faq.FormBorderStyle = FormBorderStyle.FixedDialog;
+                faq.MinimizeBox = false;
+                faq.MaximizeBox = false;
+                faq.ClientSize = new Size(595, 525);
+
+                Label lbl = new Label
+                {
+                    Dock = DockStyle.Fill,
+                    Font = new Font("Segoe UI", 11f, FontStyle.Regular),
+                    Text = BuildFaqText(),
+                    AutoSize = false,
+                    TextAlign = ContentAlignment.TopLeft,
+                    UseMnemonic = false
+                };
+
+                lbl.MaximumSize = new Size(int.MaxValue, int.MaxValue);
+                lbl.AutoEllipsis = false;
+                lbl.AutoSize = false;
+
+                Button btn = new Button
+                {
+                    Text = "Close",
+                    Dock = DockStyle.Bottom,
+                    Height = 35
+                };
+                btn.Click += (_, __) => faq.Close();
+
+                faq.Controls.Add(lbl);
+                faq.Controls.Add(btn);
+
+                faq.ShowDialog(this);
+            }
+        }
+
+        private string BuildFaqText() =>
+        "\n1. Can I swap models with this tool?\n" +
+        "No, you cannot. When model swapping is figured out I will add it in.\n\n" +
+
+        "2. Why isn’t it working when I just click a button?\n" +
+        "This app is for users who already know how to replace or edit game\n" +
+        "textures. It doesn’t teach modding from scratch. Instead, it handles\n" +
+        "the boring stuff: making folders, naming files, and packing everything.\n" +
+        "This way you can publish a finished mod much faster.\n\n" +
+
+        "3. Why do I need Python and GIMP?\n" +
+        "Python  run scripts I created for GIMP with GIMP's Python-Fu.\n" +
+        "GIMP 2.10 is needed to convert your PNG images into a DDS image with mipmaps.\n" +
+        "If either one is missing, the converters and creating mods will not work.\n\n" +
+
+        "4. What can the tool do?\n" +
+        "- View 3D models from MGS2 and MGS3 along with their textures.\n" +
+        "- Pick a PNG, and see how it looks on a 3D model saving time checking ingame.\n" +
+        "- Create Mods’—the app builds a ready‑to‑use folder in either\n" +
+        "- Convert files between CTXR, DDS & PNG \n\n" +
+
+        "5. I can't figure this out. Can you make me a mod?\n" +
+        "Yep I can create a mod for you, but not for free.\n" +
+        "Reach out to me on Discord under antibigboss and we can discuss it.\n";
+
         private void HelpFaqButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("For help and FAQs, please visit the official support page:\n\n" +
-                "https://www.example.com/support", "Help & FAQ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ShowHelpFaq();
         }
     }
 }

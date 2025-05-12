@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ANTIBigBoss_MGS_Mod_Manager
 {
-    internal class FileExplorerManager
+    public class FileExplorerManager
     {
         public ConfigSettings config;
         public Form parentForm;
@@ -104,26 +104,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             });
 
             ConfigManager.SaveSettings(config);
-        }
-
-        private async Task<string> ShowVariantSelectionDialog(List<string> variants)
-        {
-            string selectedVariant = null;
-            await Task.Run(() =>
-            {
-                parentForm.Invoke((MethodInvoker)delegate
-                {
-                    using var selector = new MultiModSelectorForm(variants)
-                    {
-                        StartPosition = FormStartPosition.CenterParent
-                    };
-                    if (selector.ShowDialog(parentForm) == DialogResult.OK)
-                    {
-                        selectedVariant = selector.SelectedMod;
-                    }
-                });
-            });
-            return selectedVariant;
         }
 
         public List<string> FindVariantFolders(string modRoot)
