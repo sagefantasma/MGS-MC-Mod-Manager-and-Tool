@@ -1,0 +1,4 @@
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Release\net8.0-windows\win-x64\app.publish\ANTIBigBoss MGS Mod Manager.pdb
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Release\net8.0-windows\win-x64\app.publish\ANTIBigBoss MGS Mod Manager.dll.config
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Release\net8.0-windows\win-x64\app.publish\assimp.dll
+C:\Users\Mitch\OneDrive\Documents\GitHub\MGS-MC-Mod-Manager-and-Tool\bin\Release\net8.0-windows\win-x64\app.publish\ANTIBigBoss MGS Mod Manager.exe
