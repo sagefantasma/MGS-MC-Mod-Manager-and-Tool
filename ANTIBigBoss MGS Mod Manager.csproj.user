@@ -34,6 +34,9 @@
     <Compile Update="MultiModSelectorForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="ResourceFileEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="TextureModelForm.cs">
       <SubType>Form</SubType>
     </Compile>

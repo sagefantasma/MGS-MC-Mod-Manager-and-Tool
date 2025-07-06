@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using static ANTIBigBoss_MGS_Mod_Manager.ResourceFileEditor;
 
 namespace ANTIBigBoss_MGS_Mod_Manager
 {
@@ -66,5 +67,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             HzxEditor.EditHzxFile();
         }
 
+        private void mgs2ResourceEditor_Click(object sender, EventArgs e)
+        {
+            ConfigSettings config = ConfigManager.LoadSettings();
+            ResourceFileEditorForm resourceFileEditorForm = new ResourceFileEditorForm(config.GamePaths["MGS2"]);
+            resourceFileEditorForm.ShowDialog();
+        }
     }
 }

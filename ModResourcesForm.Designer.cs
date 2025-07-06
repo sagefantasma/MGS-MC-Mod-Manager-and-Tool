@@ -34,6 +34,7 @@
             MGS2GuardRouteTool = new System.Windows.Forms.Button();
             MGS3GuardRouteTool = new System.Windows.Forms.Button();
             button3 = new System.Windows.Forms.Button();
+            mgs2ResourceEditor = new System.Windows.Forms.Button();
             SuspendLayout();
             // 
             // BackButton
@@ -116,12 +117,29 @@
             button3.UseVisualStyleBackColor = false;
             button3.Visible = false;
             // 
+            // mgs2ResourceEditor
+            // 
+            mgs2ResourceEditor.BackColor = System.Drawing.Color.FromArgb(51, 51, 51);
+            mgs2ResourceEditor.Cursor = System.Windows.Forms.Cursors.Hand;
+            mgs2ResourceEditor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            mgs2ResourceEditor.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            mgs2ResourceEditor.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
+            mgs2ResourceEditor.Location = new System.Drawing.Point(245, 395);
+            mgs2ResourceEditor.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            mgs2ResourceEditor.Name = "mgs2ResourceEditor";
+            mgs2ResourceEditor.Size = new System.Drawing.Size(562, 61);
+            mgs2ResourceEditor.TabIndex = 13;
+            mgs2ResourceEditor.Text = "MGS2 Resource Editor";
+            mgs2ResourceEditor.UseVisualStyleBackColor = false;
+            mgs2ResourceEditor.Click += mgs2ResourceEditor_Click;
+            // 
             // ModResourcesForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.FromArgb(30, 30, 30);
             ClientSize = new System.Drawing.Size(1051, 749);
+            Controls.Add(mgs2ResourceEditor);
             Controls.Add(button3);
             Controls.Add(MGS3GuardRouteTool);
             Controls.Add(MGS2GuardRouteTool);
@@ -142,5 +160,6 @@
         private System.Windows.Forms.Button MGS2GuardRouteTool;
         private System.Windows.Forms.Button MGS3GuardRouteTool;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button mgs2ResourceEditor;
     }
 }
