@@ -18,7 +18,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         private string _mainPath;
         private Stage _activeStage;
         private List<IResource> masterResourceList;
-        private string _masterResourceListCachedFile = "masterResourceList.json";
+        public static string _masterResourceListCachedFileName = "masterResourceList.json";
+        public static string _masterResourcesFullPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MGS Mod Manager and Trainer", "MGS2", _masterResourceListCachedFileName);
 
         public ResourceFileEditorForm(string path)
         {
@@ -40,11 +41,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private void PopulateAvailableResources()
         {
-            if (File.Exists(_masterResourceListCachedFile))
+            if (File.Exists(_masterResourcesFullPath))
             {
-                string cachedContents = File.ReadAllText(_masterResourceListCachedFile);
-                //masterResourceList = System.Text.Json.JsonSerializer.Deserialize<List<IResource>>(cachedContents);
-                masterResourceList = JsonConvert.DeserializeObject<List<IResource>>(cachedContents, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto});
+                string cachedContents = File.ReadAllText(_masterResourcesFullPath);
+                masterResourceList = JsonConvert.DeserializeObject<List<IResource>>(cachedContents, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
             }
             else
             {
@@ -76,8 +76,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
                 masterResourceList.Sort(new CompareResourceNames());
 
-                //File.WriteAllText(_masterResourceListCachedFile, System.Text.Json.JsonSerializer.Serialize(masterResourceList));
-                File.WriteAllText(_masterResourceListCachedFile, JsonConvert.SerializeObject(masterResourceList, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto }));
+                File.WriteAllText(_masterResourcesFullPath, JsonConvert.SerializeObject(masterResourceList, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto }));
             }
 
             foreach (IResource masterResource in masterResourceList)
@@ -139,11 +138,9 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            //not changing anything is resulting in different results... y?
             List<byte> bpAssetsContents = new List<byte>();
             List<byte> manifestContents = new List<byte>();
             List<IResource> checkedResources = _availableResourcesListBox.CheckedItems.Cast<IResource>().ToList();
-            //checkedResources.Sort(new CompareResourcePaths());
             List<IResource> manifestResources = new List<IResource>();
             List<IResource> bpAssetsResources = new List<IResource>();
             foreach (IResource checkedResource in checkedResources)
@@ -161,7 +158,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             manifestResources = SortManifestResources(manifestResources);
             bpAssetsResources = SortBpAssetsResources(bpAssetsResources);
 
-            foreach(IResource bpAssetsResource in bpAssetsResources)
+            foreach (IResource bpAssetsResource in bpAssetsResources)
             {
                 string modifiedPath = ModifyPath(bpAssetsResource.Path);
 
@@ -176,15 +173,17 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 manifestContents.AddRange(Encoding.UTF8.GetBytes("\r\r\n"));
             }
 
-            File.WriteAllBytes($"{_activeStage.Name}bp_assets.txt",bpAssetsContents.ToArray());
-            File.WriteAllBytes($"{_activeStage.Name}manifest.txt",manifestContents.ToArray());
+            //File.WriteAllBytes($"{_activeStage.Name}bp_assets.txt", bpAssetsContents.ToArray());
+            //File.WriteAllBytes($"{_activeStage.Name}manifest.txt", manifestContents.ToArray());
+            File.WriteAllBytes($"{_mainPath}/eu/stage/{_activeStage.Name}/bp_assets.txt", bpAssetsContents.ToArray());
+            File.WriteAllBytes($"{_mainPath}/eu/stage/{_activeStage.Name}/manifest.txt", manifestContents.ToArray());
         }
 
         private List<IResource> SortBpAssetsResources(List<IResource> resources)
         {
             List<IResource> textures = resources.FindAll(resource => resource.Path.Contains(".ctxr"));
             textures.Sort(new CompareResourceNames());
-            List <IResource> evmCmdl = resources.FindAll(resource => resource.Path.Contains("/evm/"));
+            List<IResource> evmCmdl = resources.FindAll(resource => resource.Path.Contains("/evm/"));
             evmCmdl.Sort(new CompareResourceNames());
             List<IResource> kmsCmdl = resources.FindAll(resource => resource.Path.Contains("/kms/"));
             kmsCmdl.Sort(new CompareResourceNames());
@@ -258,6 +257,71 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             int stagePart = secondPathParts.IndexOf("stage");
             string oldStageCode = secondPathParts[stagePart + 1];
             return inputPath.Replace($"/{oldStageCode}/", $"/{_activeStage.Name}/");
+        }
+
+        public class TriFile
+        {
+            public string Name { get; set; }
+            public int TextureCount { get; set; }
+            public List<string> TextureStrCodes { get; set; }
+        }
+
+        private void triTreeBtn_Click(object sender, EventArgs e)
+        {
+            DirectoryInfo triDirectory = new DirectoryInfo(Path.Combine(_mainPath, "assets", "tri", "us"));
+            List<TriFile> triFileContents = new List<TriFile>();
+            foreach (FileInfo triFile in triDirectory.GetFiles())
+            {
+                byte[] fileContents = File.ReadAllBytes(triFile.FullName);
+                int textureCount = BitConverter.ToInt32(fileContents, 0x10);
+                int position = 0x30;
+                List<byte[]> strCodes = new List<byte[]>();
+                for (int i = 0; i < textureCount; i++)
+                {
+                    byte[] strCode = new byte[4];
+                    Array.Copy(fileContents, position, strCode, 0, 4);
+                    strCodes.Add(strCode);
+                    position += 0xC0;
+                }
+                List<string> triStrCodes = new List<string>();
+                foreach (byte[] strCode in strCodes)
+                {
+                    triStrCodes.Add(Convert.ToHexString(strCode.Reverse().ToArray()));
+                }
+                triFileContents.Add(new TriFile { Name = triFile.Name, TextureCount = textureCount, TextureStrCodes = triStrCodes });
+            }
+            File.WriteAllText($"{Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "triTree.json")}", JsonConvert.SerializeObject(triFileContents));
+            MessageBox.Show("File 'triTree.json' now available on your desktop - use it to see what .tri files are needed to properly map .ctxrs");
+        }
+
+        private List<IResource> _resourceClipboard { get; set; }
+        public List<IResource> ResourceClipboard
+        {
+            get
+            {
+                return _resourceClipboard;
+            }
+            set
+            {
+                _resourceClipboard = value;
+                pasteButton.Enabled = value != null;
+                clearClipboardButton.Enabled = value != null;
+            }
+        }
+
+        private void copyButton_Click(object sender, EventArgs e)
+        {
+            ResourceClipboard = new List<IResource>();
+        }
+
+        private void pasteButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void clearClipboardButton_Click(object sender, EventArgs e)
+        {
+            ResourceClipboard = null;
         }
     }
 }
