@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -22,13 +23,31 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             public string Name { get ; set ; }
             public string ID { get ; set ; }
             public string Path { get ; set ; }
+            public string IDMappedTo { get; set; }
 
             public Ctxr(string resourcePath) 
             {
                 Path = resourcePath;
                 List<string> resourceDeclarationParts = Path.Split(',').ToList();
                 Name = resourceDeclarationParts[0].Substring(resourceDeclarationParts[0].LastIndexOf("/") + 1);
-                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1);
+                ID = resourceDeclarationParts[2].Substring(resourceDeclarationParts[2].LastIndexOf("/") + 1).Replace(".ctxr","");
+                if (resourceDeclarationParts[2].Contains("/cache/"))
+                    IDMappedTo = resourceDeclarationParts[2].Substring(resourceDeclarationParts[2].IndexOf("/cache/") + 7, 8);
+                else if (resourceDeclarationParts[2].Contains("/resident/"))
+                    IDMappedTo = resourceDeclarationParts[2].Substring(resourceDeclarationParts[2].IndexOf("/resident/") + 10, 8);
+                else
+                    throw new NotImplementedException();
+            }
+
+            [JsonConstructor]
+            public Ctxr(string name, string id, string path, string idMappedTo)
+            {
+                Name = name;
+                ID = id;
+                Path = path;
+                IDMappedTo = idMappedTo;
+                //List<string> resourceDeclarationParts = Path.Split(',').ToList();
+                //IDMappedTo = resourceDeclarationParts[2].Substring(resourceDeclarationParts[2].IndexOf("/cache/") + 7, 8);
             }
         }
 
@@ -51,7 +70,17 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 List<string> resourceDeclarationParts = Path.Split(',').ToList();
                 Subtype = Path.Contains("/evm/") ? CmdlSubtype.Evm : CmdlSubtype.Kms;
                 Name = resourceDeclarationParts[0].Substring(resourceDeclarationParts[0].LastIndexOf("/") + 1);
-                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1);
+                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1).Replace(".cmdl", "");
+            }
+
+            [JsonConstructor]
+            public Cmdl(string name, string id, string path, CmdlSubtype subtype)
+            {
+                Name = name;
+                ID = id;
+                Path = path;
+                Subtype = subtype;
+                //Subtype = Path.Contains("/evm/") ? CmdlSubtype.Evm : CmdlSubtype.Kms;
             }
         }
 
@@ -91,7 +120,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 List<string> resourceDeclarationParts = Path.Split(',').ToList();
                 //Replace($".{GetType().Name.ToLower()}", ""
                 Name = resourceDeclarationParts[0].Substring(resourceDeclarationParts[0].LastIndexOf("/") + 1);
-                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1);
+                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1).Replace(".tri", "");
+            }
+
+            [JsonConstructor]
+            public Tri(string name, string id, string path)
+            {
+                Name = name;
+                ID = id;
+                Path = path;
             }
         }
 
@@ -105,7 +142,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 Path = resourcePath;
                 List<string> resourceDeclarationParts = Path.Split(',').ToList();
                 Name = resourceDeclarationParts[0].Substring(resourceDeclarationParts[0].LastIndexOf("/") + 1);
-                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1);
+                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1).Replace(".hzx", "");
+            }
+
+            [JsonConstructor]
+            public Hzx(string name, string id, string path)
+            {
+                Name = name;
+                ID = id;
+                Path = path;
             }
         }
 
@@ -119,7 +164,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 Path = resourcePath;
                 List<string> resourceDeclarationParts = Path.Split(',').ToList();
                 Name = resourceDeclarationParts[0].Substring(resourceDeclarationParts[0].LastIndexOf("/") + 1);
-                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1);
+                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1).Replace(".var", "");
+            }
+
+            [JsonConstructor]
+            public Var(string name, string id, string path)
+            {
+                Name = name;
+                ID = id;
+                Path = path;
             }
         }
 
@@ -133,7 +186,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 Path = resourcePath;
                 List<string> resourceDeclarationParts = Path.Split(',').ToList();
                 Name = resourceDeclarationParts[0].Substring(resourceDeclarationParts[0].LastIndexOf("/") + 1);
-                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1);
+                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1).Replace(".sar", "");
+            }
+
+            [JsonConstructor]
+            public Sar(string name, string id, string path)
+            {
+                Name = name;
+                ID = id;
+                Path = path;
             }
         }
 
@@ -147,7 +208,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 Path = resourcePath;
                 List<string> resourceDeclarationParts = Path.Split(',').ToList();
                 Name = resourceDeclarationParts[0].Substring(resourceDeclarationParts[0].LastIndexOf("/") + 1);
-                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1);
+                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1).Replace(".row", "");
+            }
+
+            [JsonConstructor]
+            public Row(string name, string id, string path)
+            {
+                Name = name;
+                ID = id;
+                Path = path;
             }
         }
         public class O2d : IResource
@@ -160,7 +229,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 Path = resourcePath;
                 List<string> resourceDeclarationParts = Path.Split(',').ToList();
                 Name = resourceDeclarationParts[0].Substring(resourceDeclarationParts[0].LastIndexOf("/") + 1);
-                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1);
+                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1).Replace(".o2d", "");
+            }
+
+            [JsonConstructor]
+            public O2d(string name, string id, string path)
+            {
+                Name = name;
+                ID = id;
+                Path = path;
             }
         }
         public class Mar : IResource
@@ -173,7 +250,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 Path = resourcePath;
                 List<string> resourceDeclarationParts = Path.Split(',').ToList();
                 Name = resourceDeclarationParts[0].Substring(resourceDeclarationParts[0].LastIndexOf("/") + 1);
-                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1);
+                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1).Replace(".mar", "");
+            }
+
+            [JsonConstructor]
+            public Mar(string name, string id, string path)
+            {
+                Name = name;
+                ID = id;
+                Path = path;
             }
         }
         public class Evm : IResource
@@ -186,7 +271,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 Path = resourcePath;
                 List<string> resourceDeclarationParts = Path.Split(',').ToList();
                 Name = resourceDeclarationParts[0].Substring(resourceDeclarationParts[0].LastIndexOf("/") + 1);
-                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1);
+                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1).Replace(".evm", "");
+            }
+
+            [JsonConstructor]
+            public Evm(string name, string id, string path)
+            {
+                Name = name;
+                ID = id;
+                Path = path;
             }
         }
 
@@ -200,7 +293,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 Path = resourcePath;
                 List<string> resourceDeclarationParts = Path.Split(',').ToList();
                 Name = resourceDeclarationParts[0].Substring(resourceDeclarationParts[0].LastIndexOf("/") + 1);
-                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1);
+                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1).Replace(".kms", "");
+            }
+
+            [JsonConstructor]
+            public Kms(string name, string id, string path)
+            {
+                Name = name;
+                ID = id;
+                Path = path;
             }
         }
 
@@ -214,7 +315,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 Path = resourcePath;
                 List<string> resourceDeclarationParts = Path.Split(',').ToList();
                 Name = resourceDeclarationParts[0].Substring(resourceDeclarationParts[0].LastIndexOf("/") + 1);
-                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1);
+                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1).Replace(".lt2", "");
+            }
+
+            [JsonConstructor]
+            public Lt2(string name, string id, string path)
+            {
+                Name = name;
+                ID = id;
+                Path = path;
             }
         }
         public class Far : IResource
@@ -227,7 +336,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 Path = resourcePath;
                 List<string> resourceDeclarationParts = Path.Split(',').ToList();
                 Name = resourceDeclarationParts[0].Substring(resourceDeclarationParts[0].LastIndexOf("/") + 1);
-                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1);
+                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1).Replace(".far", "");
+            }
+
+            [JsonConstructor]
+            public Far(string name, string id, string path)
+            {
+                Name = name;
+                ID = id;
+                Path = path;
             }
         }
         public class Cv2 : IResource
@@ -240,7 +357,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 Path = resourcePath;
                 List<string> resourceDeclarationParts = Path.Split(',').ToList();
                 Name = resourceDeclarationParts[0].Substring(resourceDeclarationParts[0].LastIndexOf("/") + 1);
-                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1);
+                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1).Replace(".cv2", "");
+            }
+
+            [JsonConstructor]
+            public Cv2(string name, string id, string path)
+            {
+                Name = name;
+                ID = id;
+                Path = path;
             }
         }
         public class Anm : IResource
@@ -253,7 +378,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 Path = resourcePath;
                 List<string> resourceDeclarationParts = Path.Split(',').ToList();
                 Name = resourceDeclarationParts[0].Substring(resourceDeclarationParts[0].LastIndexOf("/") + 1);
-                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1);
+                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1).Replace(".anm", "");
+            }
+
+            [JsonConstructor]
+            public Anm(string name, string id, string path)
+            {
+                Name = name;
+                ID = id;
+                Path = path;
             }
         }
         public class Gcx : IResource
@@ -266,7 +399,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 Path = resourcePath;
                 List<string> resourceDeclarationParts = Path.Split(',').ToList();
                 Name = resourceDeclarationParts[0].Substring(resourceDeclarationParts[0].LastIndexOf("/") + 1);
-                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1);
+                ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1).Replace(".gcx", "");
+            }
+
+            [JsonConstructor]
+            public Gcx(string name, string id, string path)
+            {
+                Name = name;
+                ID = id;
+                Path = path;
             }
         }
 

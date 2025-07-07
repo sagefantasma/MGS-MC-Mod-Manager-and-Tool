@@ -94,6 +94,7 @@
             saveButton.TabIndex = 3;
             saveButton.Text = "Save Resources";
             saveButton.UseVisualStyleBackColor = true;
+            saveButton.Click += saveButton_Click;
             // 
             // ResourceFileEditorForm
             // 
