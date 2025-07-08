@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace ANTIBigBoss_MGS_Mod_Manager
 {
-    public static class ResourceFileEditor
+    public static class ResourceFileEditorSupport
     {
         internal static string BaseDirectory { get; set; }
         public interface IResource
@@ -47,8 +47,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 ID = id;
                 Path = path;
                 IDMappedTo = idMappedTo;
-                //List<string> resourceDeclarationParts = Path.Split(',').ToList();
-                //IDMappedTo = resourceDeclarationParts[2].Substring(resourceDeclarationParts[2].IndexOf("/cache/") + 7, 8);
             }
         }
 
@@ -81,7 +79,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 ID = id;
                 Path = path;
                 Subtype = subtype;
-                //Subtype = Path.Contains("/evm/") ? CmdlSubtype.Evm : CmdlSubtype.Kms;
             }
         }
 
@@ -119,7 +116,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             {
                 Path = resourcePath;
                 List<string> resourceDeclarationParts = Path.Split(',').ToList();
-                //Replace($".{GetType().Name.ToLower()}", ""
                 Name = resourceDeclarationParts[0].Substring(resourceDeclarationParts[0].LastIndexOf("/") + 1);
                 ID = resourceDeclarationParts[1].Substring(resourceDeclarationParts[1].LastIndexOf("/") + 1).Replace(".tri", "");
             }

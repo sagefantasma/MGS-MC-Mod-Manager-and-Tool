@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using static ANTIBigBoss_MGS_Mod_Manager.ResourceFileEditor;
+using static ANTIBigBoss_MGS_Mod_Manager.ResourceFileEditorSupport;
 
 namespace ANTIBigBoss_MGS_Mod_Manager
 {

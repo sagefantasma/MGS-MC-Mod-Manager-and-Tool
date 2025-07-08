@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static ANTIBigBoss_MGS_Mod_Manager.ResourceFileEditor;
+using static ANTIBigBoss_MGS_Mod_Manager.ResourceFileEditorSupport;
 
 namespace ANTIBigBoss_MGS_Mod_Manager
 {
@@ -23,11 +23,12 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         private List<IResource> masterResourceList;
         public static string _masterResourceListCachedFileName = "masterResourceList.json";
         public static string _masterResourcesFullPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MGS Mod Manager and Trainer", "MGS2", _masterResourceListCachedFileName);
+        //TODO: remove cmdls from this entirely, and just automatically add/remove based on the kms/evm files. 
 
         public ResourceFileEditorForm(string path)
         {
             _mainPath = path;
-            ResourceFileEditor.BaseDirectory = _mainPath;
+            ResourceFileEditorSupport.BaseDirectory = _mainPath;
             InitializeComponent();
 
             _stageResourcesListBox.DisplayMember = "Name";
@@ -85,7 +86,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
             foreach (IResource masterResource in masterResourceList)
             {
-                //if (!masterResource.Path.Contains("cmdl"))
                 _availableResourcesListBox.Items.Add(masterResource);
             }
         }
@@ -126,18 +126,12 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
             foreach (IResource resource in _activeStage.ResourceList)
             {
-                //if (!resource.Path.Contains("cmdl"))
-                //{
                 _stageResourcesListBox.Items.Add(resource);
-                //int index = _availableResourcesListBox.FindString(resource.Name); //TODO: this needs to be more specific
-                //index = _availableResourcesListBox.Items.Cast<IResource>().First(resource)
                 int index;
                 IResource masterVersion = FindResourceInMasterList(resource);
 
                 index = masterResourceList.IndexOf(masterVersion);
-                //index = _availableResourcesListBox.Items.IndexOf(resource);
                 _availableResourcesListBox.SetItemChecked(index, true);
-                //}
             }
             _availableResourcesListBox.Enabled = true;
         }
@@ -191,8 +185,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 manifestContents.AddRange(Encoding.UTF8.GetBytes("\r\r\n"));
             }
 
-            //File.WriteAllBytes($"{_activeStage.Name}bp_assets.txt", bpAssetsContents.ToArray());
-            //File.WriteAllBytes($"{_activeStage.Name}manifest.txt", manifestContents.ToArray());
             File.WriteAllBytes($"{_mainPath}/eu/stage/{_activeStage.Name}/bp_assets.txt", bpAssetsContents.ToArray());
             File.WriteAllBytes($"{_mainPath}/eu/stage/{_activeStage.Name}/manifest.txt", manifestContents.ToArray());
 
