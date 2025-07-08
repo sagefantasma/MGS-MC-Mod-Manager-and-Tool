@@ -29,7 +29,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             {
                 Path = resourcePath;
                 List<string> resourceDeclarationParts = Path.Split(',').ToList();
-                Name = resourceDeclarationParts[0].Substring(resourceDeclarationParts[0].LastIndexOf("/") + 1);
                 ID = resourceDeclarationParts[2].Substring(resourceDeclarationParts[2].LastIndexOf("/") + 1).Replace(".ctxr","");
                 if (resourceDeclarationParts[2].Contains("/cache/"))
                     IDMappedTo = resourceDeclarationParts[2].Substring(resourceDeclarationParts[2].IndexOf("/cache/") + 7, 8);
@@ -37,6 +36,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     IDMappedTo = resourceDeclarationParts[2].Substring(resourceDeclarationParts[2].IndexOf("/resident/") + 10, 8);
                 else
                     throw new NotImplementedException();
+
+                Name = resourceDeclarationParts[0].Substring(resourceDeclarationParts[0].LastIndexOf("/") + 1) + $"-- ID: {ID} --  MappedTo: {IDMappedTo}";
             }
 
             [JsonConstructor]

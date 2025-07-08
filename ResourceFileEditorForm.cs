@@ -1,8 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using ANTIBigBoss_MGS_Mod_Manager.Properties;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -17,6 +19,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
     {
         private string _mainPath;
         private Stage _activeStage;
+        private TreeNode _activeNode;
         private List<IResource> masterResourceList;
         public static string _masterResourceListCachedFileName = "masterResourceList.json";
         public static string _masterResourcesFullPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MGS Mod Manager and Trainer", "MGS2", _masterResourceListCachedFileName);
@@ -27,6 +30,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             ResourceFileEditor.BaseDirectory = _mainPath;
             InitializeComponent();
 
+            _stageResourcesListBox.DisplayMember = "Name";
             _availableResourcesListBox.DisplayMember = "Name";
             _availableResourcesListBox.Enabled = false;
             string stageDirectory = Path.Combine(_mainPath, "eu", "stage");
@@ -102,38 +106,52 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
         }
 
-        private void OpenStage(object sender, TreeNodeMouseClickEventArgs e)
+        private void StageTreeView_NodeMouseDoubleClicked(object sender, TreeNodeMouseClickEventArgs e)
         {
+            _activeNode = e.Node;
+            OpenStage();
+        }
+
+        private void OpenStage()
+        {
+            _activeStage = new Stage(_activeNode.Text);
             _stageResourcesListBox.Items.Clear();
             for (int i = 0; i < _availableResourcesListBox.Items.Count; i++)
             {
                 _availableResourcesListBox.SetItemChecked(i, false);
             }
-            TreeNode senderNode = (sender as TreeView).SelectedNode;
-            _activeStage = new Stage(senderNode.Text);
+
+            stageResourcesLabel.Text = $"{_activeStage.Name}'s Resources";
+            addRemoveResourcesLabel.Text = $"Add/Remove Resources to {_activeStage.Name}";
 
             foreach (IResource resource in _activeStage.ResourceList)
             {
                 //if (!resource.Path.Contains("cmdl"))
                 //{
-                _stageResourcesListBox.Items.Add(resource.Name);
-                int index = _availableResourcesListBox.FindString(resource.Name); //TODO: this needs to be more specific
+                _stageResourcesListBox.Items.Add(resource);
+                //int index = _availableResourcesListBox.FindString(resource.Name); //TODO: this needs to be more specific
                 //index = _availableResourcesListBox.Items.Cast<IResource>().First(resource)
-                IResource masterVersion;
-                if (resource is Ctxr)
-                {
-                    masterVersion = masterResourceList.Where(x => x is Ctxr).Cast<Ctxr>().First(y => y.ID == resource.ID && y.IDMappedTo == (resource as Ctxr).IDMappedTo);
-                }
-                else
-                {
-                    masterVersion = masterResourceList.First(x => x.Name == resource.Name && x.ID == resource.ID);
-                }
+                int index;
+                IResource masterVersion = FindResourceInMasterList(resource);
+
                 index = masterResourceList.IndexOf(masterVersion);
                 //index = _availableResourcesListBox.Items.IndexOf(resource);
                 _availableResourcesListBox.SetItemChecked(index, true);
                 //}
             }
             _availableResourcesListBox.Enabled = true;
+        }
+
+        private IResource FindResourceInMasterList(IResource resourceToFind)
+        {
+            if (resourceToFind is Ctxr)
+            {
+                return masterResourceList.Where(x => x is Ctxr).Cast<Ctxr>().First(y => y.ID == resourceToFind.ID && y.IDMappedTo == (resourceToFind as Ctxr).IDMappedTo);
+            }
+            else
+            {
+                return masterResourceList.First(x => x.Name == resourceToFind.Name && x.ID == resourceToFind.ID);
+            }
         }
 
         private void saveButton_Click(object sender, EventArgs e)
@@ -177,6 +195,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             //File.WriteAllBytes($"{_activeStage.Name}manifest.txt", manifestContents.ToArray());
             File.WriteAllBytes($"{_mainPath}/eu/stage/{_activeStage.Name}/bp_assets.txt", bpAssetsContents.ToArray());
             File.WriteAllBytes($"{_mainPath}/eu/stage/{_activeStage.Name}/manifest.txt", manifestContents.ToArray());
+
+            OpenStage();
         }
 
         private List<IResource> SortBpAssetsResources(List<IResource> resources)
@@ -312,16 +332,32 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         private void copyButton_Click(object sender, EventArgs e)
         {
             ResourceClipboard = new List<IResource>();
+            if (_stageResourcesListBox.SelectedItems.Count == 0)
+                ResourceClipboard = null;
+            foreach (var itemObj in _stageResourcesListBox.SelectedItems)
+            {
+                ResourceClipboard.Add(itemObj as IResource);
+            }
         }
 
         private void pasteButton_Click(object sender, EventArgs e)
         {
-
+            foreach (IResource resource in ResourceClipboard)
+            {
+                int index = _availableResourcesListBox.Items.IndexOf(FindResourceInMasterList(resource));
+                _availableResourcesListBox.SetItemChecked(index, true);
+            }
+            saveButton_Click(null, null);
         }
 
         private void clearClipboardButton_Click(object sender, EventArgs e)
         {
             ResourceClipboard = null;
+        }
+
+        private void refreshButton_Click(object sender, EventArgs e)
+        {
+            OpenStage();
         }
     }
 }
