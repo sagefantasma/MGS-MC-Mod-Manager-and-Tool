@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
+using static ANTIBigBoss_MGS_Mod_Manager.ResourceFileEditorSupport;
 
 namespace ANTIBigBoss_MGS_Mod_Manager
 {
@@ -66,5 +68,13 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             HzxEditor.EditHzxFile();
         }
 
+        private void mgs2ResourceEditor_Click(object sender, EventArgs e)
+        {
+            ConfigSettings config = ConfigManager.LoadSettings();
+            if (!File.Exists(ResourceFileEditorForm._masterResourcesFullPath))
+                MessageBox.Show("Will now begin loading MGS2 resource editor. If this is your first time opening this, it may take several minutes to build the resourcing database. Please be patient. Subsequent loads will utilize a cached database to expediate loading.");
+            ResourceFileEditorForm resourceFileEditorForm = new ResourceFileEditorForm(config.GamePaths["MGS2"]);            
+            resourceFileEditorForm.ShowDialog();
+        }
     }
 }
