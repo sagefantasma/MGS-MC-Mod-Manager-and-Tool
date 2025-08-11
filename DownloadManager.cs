@@ -176,8 +176,19 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
             string[] requiredFolders = new[]
             {
-        "MGS3 Snake SE","MGS3 Snake Sneaking Suit", "MGS3 Tanya (Eva)", "MGS3 Raikov", "MGS3 GRU", "MGS3 KGB", "MGS3 Ocelot Unit", "MGS3 Officer", "MGS3 Scientist",
-        "MGS2 Snake Tanker", "MGS2 Raiden", "MGS2 Tanker Guards", "MGS2 Big Shell Guards", "MGS2 Ames", "MGS2 Coolant Spray", "MGS2 Cypher", "MGS2 Directional Microphone", "MGS2 Fatman Bombs", "MGS2 Item Box 1", "MGS2 Item Box 2", "MGS2 M4", "MGS2 M9", "MGS2 Marine", "MGS2 Meryl",  "MGS2 Ocelot", "MGS2 Olga Ninja", "MGS2 Olga Plant", "MGS2 Olga Tanker", "MGS2 Otacon", "MGS2 Pliskin", "MGS2 Raiden", "MGS2 Raiden Ninja", "MGS2 Raiden Scuba", "MGS2 SAA", "MGS2 Scott Dolph", "MGS2 Seal", "MGS2 Snake (MGS1)", "MGS2 Snake Tanker", "MGS2 Socom", "MGS2 Solidus", "MGS2 Stillman", "MGS2 Tuxedo Snake", "MGS2 USP",
+        // MGS3 Character Models
+        "MGS3 Assistant","MGS3 Boss Mantle","MGS3 Boss Sneaking Suit","MGS3 Boss VM","MGS3 Cameraman A","MGS3 Cameraman B","MGS3 Chopper Worker","MGS3 CIA Director","MGS3 Enemy Bike","MGS3 Enemy Johnny","MGS3 Enemy Platform","MGS3 Enemy Pyro","MGS3 EVA Half Naked","MGS3 EVA Injured","MGS3 EVA Jumpsuit","MGS3 EVA Jumpsuit Jacket","MGS3 EVA Naked","MGS3 Granin","MGS3 Granin Dead","MGS3 GRU","MGS3 KGB","MGS3 Maintenance Worker","MGS3 Major Ocelot","MGS3 Major Zero","MGS3 Major Zero Headphones","MGS3 Major Zero Suit","MGS3 MiG Pilot","MGS3 Ocelot Unit","MGS3 Officer","MGS3 Paramedic","MGS3 Paramedic Headphones","MGS3 Paramedic Suit","MGS3 Pilot","MGS3 President","MGS3 Raikov","MGS3 Raikov Naked","MGS3 Scientist","MGS3 Scientist Dead","MGS3 Secretary of Defense","MGS3 Sigint","MGS3 Snake Halo Jump","MGS3 Snake Maintenance","MGS3 Snake Naked","MGS3 Snake Naked Eyepatch","MGS3 Snake Scientist","MGS3 Snake SE","MGS3 Snake SE Eyepatch","MGS3 Snake SE Injured","MGS3 Snake Sneaking Suit","MGS3 Snake Suit Endgame","MGS3 Snake Torture Room","MGS3 Snake Torture Room Bag","MGS3 Snake Tuxedo","MGS3 Snake VM Injured","MGS3 Sokolov Coat","MGS3 Sokolov Scientist","MGS3 Tanya (Eva)","MGS3 The End","MGS3 The Fear","MGS3 The Fury Helmet","MGS3 The Fury No Helmet","MGS3 The Pain Mask","MGS3 The Pain No Mask","MGS3 The Sorrow Bleeding Eyes","MGS3 The Sorrow Main","MGS3 The Sorrow Parka","MGS3 VIP A","MGS3 VIP B","MGS3 VIP C","MGS3 Volgin Coat","MGS3 Volgin Coat (Ammo)","MGS3 Volgin No Coat","MGS3 Volgin No Coat (Ammo)",
+
+        // MGS3 Weapon/Item Models
+        "MGS3 Book","MGS3 Bucket","MGS3 Camera A","MGS3 Camera B","MGS3 Cardboard Box A","MGS3 Cardboard Box B","MGS3 Cardboard Box C","MGS3 Cigar","MGS3 Comic","MGS3 Croc Cap","MGS3 Directional Mic","MGS3 Flask","MGS3 Item Belt","MGS3 Johnny Picture","MGS3 Kerotan","MGS3 Microfilm","MGS3 Mousetrap","MGS3 Night Vision Goggles","MGS3 Philosopher's Legacy","MGS3 Radio","MGS3 Raikov Picture","MGS3 Roast Fish","MGS3 Roast Snake","MGS3 Scope","MGS3 Sokolov Picture","MGS3 Spy Radio Broken","MGS3 Spy Radio Closed","MGS3 Spy Radio Open","MGS3 Suitcase EVA","MGS3 Suitcase Snake","MGS3 Tape","MGS3 Tape Recorder","MGS3 Thermal Goggles","MGS3 Torch","MGS3 Transmitter","MGS3 Wine Glass",
+
+        // MGS2 Character Models
+        "MGS2 Snake Tanker", "MGS2 Pliskin", "MGS2 Tuxedo Snake", "MGS2 Snake (MGS1)", "MGS2 Raiden", "MGS2 Raiden Ninja", "MGS2 Raiden Scuba", "MGS2 Naked Raiden", "MGS2 Tanker Guards", "MGS2 Tanker Backup", "MGS2 Big Shell Guards", "MGS2 Big Shell Backup", "MGS2 Cypher", "MGS2 Gun Cypher", "MGS2 Ames", "MGS2 Emma", "MGS2 Fatman", "MGS2 Fortune", "MGS2 Genome", "MGS2 Genome Mecha", "MGS2 Marine", "MGS2 Meryl", "MGS2 Ocelot", "MGS2 Ocelot Tanker",  "MGS2 Olga Ninja", "MGS2 Olga Plant", "MGS2 Olga Tanker", "MGS2 Otacon", "MGS2 President", "MGS2 Scott Dolph", "MGS2 Seal", "MGS2 Solidus", "MGS2 Stillman", "MGS2 Vamp Naked",
+        
+        // MGS2 Weapon/Item Models
+        "MGS2 Fatman Bombs", "MGS2 Directional Microphone", "MGS2 Item Box 1", "MGS2 Item Box 2", "MGS2 M4", "MGS2 M9", "MGS2 Coolant Spray", "MGS2 Socom", "MGS2 SAA", "MGS2 USP", "MGS2 Ray Prototype", "MGS2 Ray Cockpit", "MGS2 Ray Mass Produced",
+
+        // PythonFU Script
         "Scripts"
     };
 
@@ -224,7 +235,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
             string scriptName = "PythonFU.py";
             string scriptPath = Path.Combine(scriptsFolder, scriptName);
-            DateTime requiredDate = new DateTime(2025, 4, 19);
+            DateTime requiredDate = new DateTime(2025, 5, 28);
 
             bool needScriptUpdate =
                 !File.Exists(scriptPath) ||

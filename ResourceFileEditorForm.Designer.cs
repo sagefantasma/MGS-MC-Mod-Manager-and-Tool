@@ -50,7 +50,7 @@
             // 
             // tableLayoutPanel1
             // 
-            tableLayoutPanel1.BackColor = System.Drawing.Color.LightSteelBlue;
+            tableLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(30, 30, 30);
             tableLayoutPanel1.ColumnCount = 3;
             tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
@@ -77,7 +77,10 @@
             // addRemoveResourcesLabel
             // 
             addRemoveResourcesLabel.AutoSize = true;
+            addRemoveResourcesLabel.BackColor = System.Drawing.Color.FromArgb(30, 30, 30);
             addRemoveResourcesLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            addRemoveResourcesLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            addRemoveResourcesLabel.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
             addRemoveResourcesLabel.Location = new System.Drawing.Point(832, 0);
             addRemoveResourcesLabel.Name = "addRemoveResourcesLabel";
             addRemoveResourcesLabel.Size = new System.Drawing.Size(549, 33);
@@ -88,7 +91,10 @@
             // stageResourcesLabel
             // 
             stageResourcesLabel.AutoSize = true;
+            stageResourcesLabel.BackColor = System.Drawing.Color.FromArgb(30, 30, 30);
             stageResourcesLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            stageResourcesLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            stageResourcesLabel.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
             stageResourcesLabel.Location = new System.Drawing.Point(279, 0);
             stageResourcesLabel.Name = "stageResourcesLabel";
             stageResourcesLabel.Size = new System.Drawing.Size(547, 33);
@@ -98,7 +104,9 @@
             // 
             // _stageTreeView
             // 
+            _stageTreeView.BackColor = System.Drawing.Color.FromArgb(51, 51, 51);
             _stageTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            _stageTreeView.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
             _stageTreeView.Location = new System.Drawing.Point(3, 36);
             _stageTreeView.Name = "_stageTreeView";
             _stageTreeView.Size = new System.Drawing.Size(270, 572);
@@ -107,7 +115,10 @@
             // 
             // _stageResourcesListBox
             // 
+            _stageResourcesListBox.BackColor = System.Drawing.Color.FromArgb(51, 51, 51);
+            _stageResourcesListBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             _stageResourcesListBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            _stageResourcesListBox.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
             _stageResourcesListBox.FormattingEnabled = true;
             _stageResourcesListBox.ItemHeight = 15;
             _stageResourcesListBox.Location = new System.Drawing.Point(279, 36);
@@ -118,8 +129,11 @@
             // 
             // _availableResourcesListBox
             // 
+            _availableResourcesListBox.BackColor = System.Drawing.Color.FromArgb(51, 51, 51);
+            _availableResourcesListBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             _availableResourcesListBox.CheckOnClick = true;
             _availableResourcesListBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            _availableResourcesListBox.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
             _availableResourcesListBox.FormattingEnabled = true;
             _availableResourcesListBox.Location = new System.Drawing.Point(832, 36);
             _availableResourcesListBox.Name = "_availableResourcesListBox";
@@ -128,19 +142,26 @@
             // 
             // saveButton
             // 
+            saveButton.BackColor = System.Drawing.Color.FromArgb(51, 51, 51);
             saveButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            saveButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            saveButton.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            saveButton.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
             saveButton.Location = new System.Drawing.Point(832, 614);
             saveButton.Name = "saveButton";
             saveButton.Size = new System.Drawing.Size(549, 44);
             saveButton.TabIndex = 3;
             saveButton.Text = "Save Selected Resources to Selected Stage";
-            saveButton.UseVisualStyleBackColor = true;
+            saveButton.UseVisualStyleBackColor = false;
             saveButton.Click += saveButton_Click;
             // 
             // stageTreeLabel
             // 
             stageTreeLabel.AutoSize = true;
+            stageTreeLabel.BackColor = System.Drawing.Color.FromArgb(30, 30, 30);
             stageTreeLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            stageTreeLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            stageTreeLabel.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
             stageTreeLabel.Location = new System.Drawing.Point(3, 0);
             stageTreeLabel.Name = "stageTreeLabel";
             stageTreeLabel.Size = new System.Drawing.Size(270, 33);
@@ -150,6 +171,7 @@
             // 
             // flowLayoutPanel1
             // 
+            flowLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(30, 30, 30);
             flowLayoutPanel1.Controls.Add(copyButton);
             flowLayoutPanel1.Controls.Add(pasteButton);
             flowLayoutPanel1.Controls.Add(clearClipboardButton);
@@ -161,38 +183,51 @@
             // 
             // copyButton
             // 
+            copyButton.BackColor = System.Drawing.Color.FromArgb(51, 51, 51);
+            copyButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            copyButton.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            copyButton.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
             copyButton.Location = new System.Drawing.Point(3, 3);
             copyButton.Name = "copyButton";
             copyButton.Size = new System.Drawing.Size(197, 41);
             copyButton.TabIndex = 0;
             copyButton.Text = "Copy Selected Resources To Store";
-            copyButton.UseVisualStyleBackColor = true;
+            copyButton.UseVisualStyleBackColor = false;
             copyButton.Click += copyButton_Click;
             // 
             // pasteButton
             // 
+            pasteButton.BackColor = System.Drawing.Color.FromArgb(51, 51, 51);
             pasteButton.Enabled = false;
+            pasteButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            pasteButton.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            pasteButton.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
             pasteButton.Location = new System.Drawing.Point(206, 3);
             pasteButton.Name = "pasteButton";
             pasteButton.Size = new System.Drawing.Size(136, 41);
             pasteButton.TabIndex = 1;
             pasteButton.Text = "Paste Stored Resources";
-            pasteButton.UseVisualStyleBackColor = true;
+            pasteButton.UseVisualStyleBackColor = false;
             pasteButton.Click += pasteButton_Click;
             // 
             // clearClipboardButton
             // 
+            clearClipboardButton.BackColor = System.Drawing.Color.FromArgb(51, 51, 51);
             clearClipboardButton.Enabled = false;
+            clearClipboardButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            clearClipboardButton.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            clearClipboardButton.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
             clearClipboardButton.Location = new System.Drawing.Point(348, 3);
             clearClipboardButton.Name = "clearClipboardButton";
             clearClipboardButton.Size = new System.Drawing.Size(75, 41);
             clearClipboardButton.TabIndex = 2;
             clearClipboardButton.Text = "Clear Store";
-            clearClipboardButton.UseVisualStyleBackColor = true;
+            clearClipboardButton.UseVisualStyleBackColor = false;
             clearClipboardButton.Click += clearClipboardButton_Click;
             // 
             // flowLayoutPanel2
             // 
+            flowLayoutPanel2.BackColor = System.Drawing.Color.FromArgb(30, 30, 30);
             flowLayoutPanel2.Controls.Add(triTreeBtn);
             flowLayoutPanel2.Controls.Add(refreshButton);
             flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -203,27 +238,36 @@
             // 
             // triTreeBtn
             // 
+            triTreeBtn.BackColor = System.Drawing.Color.FromArgb(51, 51, 51);
+            triTreeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            triTreeBtn.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            triTreeBtn.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
             triTreeBtn.Location = new System.Drawing.Point(3, 3);
             triTreeBtn.Name = "triTreeBtn";
             triTreeBtn.Size = new System.Drawing.Size(83, 41);
             triTreeBtn.TabIndex = 10;
             triTreeBtn.Text = "Build Tri Tree";
-            triTreeBtn.UseVisualStyleBackColor = true;
+            triTreeBtn.UseVisualStyleBackColor = false;
             // 
             // refreshButton
             // 
+            refreshButton.BackColor = System.Drawing.Color.FromArgb(51, 51, 51);
+            refreshButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            refreshButton.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            refreshButton.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
             refreshButton.Location = new System.Drawing.Point(92, 3);
             refreshButton.Name = "refreshButton";
             refreshButton.Size = new System.Drawing.Size(139, 41);
             refreshButton.TabIndex = 11;
             refreshButton.Text = "Refresh Selected Stage";
-            refreshButton.UseVisualStyleBackColor = true;
+            refreshButton.UseVisualStyleBackColor = false;
             refreshButton.Click += refreshButton_Click;
             // 
             // ResourceFileEditorForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            BackColor = System.Drawing.Color.FromArgb(30, 30, 30);
             ClientSize = new System.Drawing.Size(1384, 661);
             Controls.Add(tableLayoutPanel1);
             Name = "ResourceFileEditorForm";

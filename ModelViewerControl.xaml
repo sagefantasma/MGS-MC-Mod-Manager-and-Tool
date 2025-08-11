@@ -9,7 +9,7 @@
              Background="#1E1E1E">
 
     <Grid>
-        
+
         <helix:HelixViewport3D x:Name="HelixViewport"
                                HorizontalAlignment="Stretch"
                                VerticalAlignment="Stretch"

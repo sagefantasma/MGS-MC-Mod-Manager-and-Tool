@@ -16,7 +16,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         public static class AppInfo
         {
-            public const string CurrentVersion = "1.0.0.4";
+            public const string CurrentVersion = "1.0.0.7";
         }
         private void ShowChangelog()
         {
@@ -29,19 +29,23 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 changelogForm.MaximizeBox = false;
                 changelogForm.ClientSize = new Size(595, 525);
 
-                Label lbl = new Label
+                // Create a panel with AutoScroll enabled
+                Panel scrollPanel = new Panel
                 {
                     Dock = DockStyle.Fill,
+                    AutoScroll = true
+                };
+
+                Label lbl = new Label
+                {
                     Font = new Font("Segoe UI", 11f, FontStyle.Regular),
                     Text = BuildChangelogText(),
-                    AutoSize = false,
+                    AutoSize = true,
                     TextAlign = ContentAlignment.TopLeft,
                     UseMnemonic = false
                 };
 
-                lbl.MaximumSize = new Size(int.MaxValue, int.MaxValue);
-                lbl.AutoEllipsis = false;
-                lbl.AutoSize = false;
+                scrollPanel.Controls.Add(lbl);
 
                 Button btn = new Button
                 {
@@ -51,7 +55,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 };
                 btn.Click += (_, __) => changelogForm.Close();
 
-                changelogForm.Controls.Add(lbl);
+                changelogForm.Controls.Add(scrollPanel);
                 changelogForm.Controls.Add(btn);
 
                 changelogForm.ShowDialog(this);
@@ -61,16 +65,35 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         private string BuildChangelogText()
         {
             return
-@"Changelog - v1.0.0.4
+@"Thanks for using the Mod Manager and Tools! - ANTIBigBoss
+
+Changelog - v1.0.0.7
+- Resource Editor added for MGS2 in the Mod Resources
+- Added in some more models for MGS2
+- QOL Tweaks to the MGS2 Guard editor
+- Added more tweaks into the Mipmap issue (Still has some issues to be ironed out)
+
+Changelog - v1.0.0.6
+- Fixed a bug where the MGS3 Mods folder could be infinitely duplicated if 
+selected as a mod via 'Add Mod' in the MGS3 Modding Form
+- Fixed a bug where textures that shouldn't have mip maps were being given
+mip maps and causing weird issues in the Texture Import/Export tool
+- Fixed a bug in the Texture Import/Export tool where you could create an
+empty mod if no textures were selected
+- Added support for MGS2 Manifest and Resource text files for future model swaps
+
+Changelog - v1.0.0.5
+- Added in over 100 MGS3 3D models to the 3D Model and Texture Import/Export tool
+- Added in support for MGS2 mods made with the SeaLouse Model Import/Export tool
+
+Changelog - v1.0.0.4
 - Added in more 3D models to the 3D Model and Texture Import/Export tool
 - Added in a Help/FAQ button for the Texture Import/Export tool
 - Bug fixes and UI improvements for Texture Import/Export tool
 - MGSFPSUnlock support added to MGS2 and MGS3 Modding Forms
 - MGS3CrouchWalk support added to MGS3 Modding Form
 - UI Fixes where MGS3 Modding Form would start from 
-top of the page everytime a mod was activated or deactivated
-
-Thanks for using the Mod Manager and Tools! - ANTIBigBoss";
+top of the page everytime a mod was activated or deactivated";
         }
 
         private void MainMenuForm_FormClosing(object sender, FormClosingEventArgs e)

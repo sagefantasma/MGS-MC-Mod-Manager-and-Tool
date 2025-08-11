@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -54,6 +56,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 }
             }
         }
+
+        
 
         public class HZXPat
         {
@@ -156,6 +160,42 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 LoadCurrentRoute();
             }
 
+            private static readonly Dictionary<string, ushort> DirectionMap = new Dictionary<string, ushort>
+            {
+            {"North", 0x0800},
+            {"South", 0x0000},
+            {"East", 0x0400},
+            {"West", 0x0C00},
+            {"North East", 0x0600},
+            {"North West", 0x0A00},
+            {"South East", 0x0200},
+            {"South West", 0x0E00}
+            };
+
+            private static readonly Dictionary<string, ushort> ActionMap = new Dictionary<string, ushort>
+            {
+            {"Normal patrol", 0x0000},
+            {"Yawns", 0x0001},
+            {"Stretches", 0x0002},
+            {"Falls Asleep", 0x0003},
+            {"Binos at AX AY AZ", 0x0004},
+            {"Looks left and right", 0x0008},
+            {"Looks at ground", 0x000E},
+            {"Aims Gun + Waves hand", 0x0011},
+            {"Aims Gun at point", 0x0012},
+            {"Cautious Left Walk", 0x0014},
+            {"Cautious Right Walk", 0x0015},
+            {"Jogs", 0x0016},
+            {"Uses Radio", 0x0017},
+            {"Pee animation", 0x0018},
+            {"Runs with Gun", 0x0019},
+            {"Leans right", 0x001A},
+            {"Leans left", 0x001B},
+            {"Rolls right", 0x001C},
+            {"Rolls left", 0x001D},
+            {"Walks backwards pointing gun", 0x001F}
+            };
+
             private void InitializeComponents()
             {
                 this.Text = "MGS2 Guard Route Editor";
@@ -213,6 +253,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     RowHeadersVisible = false,
                     EditMode = DataGridViewEditMode.EditOnEnter,
                     SelectionMode = DataGridViewSelectionMode.CellSelect
+
+                };
+
+                dataGrid.EditingControlShowing += (s, e) =>
+                {
+                    if (e.Control is ComboBox combo && dataGrid.CurrentCell.ColumnIndex == colDir)
+                    {
+                        combo.DropDownStyle = ComboBoxStyle.DropDown;
+                    }
                 };
 
                 dataGrid.DefaultCellStyle.BackColor = Color.FromArgb(15, 57, 48);
@@ -240,7 +289,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 {
                     HeaderText = "Idx",
                     ReadOnly = true,
-                    Width = 40
+                    Width = 5
                 };
                 dataGrid.Columns.Add(col0);
 
@@ -266,14 +315,53 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     HeaderText = "Snake A(X/Y/Z)",
                     Text = "Set",
                     UseColumnTextForButtonValue = true,
-                    Width = 110
+                    Width = 100
                 };
                 dataGrid.Columns.Add(col8);
 
-                dataGrid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Action" });
+                var actionColumn = new DataGridViewComboBoxColumn
+                {
+                    HeaderText = "Action",
+                    Name = "Action",
+                    FlatStyle = FlatStyle.Flat,
+                    DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing,
+                    AutoComplete = true,
+                    Width = 200
+                };
+
+                actionColumn.Items.AddRange(ActionMap.Keys.ToArray());
+                actionColumn.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+                actionColumn.DropDownWidth = 200;
+                actionColumn.AutoComplete = true;
+
+                dataGrid.Columns.Add(actionColumn);
+
                 dataGrid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Move" });
                 dataGrid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Time" });
-                dataGrid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Dir" });
+                var dirColumn = new DataGridViewComboBoxColumn
+                {
+                    HeaderText = "Direction",
+                    Name = "Dir",
+                    FlatStyle = FlatStyle.Flat,
+                    DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing,
+                    AutoComplete = true,
+                    Width = 200
+                };
+
+                // Add direction names first
+                dirColumn.Items.AddRange(DirectionMap.Keys.ToArray());
+
+                // Make the combo box editable
+                dirColumn.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+                dirColumn.DropDownWidth = 150;
+                dirColumn.AutoComplete = true;
+
+                dataGrid.Columns.Add(dirColumn);
+
+                // Add these event handlers
+                dataGrid.EditingControlShowing += DataGrid_EditingControlShowing;
+                dataGrid.CellEndEdit += DataGrid_CellEndEdit;
+                dataGrid.CellValidating += DataGrid_CellValidating;
 
                 dataGrid.CellClick += DataGrid_CellClick;
 
@@ -337,14 +425,141 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 {
                     if (!ApplyChangesFromGrid()) return;
                     SaveFile();
-                    MessageBox.Show("File saved.", "Success");
-                    this.Close();
+                    // Removed the closing line since I found it more of a hinderance that it closed while testing new guard routes
+                    // this.Close();
                 };
                 bottomPanel.Controls.Add(btnSave);
 
                 mainLayout.Controls.Add(bottomPanel, 0, 3);
             }
 
+            private void DataGrid_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+            {
+                if (dataGrid.CurrentCell.ColumnIndex == colDir && e.Control is ComboBox dirCombo)
+                {
+                    dirCombo.DropDownStyle = ComboBoxStyle.DropDown;
+                    dirCombo.Validating += ComboDirection_Validating;
+                }
+                else if (dataGrid.CurrentCell.ColumnIndex == colAction && e.Control is ComboBox actionCombo)
+                {
+                    actionCombo.DropDownStyle = ComboBoxStyle.DropDown;
+                    actionCombo.Validating += ComboAction_Validating;
+                }
+            }
+
+            private void ComboDirection_Validating(object sender, CancelEventArgs e)
+            {
+                if (sender is ComboBox combo && dataGrid.CurrentCell.ColumnIndex == colDir)
+                {
+                    string input = combo.Text;
+                    ushort value;
+
+                    if (DirectionMap.ContainsKey(input))
+                    {
+                        return;
+                    }
+
+                    if (ushort.TryParse(input, NumberStyles.HexNumber, null, out value))
+                    {
+                        string hexValue = value.ToString("X4");
+                        if (!combo.Items.Contains(hexValue))
+                        {
+                            combo.Items.Add(hexValue);
+                        }
+                        combo.Text = hexValue;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid direction. Must be a direction name or hexadecimal value.", "Error",
+                                      MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        e.Cancel = true;
+                    }
+                }
+            }
+
+            private void ComboAction_Validating(object sender, CancelEventArgs e)
+            {
+                if (sender is ComboBox combo && dataGrid.CurrentCell.ColumnIndex == colAction)
+                {
+                    string input = combo.Text;
+                    ushort value;
+
+                    if (ActionMap.ContainsKey(input))
+                    {
+                        return;
+                    }
+
+                    if (ushort.TryParse(input, NumberStyles.HexNumber, null, out value))
+                    {
+                        string hexValue = value.ToString("X4");
+                        if (!combo.Items.Contains(hexValue))
+                        {
+                            combo.Items.Add(hexValue);
+                        }
+                        combo.Text = hexValue;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid action. Must be an action name or hexadecimal value.", "Error",
+                                      MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        e.Cancel = true;
+                    }
+                }
+            }
+
+            private void DataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+            {
+                if (e.ColumnIndex == colDir)
+                {
+                    var cell = dataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewComboBoxCell;
+                    string currentValue = cell.Value?.ToString();
+
+                    if (!string.IsNullOrEmpty(currentValue) && !cell.Items.Contains(currentValue))
+                    {
+                        cell.Items.Add(currentValue);
+                    }
+                }
+                else if (e.ColumnIndex == colAction)
+                {
+                    var cell = dataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewComboBoxCell;
+                    string currentValue = cell.Value?.ToString();
+
+                    if (!string.IsNullOrEmpty(currentValue) && !cell.Items.Contains(currentValue))
+                    {
+                        cell.Items.Add(currentValue);
+                    }
+                }
+            }
+
+            private void DataGrid_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+            {
+                if (e.ColumnIndex == colDir)
+                {
+                    string input = e.FormattedValue.ToString();
+                    ushort value;
+
+                    if (!DirectionMap.ContainsKey(input) &&
+                        !ushort.TryParse(input, NumberStyles.HexNumber, null, out value))
+                    {
+                        MessageBox.Show("Invalid direction. Must be a direction name or hexadecimal value.", "Error",
+                                      MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        e.Cancel = true;
+                    }
+                }
+                else if (e.ColumnIndex == colAction)
+                {
+                    string input = e.FormattedValue.ToString();
+                    ushort value;
+
+                    if (!ActionMap.ContainsKey(input) &&
+                        !ushort.TryParse(input, NumberStyles.HexNumber, null, out value))
+                    {
+                        MessageBox.Show("Invalid action. Must be an action name or hexadecimal value.", "Error",
+                                      MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        e.Cancel = true;
+                    }
+                }
+            }
             private Button CreateButton(string text, int width)
             {
                 return new Button
@@ -409,43 +624,73 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 uint key = _patEntries[_currentIndex].PointsPtr;
                 List<HZXPtp> route = _guardRoutes.ContainsKey(key) ? _guardRoutes[key] : new List<HZXPtp>();
 
-                lblRouteInfo.Text = $"Guard Route: {_currentIndex + 1} of {_patEntries.Count} - Points: {route.Count}";
-
+                lblRouteInfo.Text = $"Guard Route: {_currentIndex} of {_patEntries.Count - 1} - Points: {route.Count}";
                 dataGrid.Rows.Clear();
 
                 for (int i = 0; i < route.Count; i++)
                 {
                     var ptp = route[i];
-                    string xStr = ptp.X.ToString("F6");
-                    string yStr = ptp.Y.ToString("F6");
-                    string zStr = ptp.Z.ToString("F6");
-                    string axStr = ptp.AX.ToString("F6");
-                    string ayStr = ptp.AY.ToString("F6");
-                    string azStr = ptp.AZ.ToString("F6");
-                    string actionStr = ptp.Action.ToString("X4");
-                    string moveStr = ptp.Move.ToString("X4");
-                    string timeStr = ptp.Time.ToString("X4");
-                    string dirStr = ptp.Dir.ToString("X4");
+                    var row = new DataGridViewRow();
+                    row.CreateCells(dataGrid);
 
-                    dataGrid.Rows.Add(
-                        i.ToString(),
-                        xStr,
-                        yStr,
-                        zStr,
-                        "Set",
-                        axStr,
-                        ayStr,
-                        azStr,
-                        "Set",
-                        actionStr,
-                        moveStr,
-                        timeStr,
-                        dirStr
-                    );
+                    row.Cells[colIdx].Value = i.ToString();
+                    row.Cells[colX].Value = ptp.X.ToString("F6");
+                    row.Cells[colY].Value = ptp.Y.ToString("F6");
+                    row.Cells[colZ].Value = ptp.Z.ToString("F6");
+                    row.Cells[colSnakeXYZ].Value = "Set";
+                    row.Cells[colAX].Value = ptp.AX.ToString("F6");
+                    row.Cells[colAY].Value = ptp.AY.ToString("F6");
+                    row.Cells[colAZ].Value = ptp.AZ.ToString("F6");
+                    row.Cells[colSnakeA].Value = "Set";
+                    row.Cells[colMove].Value = ptp.Move.ToString("X4");
+                    row.Cells[colTime].Value = ptp.Time.ToString("X4");
+
+                    var dirCell = (DataGridViewComboBoxCell)row.Cells[colDir];
+                    var actionCell = (DataGridViewComboBoxCell)row.Cells[colAction];
+
+                    string dirDisplayValue = GetDisplayValueForDirection(ptp.Dir, dirCell);
+                    string actionDisplayValue = GetDisplayValueForAction(ptp.Action, actionCell);
+
+                    dirCell.Value = dirDisplayValue;
+                    actionCell.Value = actionDisplayValue;
+
+                    dataGrid.Rows.Add(row);
                 }
 
                 if (dataGrid.Rows.Count > 0)
                     dataGrid.FirstDisplayedScrollingRowIndex = 0;
+            }
+
+            private string GetDisplayValueForDirection(ushort value, DataGridViewComboBoxCell cell)
+            {
+                var knownDir = DirectionMap.FirstOrDefault(x => x.Value == value);
+                if (!string.IsNullOrEmpty(knownDir.Key))
+                {
+                    return knownDir.Key;
+                }
+
+                string hexValue = value.ToString("X4");
+                if (!cell.Items.Contains(hexValue))
+                {
+                    cell.Items.Add(hexValue);
+                }
+                return hexValue;
+            }
+
+            private string GetDisplayValueForAction(ushort value, DataGridViewComboBoxCell cell)
+            {
+                var knownAction = ActionMap.FirstOrDefault(x => x.Value == value);
+                if (!string.IsNullOrEmpty(knownAction.Key))
+                {
+                    return knownAction.Key;
+                }
+
+                string hexValue = value.ToString("X4");
+                if (!cell.Items.Contains(hexValue))
+                {
+                    cell.Items.Add(hexValue);
+                }
+                return hexValue;
             }
 
             private bool ApplyChangesFromGrid()
@@ -466,83 +711,118 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     DataGridViewRow row = dataGrid.Rows[i];
                     try
                     {
-                        float xVal = float.Parse((string)row.Cells[colX].Value);
-                        float yVal = float.Parse((string)row.Cells[colY].Value);
-                        float zVal = float.Parse((string)row.Cells[colZ].Value);
+                        route[i].Dir = ParseDirectionValue(row.Cells[colDir].Value?.ToString());
+                        route[i].Action = ParseActionValue(row.Cells[colAction].Value?.ToString());
 
-                        float axVal = float.Parse((string)row.Cells[colAX].Value);
-                        float ayVal = float.Parse((string)row.Cells[colAY].Value);
-                        float azVal = float.Parse((string)row.Cells[colAZ].Value);
-
-                        ushort actionVal = ushort.Parse(((string)row.Cells[colAction].Value).Trim(), System.Globalization.NumberStyles.HexNumber);
-                        ushort moveVal = ushort.Parse(((string)row.Cells[colMove].Value).Trim(), System.Globalization.NumberStyles.HexNumber);
-                        ushort timeVal = ushort.Parse(((string)row.Cells[colTime].Value).Trim(), System.Globalization.NumberStyles.HexNumber);
-                        ushort dirVal = ushort.Parse(((string)row.Cells[colDir].Value).Trim(), System.Globalization.NumberStyles.HexNumber);
-
-                        route[i].X = xVal;
-                        route[i].Y = yVal;
-                        route[i].Z = zVal;
-                        route[i].AX = axVal;
-                        route[i].AY = ayVal;
-                        route[i].AZ = azVal;
-                        route[i].Action = actionVal;
-                        route[i].Move = moveVal;
-                        route[i].Time = timeVal;
-                        route[i].Dir = dirVal;
+                        route[i].X = float.Parse(row.Cells[colX].Value?.ToString() ?? "0");
+                        route[i].Y = float.Parse(row.Cells[colY].Value?.ToString() ?? "0");
+                        route[i].Z = float.Parse(row.Cells[colZ].Value?.ToString() ?? "0");
+                        route[i].AX = float.Parse(row.Cells[colAX].Value?.ToString() ?? "0");
+                        route[i].AY = float.Parse(row.Cells[colAY].Value?.ToString() ?? "0");
+                        route[i].AZ = float.Parse(row.Cells[colAZ].Value?.ToString() ?? "0");
+                        route[i].Move = ushort.Parse(row.Cells[colMove].Value?.ToString() ?? "0", NumberStyles.HexNumber);
+                        route[i].Time = ushort.Parse(row.Cells[colTime].Value?.ToString() ?? "0", NumberStyles.HexNumber);
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Error parsing row {i}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show($"Error in row {i}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
                     }
                 }
                 return true;
             }
 
+            private ushort ParseDirectionValue(string input)
+            {
+                if (string.IsNullOrEmpty(input))
+                    return 0;
+
+                if (DirectionMap.TryGetValue(input, out ushort value))
+                    return value;
+
+                if (ushort.TryParse(input, NumberStyles.HexNumber, null, out value))
+                    return value;
+
+                throw new FormatException($"Invalid direction value: {input}");
+            }
+
+            private ushort ParseActionValue(string input)
+            {
+                if (string.IsNullOrEmpty(input))
+                    return 0;
+
+                if (ActionMap.TryGetValue(input, out ushort value))
+                    return value;
+
+                if (ushort.TryParse(input, NumberStyles.HexNumber, null, out value))
+                    return value;
+
+                throw new FormatException($"Invalid action value: {input}");
+            }
+
             private void SaveFile()
             {
-                OpenFileDialog ofd = new OpenFileDialog
+                if (string.IsNullOrEmpty(_filePath))
                 {
-                    InitialDirectory = @"C:\Program Files (x86)\Steam\steamapps\common\MGS2\assets\hzx\us",
-                    Filter = "HZX files (*.hzx)|*.hzx|All files (*.*)|*.*"
-                };
-                if (ofd.ShowDialog() != DialogResult.OK)
+                    MessageBox.Show("No file path specified.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
+                }
 
-                string savePath = ofd.FileName;
-                using (FileStream fs = File.Open(savePath, FileMode.Open, FileAccess.ReadWrite))
-                using (BinaryWriter bw = new BinaryWriter(fs))
+                // Backup file so the user doesn't need to go to the backed up vanilla files to restore the original file
+                string backupPath = _filePath + ".bak";
+                try
                 {
-                    foreach (var pat in _patEntries)
-                    {
-                        uint key = pat.PointsPtr;
-                        if (!_guardRoutes.ContainsKey(key))
-                            continue;
-                        List<HZXPtp> pts = _guardRoutes[key];
-                        fs.Seek(pat.PointsPtr, SeekOrigin.Begin);
+                    if (File.Exists(backupPath))
+                        File.Delete(backupPath);
+                    File.Copy(_filePath, backupPath);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to create backup:\n{ex.Message}", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
 
-                        foreach (var ptp in pts)
+                try
+                {
+                    using (FileStream fs = File.Open(_filePath, FileMode.Open, FileAccess.ReadWrite))
+                    using (BinaryWriter bw = new BinaryWriter(fs))
+                    {
+                        foreach (var pat in _patEntries)
                         {
-                            bw.Write(ptp.X);
-                            bw.Write(ptp.Z);
-                            bw.Write(ptp.Y);
-                            bw.Write(ptp.AX);
-                            bw.Write(ptp.AZ);
-                            bw.Write(ptp.AY);
-                            bw.Write(ptp.Action);
-                            bw.Write(ptp.Time);
-                            bw.Write(ptp.Dir);
-                            bw.Write(ptp.Move);
-                            bw.Write(ptp.Flag);
-                            bw.Write(ptp.GroupId);
-                            bw.Write(ptp.Extra);
+                            uint key = pat.PointsPtr;
+                            if (!_guardRoutes.ContainsKey(key))
+                                continue;
+
+                            List<HZXPtp> pts = _guardRoutes[key];
+                            fs.Seek(pat.PointsPtr, SeekOrigin.Begin);
+
+                            foreach (var ptp in pts)
+                            {
+                                bw.Write(ptp.X);
+                                bw.Write(ptp.Z);
+                                bw.Write(ptp.Y);
+                                bw.Write(ptp.AX);
+                                bw.Write(ptp.AZ);
+                                bw.Write(ptp.AY);
+                                bw.Write(ptp.Action);
+                                bw.Write(ptp.Time);
+                                bw.Write(ptp.Dir);
+                                bw.Write(ptp.Move);
+                                bw.Write(ptp.Flag);
+                                bw.Write(ptp.GroupId);
+                                bw.Write(ptp.Extra);
+                            }
                         }
                     }
+                    MessageBox.Show("File saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to save file:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
-        public static void EditHzxFile()
+            public static void EditHzxFile()
         {
             OpenFileDialog ofd = new OpenFileDialog
             {

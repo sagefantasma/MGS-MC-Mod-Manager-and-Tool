@@ -218,38 +218,80 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             string modName = new DirectoryInfo(modPath).Name;
             string destinationPath = Path.Combine(modFolder, modName);
 
-            if (Directory.Exists(destinationPath))
+            // Normalize and append separator for exact prefix checks
+            string sourceFull = Path.GetFullPath(modPath)
+                                    .TrimEnd(Path.DirectorySeparatorChar)
+                                + Path.DirectorySeparatorChar;
+            string destFull = Path.GetFullPath(destinationPath)
+                                    .TrimEnd(Path.DirectorySeparatorChar)
+                                + Path.DirectorySeparatorChar;
+
+            if (destFull.StartsWith(sourceFull, StringComparison.OrdinalIgnoreCase) ||
+                sourceFull.StartsWith(destFull, StringComparison.OrdinalIgnoreCase))
             {
-                MessageBox.Show($"The mod '{modName}' is already in the list.",
-                    "Mod Already Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(
+                    "Cannot add this folder here: it would create an infinite loop of folders.\n\nSelect a folder that isn't MGS2 Mods or MGS3 Mods.",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error
+                );
                 return;
             }
 
-            DirectoryCopy(modPath, destinationPath, true);
+            if (Directory.Exists(destinationPath))
+            {
+                MessageBox.Show(
+                    $"The mod '{modName}' is already in the list.",
+                    "Mod Already Added", MessageBoxButtons.OK, MessageBoxIcon.Information
+                );
+                return;
+            }
+
+            DirectoryCopy(modPath, destinationPath, copySubDirs: true);
             config.Mods.ActiveMods[modName] = false;
         }
 
+
         public static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
         {
-            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+            var dir = new DirectoryInfo(sourceDirName);
             if (!dir.Exists)
-                throw new DirectoryNotFoundException($"Source directory does not exist or could not be found: {sourceDirName}");
-            if (!Directory.Exists(destDirName))
-                Directory.CreateDirectory(destDirName);
-            foreach (FileInfo file in dir.GetFiles())
+                throw new DirectoryNotFoundException(
+                    $"Source directory not found: {sourceDirName}"
+                );
+
+            Directory.CreateDirectory(destDirName);
+
+            foreach (var file in dir.GetFiles())
             {
-                string tempPath = Path.Combine(destDirName, file.Name);
-                file.CopyTo(tempPath, false);
+                string targetFile = Path.Combine(destDirName, file.Name);
+                file.CopyTo(targetFile, overwrite: false);
             }
-            if (copySubDirs)
+
+            if (!copySubDirs) return;
+
+            string sourceRoot = Path.GetFullPath(sourceDirName)
+                                      .TrimEnd(Path.DirectorySeparatorChar)
+                                  + Path.DirectorySeparatorChar;
+            string destRoot = Path.GetFullPath(destDirName)
+                                      .TrimEnd(Path.DirectorySeparatorChar)
+                                  + Path.DirectorySeparatorChar;
+
+            foreach (var subdir in dir.GetDirectories())
             {
-                foreach (DirectoryInfo subdir in dir.GetDirectories())
+                string nextSource = subdir.FullName;
+                string nextDest = Path.Combine(destDirName, subdir.Name);
+
+                if (nextDest
+                    .StartsWith(sourceRoot, StringComparison.OrdinalIgnoreCase) ||
+                    nextSource
+                    .StartsWith(destRoot, StringComparison.OrdinalIgnoreCase))
                 {
-                    string tempPath = Path.Combine(destDirName, subdir.Name);
-                    DirectoryCopy(subdir.FullName, tempPath, copySubDirs);
+                    continue;
                 }
+
+                DirectoryCopy(nextSource, nextDest, copySubDirs);
             }
         }
+
 
         public string FindMGSHDFixRoot(string modPath)
         {
