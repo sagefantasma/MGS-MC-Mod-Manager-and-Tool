@@ -16,7 +16,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         public static class AppInfo
         {
-            public const string CurrentVersion = "1.0.0.7";
+            public const string CurrentVersion = "1.0.0.8";
         }
         private void ShowChangelog()
         {
@@ -66,6 +66,9 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         {
             return
 @"Thanks for using the Mod Manager and Tools! - ANTIBigBoss
+Changelog - v1.0.0.8
+- Added in the ability to make a mod from any model or texture 
+(Would recommend still keeping them MGS2/3 related to avoid issues in naming) 
 
 Changelog - v1.0.0.7
 - Resource Editor added for MGS2 in the Mod Resources

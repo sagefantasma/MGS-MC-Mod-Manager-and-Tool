@@ -1,15 +1,15 @@
-﻿using Assimp;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
+using Font = System.Drawing.Font;
+using Image = System.Drawing.Image;
+using Application = System.Windows.Forms.Application;
 
 namespace ANTIBigBoss_MGS_Mod_Manager
 {
@@ -20,6 +20,13 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         private Panel panelTextures;
         private string currentModelPath;
         private string currentMtlPath;
+        private bool _isCustomModel = false;
+
+        /// <summary>
+        /// A list of all the predefined models that ANTIBigBoss hand picked <br></br>
+        /// A zip of them can be found here: <br></br>
+        /// https://github.com/ANTIBigBoss/MGS-MC-Mod-Manager-and-Tool/releases/download/ToolsModelsandTextures/3D.Models.and.Textures.zip
+        /// </summary>
         private readonly List<string> _allModels = new List<string>
         {
         // MGS3 Character Models
@@ -36,284 +43,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         };
 
-        public TextureModelForm()
-        {
-            InitializeComponent();
-            MinimumSize = new Size(800, 600);
-            BackColor = Color.Black;
-
-            panelTextures = new Panel
-            {
-                Name = "panelTextures",
-                AutoScroll = true,
-                Location = new Point(0, 0),
-                Size = new Size(ClientSize.Width / 2, ClientSize.Height),
-                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left,
-                BorderStyle = BorderStyle.FixedSingle,
-                BackColor = Color.FromArgb(30, 30, 30)
-            };
-            Controls.Add(panelTextures);
-
-            elementHost = new ElementHost
-            {
-                Name = "elementHost3D",
-                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right
-            };
-            modelViewerControl = new ModelViewerControl();
-            elementHost.Child = modelViewerControl;
-            Controls.Add(elementHost);
-            elementHost.BringToFront();
-            AdjustElementHostSize();
-
-            ShowMgs2ModelsCheckBox.CheckedChanged += FilterModels;
-            ShowMgs3ModelsCheckBox.CheckedChanged += FilterModels;
-            ShowMgs2ModelsCheckBox.Checked = true;
-            ShowMgs3ModelsCheckBox.Checked = true;
-
-            Load += TextureModelForm_Load;
-            FormClosing += TextureModelForm_FormClosing;
-        }
-
-        private async void TextureModelForm_Load(object sender, EventArgs e)
-        {
-            var config = ConfigManager.LoadSettings();
-            if (!await SetupModToolsAndAssetsAsync(config))
-            {
-                ReturnToMainMenu();
-                Hide();
-                return;
-            }
-
-            RefreshModelSelection();
-
-            if (!string.IsNullOrEmpty(currentMtlPath) && File.Exists(currentMtlPath))
-                RestoreAllMtlReferencesToOriginal(currentMtlPath);
-        }
-
-        private void FilterModels(object sender, EventArgs e)
-        {
-            RefreshModelSelection();
-        }
-
-        private void RefreshModelSelection()
-        {
-            ModelSelectionComboBox.Items.Clear();
-
-            if (ShowMgs2ModelsCheckBox.Checked)
-                foreach (var m in _allModels.Where(x => x.StartsWith("MGS2")))
-                    ModelSelectionComboBox.Items.Add(m);
-
-            if (ShowMgs3ModelsCheckBox.Checked)
-                foreach (var m in _allModels.Where(x => x.StartsWith("MGS3")))
-                    ModelSelectionComboBox.Items.Add(m);
-
-            if (ModelSelectionComboBox.Items.Count > 0)
-                ModelSelectionComboBox.SelectedIndex = 0;
-        }
-
-        private async Task<bool> SetupModToolsAndAssetsAsync(ConfigSettings config)
-        {
-            if (!CheckAndPromptForModToolsPath(config))
-                return false;
-
-            try
-            {
-                await new DownloadManager().EnsureModToolsDownloaded(config.ModToolsPath);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error downloading mod tools: " + ex.Message);
-                return false;
-            }
-
-            if (!CheckAndPromptForGimpConsolePath(config))
-                return false;
-
-            if (!CheckAndPromptForPythonPath(config))
-                return false;
-
-            if (!CheckAndPromptForGimpPythonScriptPath(config))
-                return false;
-
-            return true;
-        }
-
-        private bool CheckAndPromptForModToolsPath(ConfigSettings config)
-        {
-            if (!config.ModToolsFolderSet)
-            {
-                var res = MessageBox.Show(
-                    $"Set up mod tools folder at:\n{config.ModToolsPath}",
-                    "Mod Tools Folder", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-                if (res == DialogResult.Cancel) return false;
-                if (res == DialogResult.No)
-                {
-                    using var fbd = new FolderBrowserDialog { SelectedPath = config.ModToolsPath };
-                    if (fbd.ShowDialog() == DialogResult.OK)
-                        config.ModToolsPath = Path.Combine(fbd.SelectedPath, "MGS Modding Tools");
-                    else return false;
-                }
-                config.ModToolsFolderSet = true;
-                ConfigManager.SaveSettings(config);
-            }
-            return true;
-        }
-
-        private bool CheckAndPromptForGimpConsolePath(ConfigSettings config)
-        {
-            if (!string.IsNullOrWhiteSpace(config.GimpConsolePath) && File.Exists(config.GimpConsolePath))
-                return true;
-
-            var defaultExe = @"C:\Program Files\GIMP 2\bin\gimp-console-2.10.exe";
-            if (File.Exists(defaultExe))
-            {
-                config.GimpConsolePath = defaultExe;
-                ConfigManager.SaveSettings(config);
-                return true;
-            }
-
-            using var ofd = new OpenFileDialog
-            {
-                Title = "Locate gimp-console-2.10.exe",
-                Filter = "Executable Files (*.exe)|*.exe|All Files (*.*)|*.*"
-            };
-            if (ofd.ShowDialog() == DialogResult.OK && File.Exists(ofd.FileName))
-            {
-                config.GimpConsolePath = ofd.FileName;
-                ConfigManager.SaveSettings(config);
-                return true;
-            }
-            return false;
-        }
-
-        private bool CheckAndPromptForPythonPath(ConfigSettings cfg)
-        {
-            string[] tries = {
-        cfg.PythonExePath,
-        "python"
-    };
-
-            foreach (var exe in tries.Where(t => !string.IsNullOrWhiteSpace(t)))
-            {
-                try
-                {
-                    var psi = new ProcessStartInfo(exe, "--version")
-                    {
-                        UseShellExecute = false,
-                        RedirectStandardOutput = true,
-                        RedirectStandardError = true,
-                        CreateNoWindow = true
-                    };
-                    using var proc = Process.Start(psi);
-                    proc.WaitForExit();
-                    if (proc.ExitCode == 0)
-                    {
-                        cfg.PythonExePath = exe;
-                        ConfigManager.SaveSettings(cfg);
-                        return true;
-                    }
-                }
-                catch { }
-            }
-
-            var msg = "Python was not found on your system.\n" +
-                      "Would you like to locate python.exe, or download it?";
-            var res = MessageBox.Show(
-                msg,
-                "Python Not Found",
-                MessageBoxButtons.YesNoCancel,
-                MessageBoxIcon.Question,
-                MessageBoxDefaultButton.Button1
-            );
-
-            if (res == DialogResult.Yes)
-            {
-                using var ofd = new OpenFileDialog
-                {
-                    Title = "Locate python.exe",
-                    Filter = "Executable|python.exe|All Files|*.*"
-                };
-                if (ofd.ShowDialog() == DialogResult.OK && File.Exists(ofd.FileName))
-                {
-                    cfg.PythonExePath = ofd.FileName;
-                    ConfigManager.SaveSettings(cfg);
-                    return true;
-                }
-            }
-            else if (res == DialogResult.No)
-            {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = "https://www.python.org/downloads/",
-                    UseShellExecute = true
-                });
-            }
-            return false;
-        }
-
-
-        private bool CheckAndPromptForGimpPythonScriptPath(ConfigSettings config)
-        {
-            var defaultScript = config.Assets.PythonScriptPath;
-
-            if (File.Exists(defaultScript))
-            {
-                config.GimpPythonScriptPath = defaultScript;
-                ConfigManager.SaveSettings(config);
-                return true;
-            }
-
-            using var ofd = new OpenFileDialog
-            {
-                Title = "Locate PythonFU.py",
-                Filter = "Python Files (*.py)|*.py|All Files (*.*)|*.*"
-            };
-            if (ofd.ShowDialog() == DialogResult.OK && File.Exists(ofd.FileName))
-            {
-                config.GimpPythonScriptPath = ofd.FileName;
-                ConfigManager.SaveSettings(config);
-                return true;
-            }
-
-            return false;
-        }
-
-
-        private void TextureModelForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(currentMtlPath) && File.Exists(currentMtlPath))
-                RestoreAllMtlReferencesToOriginal(currentMtlPath);
-            Application.Exit();
-        }
-
-        private void AdjustElementHostSize()
-        {
-            var half = ClientSize.Width / 2;
-            elementHost.Location = new Point(half, 0);
-            elementHost.Size = new Size(half, ClientSize.Height);
-        }
-
-        private void ReturnToMainMenu()
-        {
-            GuiManager.UpdateLastFormLocation(Location);
-            GuiManager.LogFormLocation(this, nameof(TextureModelForm));
-            new MainMenuForm().Show();
-            Hide();
-        }
-
-        private List<string> getTexturesFromMtl(string mtlPath)
-        {
-            string mtlContent = File.ReadAllText(mtlPath);
-            string[] mtlLines = mtlContent.Replace("\r", "").Split("\n");
-            List<string> ret = new();
-            foreach (string line in mtlLines)
-            {
-                if (!line.StartsWith("map_Kd")) continue;
-                ret.Add(line.Substring(7));
-            }
-            return ret;
-        }
-
+        /// <summary>
+        /// A dictionary for the predefined model names, big thanks to Jacky720 for <br></br>
+        /// helping me out with organizing this and removing the old else if mess I created
+        /// </summary>
         private readonly Dictionary<string, string> modelFileNames = new() {
             { "MGS3 Snake SE", "MGS3 Snake.obj" },
             { "MGS3 Snake Sneaking Suit", "Snake.obj" },
@@ -474,80 +207,344 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             { "MGS2 USP", "usp.obj" },
         };
 
-        private void MakeTexturePanel(int w, int h, int xPos, int yPos, int labelHeight, string texPath, string name)
+
+        public TextureModelForm()
         {
-            string resolution;
-            using (var temp = LoadImageNoLock(texPath))
-            {
-                resolution = temp != null
-                    ? $"{temp.Width}×{temp.Height}"
-                    : "Unknown";
-            }
+            InitializeComponent();
+            MinimumSize = new Size(800, 600);
+            BackColor = Color.Black;
 
-            Label lbl = new Label
+            panelTextures = new Panel
             {
-                Text = $"{name}  {resolution}",
-                AutoSize = false,
-                TextAlign = ContentAlignment.MiddleCenter,
-                Font = new Font("Arial", 10, FontStyle.Bold),
-                ForeColor = Color.White,
-                BackColor = Color.FromArgb(30, 30, 30),
-                Location = new Point(xPos, yPos),
-                Size = new Size(w, labelHeight)
-            };
-            panelTextures.Controls.Add(lbl);
-
-            PictureBox pb = new PictureBox
-            {
-                Location = new Point(xPos, yPos + labelHeight),
-                Size = new Size(w, h),
+                Name = "panelTextures",
+                AutoScroll = true,
+                Location = new Point(0, 0),
+                Size = new Size(ClientSize.Width / 2, ClientSize.Height),
+                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left,
                 BorderStyle = BorderStyle.FixedSingle,
-                Tag = texPath
+                BackColor = Color.FromArgb(30, 30, 30)
             };
+            Controls.Add(panelTextures);
 
-            Image img = LoadImageNoLock(texPath);
-            if (img != null)
+            elementHost = new ElementHost
             {
-                pb.SizeMode = (img.Width < pb.Width && img.Height < pb.Height)
-                    ? PictureBoxSizeMode.CenterImage
-                    : PictureBoxSizeMode.Zoom;
-                pb.Image = img;
-            }
-            else
-            {
-                pb.BackColor = Color.DarkRed;
-            }
-            panelTextures.Controls.Add(pb);
-
-            Button btnChange = new Button
-            {
-                Text = "Change Texture",
-                Location = new Point(xPos, yPos + labelHeight + h + 5),
-                Size = new Size(100, 30),
-                Tag = pb,
-                ForeColor = Color.White,
-                BackColor = Color.FromArgb(50, 50, 50)
+                Name = "elementHost3D",
+                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right
             };
-            btnChange.Click += ChangeTexture_Click;
-            panelTextures.Controls.Add(btnChange);
+            modelViewerControl = new ModelViewerControl();
+            elementHost.Child = modelViewerControl;
+            Controls.Add(elementHost);
+            elementHost.BringToFront();
+            AdjustElementHostSize();
 
-            Button btnRestore = new Button
-            {
-                Text = "Restore Default",
-                Location = new Point(xPos + 110, yPos + labelHeight + h + 5),
-                Size = new Size(110, 30),
-                Tag = pb,
-                ForeColor = Color.White,
-                BackColor = Color.FromArgb(50, 50, 50)
-            };
-            btnRestore.Click += RestoreOneTextureDefault_Click;
-            panelTextures.Controls.Add(btnRestore);
+            ShowMgs2ModelsCheckBox.CheckedChanged += FilterModels;
+            ShowMgs3ModelsCheckBox.CheckedChanged += FilterModels;
+            ShowMgs2ModelsCheckBox.Checked = true;
+            ShowMgs3ModelsCheckBox.Checked = true;
+
+            Load += TextureModelForm_Load;
+            FormClosing += TextureModelForm_FormClosing;
         }
 
-        private void LoadGruButton_Click(object sender, EventArgs e)
+        private async void TextureModelForm_Load(object sender, EventArgs e)
+        {
+            var config = ConfigManager.LoadSettings();
+            if (!await SetupModToolsAndAssetsAsync(config))
+            {
+                ReturnToMainMenu();
+                Hide();
+                return;
+            }
+
+            RefreshModelSelection();
+
+            if (!string.IsNullOrEmpty(currentMtlPath) && File.Exists(currentMtlPath))
+                RestoreAllMtlReferencesToOriginal(currentMtlPath);
+        }
+
+        /// <summary>
+        /// Filters the model list based on MGS2/MGS3 checkbox selections
+        /// </summary>
+        /// <param name="sender">Event source</param>
+        /// <param name="e">Event data</param>
+        private void FilterModels(object sender, EventArgs e)
+        {
+            RefreshModelSelection();
+        }
+
+
+        /// <summary>
+        /// Reloads the model selection combo box based on current filters
+        /// </summary>
+        private void RefreshModelSelection()
+        {
+            ModelSelectionComboBox.Items.Clear();
+
+            if (ShowMgs2ModelsCheckBox.Checked)
+                foreach (var m in _allModels.Where(x => x.StartsWith("MGS2")))
+                    ModelSelectionComboBox.Items.Add(m);
+
+            if (ShowMgs3ModelsCheckBox.Checked)
+                foreach (var m in _allModels.Where(x => x.StartsWith("MGS3")))
+                    ModelSelectionComboBox.Items.Add(m);
+
+            if (ModelSelectionComboBox.Items.Count > 0)
+                ModelSelectionComboBox.SelectedIndex = 0;
+        }
+
+        /// <summary>
+        /// Sets up the required mod tools and assets by verifying paths and downloading necessary components.
+        /// </summary>
+        /// <remarks>This method performs the following steps: <list type="bullet">
+        /// <item><description>Prompts the user to verify or provide the path to the mod tools if not already
+        /// configured.</description></item> <item><description>Downloads the mod tools if they are not already present
+        /// at the specified path.</description></item> <item><description>Prompts the user to verify or provide paths
+        /// for additional required tools, such as GIMP and Python.</description></item> </list> If any step fails, the
+        /// method returns <see langword="false"/> to indicate that the setup process was not completed
+        /// successfully.</remarks>
+        /// <param name="config">The configuration settings containing paths and options required for setup.</param>
+        /// <returns><see langword="true"/> if all required tools and assets are successfully set up; otherwise, <see
+        /// langword="false"/>.</returns>
+        private async Task<bool> SetupModToolsAndAssetsAsync(ConfigSettings config)
+        {
+            if (!CheckAndPromptForModToolsPath(config))
+                return false;
+
+            try
+            {
+                await new DownloadManager().EnsureModToolsDownloaded(config.ModToolsPath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error downloading mod tools: " + ex.Message);
+                return false;
+            }
+
+            if (!CheckAndPromptForGimpConsolePath(config))
+                return false;
+
+            if (!CheckAndPromptForPythonPath(config))
+                return false;
+
+            if (!CheckAndPromptForGimpPythonScriptPath(config))
+                return false;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Ensures that the mod tools folder is properly configured, prompting the user if necessary.
+        /// </summary>
+        /// <remarks>If the mod tools folder is not already set, the method prompts the user to confirm or
+        /// select a folder.  The user can choose to accept the default path, select a new folder, or cancel the
+        /// operation.  If the user cancels, the method returns <see langword="false"/>.</remarks>
+        /// <param name="config">The configuration settings object containing the mod tools folder path and status.</param>
+        /// <returns><see langword="true"/> if the mod tools folder is successfully configured;  otherwise, <see
+        /// langword="false"/> if the operation is canceled by the user.</returns>
+        private bool CheckAndPromptForModToolsPath(ConfigSettings config)
+        {
+            if (!config.ModToolsFolderSet)
+            {
+                var res = MessageBox.Show(
+                    $"Set up mod tools folder at:\n{config.ModToolsPath}",
+                    "Mod Tools Folder", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                if (res == DialogResult.Cancel) return false;
+                if (res == DialogResult.No)
+                {
+                    using var fbd = new FolderBrowserDialog { SelectedPath = config.ModToolsPath };
+                    if (fbd.ShowDialog() == DialogResult.OK)
+                        config.ModToolsPath = Path.Combine(fbd.SelectedPath, "MGS Modding Tools");
+                    else return false;
+                }
+                config.ModToolsFolderSet = true;
+                ConfigManager.SaveSettings(config);
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Verifies and configures GIMP console path through user prompts <br></br>
+        /// It then saves it to the config file stored in the user's documents folder.
+        /// </summary>
+        /// <param name="config">Application configuration settings</param>
+        /// <returns>True if path is valid, False if canceled</returns>
+        private bool CheckAndPromptForGimpConsolePath(ConfigSettings config)
+        {
+            if (!string.IsNullOrWhiteSpace(config.GimpConsolePath) && File.Exists(config.GimpConsolePath))
+                return true;
+
+            var defaultExe = @"C:\Program Files\GIMP 2\bin\gimp-console-2.10.exe";
+            if (File.Exists(defaultExe))
+            {
+                config.GimpConsolePath = defaultExe;
+                ConfigManager.SaveSettings(config);
+                return true;
+            }
+
+            using var ofd = new OpenFileDialog
+            {
+                Title = "Locate gimp-console-2.10.exe",
+                Filter = "Executable Files (*.exe)|*.exe|All Files (*.*)|*.*"
+            };
+            if (ofd.ShowDialog() == DialogResult.OK && File.Exists(ofd.FileName))
+            {
+                config.GimpConsolePath = ofd.FileName;
+                ConfigManager.SaveSettings(config);
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if a valid Python executable path is configured or available on the system,  and prompts the user to<br></br>
+        /// locate or download Python if it is not found. This is needed for running the Python scripts via GIMP's Python-Fu.
+        /// </summary>
+        /// <remarks>This method first attempts to verify the Python executable path specified in the <br></br>
+        /// configuration  or a default "python" command. If no valid Python executable is found, the user is prompted <br></br>
+        /// to  either locate the Python executable manually or download it from the official Python website.  If the <br></br>
+        /// user provides a valid path, it is saved to the configuration.</remarks>
+        /// <param name="cfg">The configuration settings object where the Python executable path is stored.</param>
+        /// <returns><see langword="true"/> if a valid Python executable path is found or successfully configured;  otherwise,
+        /// <see langword="false"/>.</returns>
+        private bool CheckAndPromptForPythonPath(ConfigSettings cfg)
+        {
+            string[] tries = {
+        cfg.PythonExePath,
+        "python"
+    };
+
+            foreach (var exe in tries.Where(t => !string.IsNullOrWhiteSpace(t)))
+            {
+                try
+                {
+                    var psi = new ProcessStartInfo(exe, "--version")
+                    {
+                        UseShellExecute = false,
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true,
+                        CreateNoWindow = true
+                    };
+                    using var proc = Process.Start(psi);
+                    proc.WaitForExit();
+                    if (proc.ExitCode == 0)
+                    {
+                        cfg.PythonExePath = exe;
+                        ConfigManager.SaveSettings(cfg);
+                        return true;
+                    }
+                }
+                catch { }
+            }
+
+            var msg = "Python was not found on your system.\n" +
+                      "Would you like to locate python.exe, or download it?";
+            var res = MessageBox.Show(
+                msg,
+                "Python Not Found",
+                MessageBoxButtons.YesNoCancel,
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button1
+            );
+
+            if (res == DialogResult.Yes)
+            {
+                using var ofd = new OpenFileDialog
+                {
+                    Title = "Locate python.exe",
+                    Filter = "Executable|python.exe|All Files|*.*"
+                };
+                if (ofd.ShowDialog() == DialogResult.OK && File.Exists(ofd.FileName))
+                {
+                    cfg.PythonExePath = ofd.FileName;
+                    ConfigManager.SaveSettings(cfg);
+                    return true;
+                }
+            }
+            else if (res == DialogResult.No)
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "https://www.python.org/downloads/",
+                    UseShellExecute = true
+                });
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// More or less the same as <see cref="CheckAndPromptForPythonPath"/>, but for the GIMP Python script path.<br></br>
+        /// There's not much reason this would fail, since the script is included with the mod tools.<br></br>
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        private bool CheckAndPromptForGimpPythonScriptPath(ConfigSettings config)
+        {
+            var defaultScript = config.Assets.PythonScriptPath;
+
+            if (File.Exists(defaultScript))
+            {
+                config.GimpPythonScriptPath = defaultScript;
+                ConfigManager.SaveSettings(config);
+                return true;
+            }
+
+            using var ofd = new OpenFileDialog
+            {
+                Title = "Locate PythonFU.py",
+                Filter = "Python Files (*.py)|*.py|All Files (*.*)|*.*"
+            };
+            if (ofd.ShowDialog() == DialogResult.OK && File.Exists(ofd.FileName))
+            {
+                config.GimpPythonScriptPath = ofd.FileName;
+                ConfigManager.SaveSettings(config);
+                return true;
+            }
+
+            return false;
+        }
+
+
+        private void TextureModelForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(currentMtlPath) && File.Exists(currentMtlPath))
+                RestoreAllMtlReferencesToOriginal(currentMtlPath);
+            Application.Exit();
+        }
+
+        /// <summary>
+        /// Adjusts the size and location of the <see cref="elementHost"/> control (Where the 3D Models are displayed)<br></br>
+        /// to occupy the right half of the client area.
+        /// </summary>
+        /// <remarks>This method positions the <see cref="elementHost"/> control at the midpoint of the <br></br>
+        /// client area's width and resizes it to fill the right half of the client area while maintaining the full
+        /// height.</remarks>
+        private void AdjustElementHostSize()
+        {
+            var half = ClientSize.Width / 2;
+            elementHost.Location = new Point(half, 0);
+            elementHost.Size = new Size(half, ClientSize.Height);
+        }
+
+        private void ReturnToMainMenu()
+        {
+            GuiManager.UpdateLastFormLocation(Location);
+            GuiManager.LogFormLocation(this, nameof(TextureModelForm));
+            new MainMenuForm().Show();
+            Hide();
+        }
+
+        /// <summary>
+        /// Will load whatever pre-defined model is selected in the dropdown along with its textures.<br></br>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LoadPreDefinedModel_Click(object sender, EventArgs e)
         {
             ConfigSettings config = ConfigManager.LoadSettings();
             panelTextures.Controls.Clear();
+
+            // Flag to allow mods to be create with models not in the predefined list
+            _isCustomModel = false;
 
             string selectedModel = ModelSelectionComboBox.SelectedItem?.ToString();
             if (string.IsNullOrEmpty(selectedModel))
@@ -556,37 +553,36 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 return;
             }
 
-            string folder = Path.Combine(config.Assets.ModelsAndTexturesFolder, selectedModel);
-            string modelFile = this.modelFileNames[selectedModel];
-            string mtlFile = modelFile.Replace("obj", "mtl");
-            List<string> textureFiles = this.getTexturesFromMtl(Path.Combine(folder, mtlFile));
-
-            string folderPath = folder;
-            currentModelPath = Path.Combine(folderPath, modelFile);
-            currentMtlPath = Path.Combine(folderPath, mtlFile);
-            if (File.Exists(currentMtlPath))
+            // Look up model file in dictionary
+            if (modelFileNames.TryGetValue(selectedModel, out string modelFile))
             {
-                RestoreAllMtlReferencesToOriginal(currentMtlPath);
+                string folder = Path.Combine(config.Assets.ModelsAndTexturesFolder, selectedModel);
+                string mtlFile = Path.ChangeExtension(modelFile, ".mtl");
+
+                string modelPath = Path.Combine(folder, modelFile);
+                string mtlPath = Path.Combine(folder, mtlFile);
+
+                LoadModelWithTextures(modelPath, mtlPath);
             }
-            modelViewerControl.LoadModel(currentModelPath);
-
-            int w = 335, h = 127;
-            int xPos = panelTextures.ClientSize.Width - w - 40;
-            int yPos = 10, spacing = 70;
-            int labelHeight = 20;
-
-            foreach (string tex in textureFiles)
+            else
             {
-                string texPath = Path.Combine(folderPath, tex);
-
-                string name = Path.GetFileNameWithoutExtension(tex);
-
-                MakeTexturePanel(w, h, xPos, yPos, labelHeight, texPath, name);
-
-                yPos += labelHeight + h + spacing;
+                MessageBox.Show("Model configuration not found.");
             }
         }
 
+        /// <summary>
+        /// Handles the click event for changing the texture of a model.
+        /// </summary>
+        /// <remarks>This method allows the user to select a new texture file via an <see cref="OpenFileDialog"/> <br></br>
+        /// and updates the associated model and UI elements with the new texture. <br></br>
+        /// The method performs the following actions: <list type="bullet"> <item>Clears the current model from the viewer.</item>
+        /// <item>Prompts the user to select a new texture file.</item> <item>Updates the material file to reference the
+        /// new texture.</item> <item>Copies the selected texture file to the appropriate location.</item> <item>Updates
+        /// the <see cref="PictureBox"/> to display the new texture.</item> <item>Reloads the model with the updated
+        /// texture.</item> </list> If an error occurs during the process, an error message is displayed to the
+        /// user.</remarks>
+        /// <param name="sender">The source of the event, typically the button that was clicked.</param>
+        /// <param name="e">The event data associated with the click event.</param>
         private void ChangeTexture_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
@@ -624,6 +620,19 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
         }
 
+        /// <summary>
+        /// Restores the default texture for a specific model element when triggered by a button click.
+        /// </summary>
+        /// <remarks>This method updates the texture of the associated model element to its default state
+        /// by: <list type="bullet"> <item><description>Clearing the current model from the viewer.</description></item>
+        /// <item><description>Updating the material file to reference the default texture.</description></item>
+        /// <item><description>Reloading the default texture into the associated <see
+        /// cref="PictureBox"/>.</description></item> <item><description>Reloading the model into the
+        /// viewer.</description></item> </list> If an error occurs during the process, a message box is displayed with
+        /// the error details.</remarks>
+        /// <param name="sender">The button that triggered the event. The button's <see cref="Button.Tag"/> property must contain a reference
+        /// to the associated <see cref="PictureBox"/>.</param>
+        /// <param name="e">The event data associated with the click event.</param>
         private void RestoreOneTextureDefault_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
@@ -652,6 +661,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
         }
 
+        /// <summary>
+        /// Renames a texture reference in a material (.mtl) file by replacing all <br></br> 
+        /// occurrences of the old texture name with the new texture name.
+        /// </summary>
+        /// <remarks>If the specified material file does not exist, the method does nothing. <br></br> 
+        /// If the old texture name is not found in the file, no changes are made.</remarks>
+        /// <param name="mtlPath">The file path to the material (.mtl) file. Must not be null or empty.</param>
+        /// <param name="oldName">The name of the texture to be replaced. Must not be null or empty.</param>
+        /// <param name="newName">The new name of the texture to replace the old name. Must not be null or empty.</param>
         private void RenameMtlTextureReference(string mtlPath, string oldName, string newName)
         {
             if (!File.Exists(mtlPath))
@@ -664,6 +682,13 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
         }
 
+        /// <summary>
+        /// Generates a new file path by appending a numeric suffix to the original file name. <br></br>
+        /// I created this to avoid file name conflicts and so that I could restore the original texture file name.
+        /// </summary>
+        /// <param name="originalPath">The original file path for which a new suffixed path is required.</param>
+        /// <returns>A new file path with a numeric suffix appended to the file name, ensuring that the resulting path does not
+        /// already exist on the file system.</returns>
         private string GetNextSuffixPath(string originalPath)
         {
             string dir = Path.GetDirectoryName(originalPath);
@@ -680,12 +705,22 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 if (!File.Exists(candidate))
                     break;
                 i++;
+                // If somehow someone gets to 999 I'll be amazed
                 if (i > 999)
                     throw new IOException("Couldn't find new suffix name up to _999.");
             }
             return candidate;
         }
 
+        /// <summary>
+        /// Removes a numeric suffix from the end of a string, if present.
+        /// </summary>
+        /// <remarks>A numeric suffix is defined as a sequence of digits following the last underscore <br></br>
+        /// ('_') in the string. If no underscore is found, or if the portion after the last underscore is not entirely<br></br>
+        /// numeric, the original string is returned unchanged.</remarks>
+        /// <param name="fNoExt">The input string to process. This string is expected to potentially contain a numeric suffix separated by an
+        /// underscore.</param>
+        /// <returns>The input string without the numeric suffix if one is present and valid; otherwise, the original string.</returns>
         private string StripNumericSuffix(string fNoExt)
         {
             int idx = fNoExt.LastIndexOf('_');
@@ -697,6 +732,13 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             return fNoExt;
         }
 
+        /// <summary>
+        /// Removes any numeric suffix from the file name in the specified path <br></br>
+        /// while preserving the directory and file extension.
+        /// </summary>
+        /// <param name="path">The full file path from which to remove the numeric suffix from the file name.</param>
+        /// <returns>A new file path with the numeric suffix removed from the file name. <br></br>
+        /// The directory and file extension remain unchanged.</returns>
         private string RemoveSuffix(string path)
         {
             string dir = Path.GetDirectoryName(path);
@@ -707,6 +749,12 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             return Path.Combine(dir, fileNoExt + ext);
         }
 
+        /// <summary>
+        /// Restores all material file references in the specified MTL file to their original file names.
+        /// </summary>
+        /// <remarks>This method reads the specified MTL file, identifies texture file references <br></br>
+        /// (lines starting with "map_Kd"), and updates them to use only the original file names, removing any directory paths <br></br>
+        /// or suffixes. The updated MTL file is then written back to the same location.</remarks>
         private void RestoreAllMtlReferencesToOriginal(string mtlPath)
         {
             string text = File.ReadAllText(mtlPath);
@@ -732,6 +780,14 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             File.WriteAllText(mtlPath, text);
         }
 
+        /// <summary>
+        /// Loads an image from the specified file path without applying any locking mechanisms.
+        /// </summary>
+        /// <remarks>This method does not lock the file during or after loading. The caller is responsible <br></br>
+        /// for ensuring that the file is not modified or deleted while it is being accessed.</remarks>
+        /// <param name="path">The file path of the image to load. Must be a valid path to an existing file.</param>
+        /// <returns>An <see cref="Image"/> object representing the loaded image, or <see langword="null"/> if the file does not
+        /// exist.</returns>
         private Image LoadImageNoLock(string path)
         {
             if (!File.Exists(path))
@@ -742,6 +798,12 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
         }
 
+        /// <summary>
+        /// This method allows the user to choose between converting all CTXR files in a folder <br></br>
+        /// or a single CTXR file. If the user selects folder conversion, all CTXR files in the selected folder are <br></br>
+        /// converted to PNG format. If the user selects single file conversion, the selected CTXR file is converted to <br></br>
+        /// PNG format. This will mostly be helpful with custom models from SeaLouse. <br></br><br></br>
+        /// </summary>
         private void CtxrToPng_Click(object sender, EventArgs e)
         {
             DialogResult dr = MessageBox.Show(
@@ -802,6 +864,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
         }
 
+        /// <summary>
+        /// This is the main way creating mods is handled, it will take the PNG<br></br>
+        /// and convert it to DDS using GIMP's Python-Fu script, then from there <br></br>
+        /// it will convert the DDS to CTXR using the CtxrTool.exe.<br></br>
+        /// </summary>
         private async void PngToCtxr_Click(object sender, EventArgs e)
         {
             var cfg = ConfigManager.LoadSettings();
@@ -919,6 +986,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             );
         }
 
+        /// <summary>
+        /// I decided to keep this option in the rare case of someone solely wanting to convert<br></br>
+        /// a PNG to DDS for whatever reason. Might be more useful later on when Delta releases.
+        /// </summary>
         private async void PngToDds_Click(object sender, EventArgs e)
         {
             var cfg = ConfigManager.LoadSettings();
@@ -1025,6 +1096,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             );
         }
 
+        /// <summary>
+        /// The main way to get an image file to be recognized by MGS2/3's Master Collection is to convert DDS files <br></br> 
+        /// to CTXR files using the CtxrTool.exe.This is most helpful if someone is working on a singular texture file but <br></br>
+        /// batch processing is available like with the PNG and DDS conversion methods.<br></br>
+        /// </summary>
         private void DdsToCtxr_Click(object sender, EventArgs e)
         {
             ConfigSettings config = ConfigManager.LoadSettings();
@@ -1091,52 +1167,229 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
         }
 
+        /// <summary>
+        /// This method is for loading a 3D Model not from the pre-defined list, this will get the most <br></br>
+        /// mileage with Jacky's SeaLouse but it can be used for any custom model from anything really.<br></br><br></br>
+        /// Pressing the "Create a Mod" button will ask if you're creating a mod for MGS2 or MGS3, <br></br>
+        /// so the appropripate file structure/path can be created for the user.
+        /// </summary>
         private void btnLoadObj_Click(object sender, EventArgs e)
         {
-            using (var ofd = new OpenFileDialog
+            using (var ofd = new OpenFileDialog { Filter = "3D Model Files|*.obj;|All Files|*.*" })
             {
-                Filter = "3D Model Files|*.fbx;*.obj;*.dae|All Files|*.*"
-            })
-            {
-                if (ofd.ShowDialog() != DialogResult.OK)
-                    return;
-                
-                modelViewerControl.LoadModel(ofd.FileName);
-
-                int w = 335, h = 127;
-                int xPos = panelTextures.ClientSize.Width - w - 40;
-                int yPos = 10, spacing = 70;
-                int labelHeight = 20;
-
-                List<string> textureFiles = this.getTexturesFromMtl(ofd.FileName.Replace(".obj", ".mtl"));
-                string folderPath = Path.GetDirectoryName(ofd.FileName);
-
-                foreach (string tex in textureFiles)
+                if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    string name = Path.GetFileNameWithoutExtension(tex);
-                    string texPath = Path.Combine(folderPath, tex);
-                    /* // Commented: Out of scope (external renaming tools)
-                    if (Regex.IsMatch(tex, "^[0-9a-f]{6}.png$"))
+                    string modelPath = ofd.FileName;
+                    string mtlPath = Path.ChangeExtension(modelPath, ".mtl");
+
+                    // Bool here so we can ask the user if they wanna make an MGS2/3 mod if it's not on the list
+                    _isCustomModel = true;
+
+                    if (File.Exists(mtlPath))
                     {
-                        // Noesis extracts textures from the .tri file, not the .ctxr.
-                        // If a file appears to be ripped by Noesis, it must be renamed to mod.
-                        // Fortunately, we have a lookup of every .ctxr name (I think).
-                        string newTex = this.ctxrLookup[tex] ?? "00" + tex;
-                        if (newTex != tex)
-                        {
-                            string newPath = Path.Combine(Path.GetDirectoryName(texPath), newTex);
-                            File.Copy(texPath, newPath, true);
-                            texPath = newPath;
-                            name = Path.GetFileNameWithoutExtension(newTex);
-                        }
-
+                        LoadModelWithTextures(modelPath, mtlPath);
                     }
-                    */
-
-                    MakeTexturePanel(w, h, xPos, yPos, labelHeight, texPath, name);
-
-                    yPos += labelHeight + h + spacing;
+                    else
+                    {
+                        modelViewerControl.LoadModel(modelPath);
+                        MessageBox.Show("No MTL file found for textures");
+                    }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Loads a 3D model and its associated textures, including those referenced in the material file (MTL) and any<br></br>
+        /// additional texture files found in the model's directory. This helped solve the secular map files not being loaded <br></br>
+        /// in the list along with some textures being loaded multiple times if their mtl file referenced them multiple times.
+        /// </summary>
+        /// <param name="modelPath">The file path to the 3D model file to be loaded.</param>
+        /// <param name="mtlPath">The file path to the material file (MTL) associated with the 3D model.</param>
+        private void LoadModelWithTextures(string modelPath, string mtlPath)
+        {
+            currentModelPath = modelPath;
+            currentMtlPath = mtlPath;
+
+            RestoreAllMtlReferencesToOriginal(mtlPath);
+            modelViewerControl.LoadModel(modelPath);
+
+            // Get all textures: MTL references + all PNGs in folder
+            string folderPath = Path.GetDirectoryName(modelPath);
+            var allTextures = GetAllTexturesInFolder(folderPath);
+            var mtlTextures = ParseMtlForTextures(mtlPath);
+
+            // Stops us from seeing the same texture multiple times reference more than once in the MTL file
+            var combinedTextures = allTextures.Union(mtlTextures, StringComparer.OrdinalIgnoreCase).ToList();
+
+            DisplayTextures(combinedTextures, folderPath);
+        }
+
+        /// <summary>
+        /// Gets all the PNG files in a folder to help us compare and figure out <br></br>
+        /// what we should load in the LoadModelWithTextures method.
+        /// </summary>
+        /// <param name="folderPath"></param>
+        /// <returns></returns>
+        private List<string> GetAllTexturesInFolder(string folderPath)
+        {
+            return Directory.GetFiles(folderPath, "*.png")
+                .Select(Path.GetFileName)
+                .ToList();
+        }
+
+        private List<string> ParseMtlForTextures(string mtlPath)
+        {
+            var textures = new List<string>();
+            string mtlDir = Path.GetDirectoryName(mtlPath);
+
+            foreach (string line in File.ReadLines(mtlPath))
+            {
+                if (line.Trim().StartsWith("map_Kd", StringComparison.OrdinalIgnoreCase))
+                {
+                    string[] parts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (parts.Length > 1)
+                    {
+                        textures.Add(parts[1]);
+                    }
+                }
+            }
+            return textures;
+        }
+
+        /// <summary>
+        /// Attempts to locate a texture file by checking the specified file path and several fallback paths.
+        /// </summary>
+        /// <remarks>This method first checks if the provided <paramref name="textureFile"/> exists as-is. <br></br>
+        /// If not, it constructs and checks several fallback paths relative to <paramref name="baseDir"/>, including <br></br>
+        /// appending a ".png" extension or using only the file name portion of the path. The first valid file path
+        /// found is returned.</remarks>
+        /// <param name="baseDir">The base directory to use when constructing fallback paths.</param>
+        /// <param name="textureFile">The original texture file path, which may include relative paths or require cleaning.</param>
+        /// <returns>The full path to the texture file if found; otherwise, <see langword="null"/> if no matching file is
+        /// located.</returns>
+        private string FindTextureFile(string baseDir, string textureFile)
+        {
+            string cleanTextureFile = textureFile
+                .Replace("\"", "")
+                .Replace("\\\\", "\\")
+                .Trim();
+
+            if (File.Exists(cleanTextureFile))
+            {
+                return cleanTextureFile;
+            }
+
+            string[] candidates = {
+            Path.Combine(baseDir, cleanTextureFile),
+            Path.Combine(baseDir, cleanTextureFile + ".png"),
+            Path.Combine(baseDir, Path.ChangeExtension(cleanTextureFile, ".png")),
+            Path.Combine(baseDir, Path.GetFileName(cleanTextureFile)),
+            Path.Combine(baseDir, Path.GetFileName(cleanTextureFile) + ".png")
+        };
+
+            return candidates.FirstOrDefault(File.Exists);
+        }
+
+        /// <summary>
+        /// Displays a list of textures in a panel, including their names, resolutions, and options to change or restore
+        /// them.
+        /// </summary>
+        /// <remarks>Each texture is displayed with its name, resolution, and two buttons: one to change <br></br>
+        /// the texture and another to restore it to its default state.  Textures with duplicate names are displayed <br></br>
+        /// only once. If a texture cannot be loaded, it is indicated with a placeholder.</remarks>
+        /// <param name="textureFiles">A list of texture file names to be displayed.</param>
+        /// <param name="folderPath">The folder path where the texture files are located.</param>
+        private void DisplayTextures(List<string> textureFiles, string folderPath)
+        {
+            panelTextures.Controls.Clear();
+            int w = 335, h = 127;
+            int xPos = panelTextures.ClientSize.Width - w - 40;
+            int yPos = 10;
+            int spacing = 40;
+            int labelHeight = 20;
+
+            // Use HashSet to track which textures we've shown
+            var shownTextures = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            foreach (string tex in textureFiles)
+            {
+                string texPath = FindTextureFile(folderPath, tex);
+                if (string.IsNullOrEmpty(texPath)) continue;
+
+                // Skip if we've already shown this exact texture to avoid the duplicates issue
+                string textureKey = Path.GetFileName(texPath);
+                if (shownTextures.Contains(textureKey)) continue;
+                shownTextures.Add(textureKey);
+
+                string name = Path.GetFileNameWithoutExtension(texPath);
+                string resolution;
+                using (var temp = LoadImageNoLock(texPath))
+                {
+                    resolution = temp != null
+                        ? $"{temp.Width}×{temp.Height}"
+                        : "Unknown";
+                }
+
+                Label lbl = new Label
+                {
+                    Text = $"{name}  {resolution}",
+                    AutoSize = false,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Font = new System.Drawing.Font("Arial", 10, FontStyle.Bold),
+                    ForeColor = Color.White,
+                    BackColor = Color.FromArgb(30, 30, 30),
+                    Location = new Point(xPos, yPos),
+                    Size = new Size(w, labelHeight)
+                };
+                panelTextures.Controls.Add(lbl);
+
+                PictureBox pb = new PictureBox
+                {
+                    Location = new Point(xPos, yPos + labelHeight),
+                    Size = new Size(w, h),
+                    BorderStyle = BorderStyle.FixedSingle,
+                    Tag = texPath
+                };
+
+                System.Drawing.Image img = LoadImageNoLock(texPath);
+                if (img != null)
+                {
+                    pb.SizeMode = (img.Width < pb.Width && img.Height < pb.Height)
+                        ? PictureBoxSizeMode.CenterImage
+                        : PictureBoxSizeMode.Zoom;
+                    pb.Image = img;
+                }
+                else
+                {
+                    pb.BackColor = Color.DarkRed;
+                }
+                panelTextures.Controls.Add(pb);
+
+                Button btnChange = new Button
+                {
+                    Text = "Change Texture",
+                    Location = new Point(xPos, yPos + labelHeight + h + 5),
+                    Size = new Size(100, 30),
+                    Tag = pb,
+                    ForeColor = Color.White,
+                    BackColor = Color.FromArgb(50, 50, 50)
+                };
+                btnChange.Click += ChangeTexture_Click;
+                panelTextures.Controls.Add(btnChange);
+
+                Button btnRestore = new Button
+                {
+                    Text = "Restore Default",
+                    Location = new Point(xPos + 110, yPos + labelHeight + h + 5),
+                    Size = new Size(110, 30),
+                    Tag = pb,
+                    ForeColor = Color.White,
+                    BackColor = Color.FromArgb(50, 50, 50)
+                };
+                btnRestore.Click += RestoreOneTextureDefault_Click;
+                panelTextures.Controls.Add(btnRestore);
+
+                yPos += labelHeight + h + spacing + 30;
             }
         }
 
@@ -1145,6 +1398,18 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             ReturnToMainMenu();
         }
 
+        /// <summary>
+        /// Handles the creation of a new mod, including gathering user input, setting up the mod folder <br></br>
+        /// structure, and processing texture files for compatibility with the game.
+        /// </summary>
+        /// <remarks>This method prompts the user for mod details such as the mod name, an optional image, <br></br>
+        /// and a description.  It determines the target game (Metal Gear Solid 2 or 3) based on user input or <br></br>
+        /// predefined model selection,  and creates the necessary folder structure for the mod.   Texture files are <br></br>
+        /// processed and converted to the appropriate format for the game, and any changes are  saved to the mod <br></br>
+        /// folder. The method ensures that required tools and paths are configured before proceeding.  If no textures <br></br>
+        /// are modified, the method will prompt the user to make changes before creating the mod.</remarks>
+        /// <param name="sender">The source of the event, typically the button that was clicked.</param>
+        /// <param name="e">The event data associated with the button click.</param>
         private async void CreateModButton_Click(object sender, EventArgs e)
         {
             string modName = PromptForInput("Enter mod name (required):", "New Mod");
@@ -1170,8 +1435,21 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             string modDescription = PromptForInput("Enter mod description (optional):", "Mod Description");
 
             var cfg = ConfigManager.LoadSettings();
-            string selectedModel = ModelSelectionComboBox.SelectedItem?.ToString() ?? "";
-            bool isMgs2 = selectedModel.StartsWith("MGS2", StringComparison.OrdinalIgnoreCase);
+
+            // This is where a custom model is handled and we ask which game it is for
+            bool isMgs2;
+            if (_isCustomModel)
+            {
+                var result = MessageBox.Show("Is this mod for Metal Gear Solid 2?", "Game Selection",
+                                            MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                isMgs2 = (result == DialogResult.Yes);
+            }
+            else
+            {
+                string selectedModel = ModelSelectionComboBox.SelectedItem?.ToString() ?? "";
+                isMgs2 = selectedModel.StartsWith("MGS2", StringComparison.OrdinalIgnoreCase);
+            }
+
             string baseModsPath = isMgs2 ? cfg.MGS2ModFolderPath : cfg.MGS3ModFolderPath;
 
             string modFolder = Path.Combine(baseModsPath, modName);
@@ -1198,7 +1476,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             string gimpScript = cfg.GimpPythonScriptPath;
             string ctxrToolExe = Path.Combine(cfg.ModToolsPath, "CtxrTool.exe");
 
-            string conversionFolder = Path.Combine(modFolder, modName, "textures", "flatlist", "ovr_stm", "_win");
+            string conversionFolder = Path.Combine(modFolder, "textures", "flatlist", "ovr_stm", "_win");
             Directory.CreateDirectory(conversionFolder);
 
             var changedBoxes = panelTextures.Controls
@@ -1298,6 +1576,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                             "Mod Created", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        /// <summary>
+        /// Displays a modal dialog box with a prompt message and an input field, allowing the user to enter text.<br></br>
+        /// They'd use this to enter mod names, or descriptions for a mod so that the hover events in MGS2/3 Modding Forms <br></br>
+        /// Will show a summary and preview image to the user.
+        /// </summary>
+        /// <param name="prompt">The message displayed to the user in the dialog box.</param>
+        /// <param name="title">The title of the dialog box.</param>
+        /// <returns>The text entered by the user, trimmed of leading and trailing whitespace. <br></br> 
+        /// Returns an empty string if the user cancels the dialog or closes it without providing input.</returns>
         private string PromptForInput(string prompt, string title)
         {
             using (Form inputForm = new Form())
@@ -1365,6 +1652,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
         }
 
+        /// <summary>
+        /// This was basically just to save me time answering the same questions <br></br>
+        /// I'd get on Nexus Mods or Discord.
+        /// </summary>
+        /// <returns></returns>
         private string BuildFaqText() =>
         "\n1. Can I swap models with this tool?\n" +
         "No, you cannot. When model swapping is figured out I will add it in.\n\n" +

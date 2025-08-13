@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TextureModelForm));
             BackButton = new System.Windows.Forms.Button();
             btnLoadObj = new System.Windows.Forms.Button();
-            LoadGruButton = new System.Windows.Forms.Button();
             CtxrToPng = new System.Windows.Forms.Button();
             PngToCtxr = new System.Windows.Forms.Button();
             PngToDds = new System.Windows.Forms.Button();
@@ -41,6 +40,7 @@
             ShowMgs2ModelsCheckBox = new System.Windows.Forms.CheckBox();
             ShowMgs3ModelsCheckBox = new System.Windows.Forms.CheckBox();
             HelpFaqButton = new System.Windows.Forms.Button();
+            LoadPreDefinedModel = new System.Windows.Forms.Button();
             SuspendLayout();
             // 
             // BackButton
@@ -72,21 +72,6 @@
             btnLoadObj.Text = "Load Non-Listed OBJ";
             btnLoadObj.UseVisualStyleBackColor = false;
             btnLoadObj.Click += btnLoadObj_Click;
-            // 
-            // LoadGruButton
-            // 
-            LoadGruButton.BackColor = System.Drawing.Color.FromArgb(51, 51, 51);
-            LoadGruButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            LoadGruButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            LoadGruButton.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
-            LoadGruButton.Location = new System.Drawing.Point(12, 352);
-            LoadGruButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            LoadGruButton.Name = "LoadGruButton";
-            LoadGruButton.Size = new System.Drawing.Size(254, 36);
-            LoadGruButton.TabIndex = 14;
-            LoadGruButton.Text = "Load Model Below:";
-            LoadGruButton.UseVisualStyleBackColor = false;
-            LoadGruButton.Click += LoadGruButton_Click;
             // 
             // CtxrToPng
             // 
@@ -221,6 +206,21 @@
             HelpFaqButton.UseVisualStyleBackColor = false;
             HelpFaqButton.Click += HelpFaqButton_Click;
             // 
+            // LoadPreDefinedModel
+            // 
+            LoadPreDefinedModel.BackColor = System.Drawing.Color.FromArgb(51, 51, 51);
+            LoadPreDefinedModel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            LoadPreDefinedModel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            LoadPreDefinedModel.ForeColor = System.Drawing.Color.FromArgb(224, 224, 224);
+            LoadPreDefinedModel.Location = new System.Drawing.Point(12, 352);
+            LoadPreDefinedModel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            LoadPreDefinedModel.Name = "LoadPreDefinedModel";
+            LoadPreDefinedModel.Size = new System.Drawing.Size(254, 36);
+            LoadPreDefinedModel.TabIndex = 24;
+            LoadPreDefinedModel.Text = "Load Model Below:";
+            LoadPreDefinedModel.UseVisualStyleBackColor = false;
+            LoadPreDefinedModel.Click += LoadPreDefinedModel_Click;
+            // 
             // TextureModelForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -228,6 +228,7 @@
             BackColor = System.Drawing.Color.FromArgb(30, 30, 30);
             BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             ClientSize = new System.Drawing.Size(1395, 722);
+            Controls.Add(LoadPreDefinedModel);
             Controls.Add(HelpFaqButton);
             Controls.Add(ShowMgs3ModelsCheckBox);
             Controls.Add(ShowMgs2ModelsCheckBox);
@@ -237,7 +238,6 @@
             Controls.Add(PngToDds);
             Controls.Add(PngToCtxr);
             Controls.Add(CtxrToPng);
-            Controls.Add(LoadGruButton);
             Controls.Add(btnLoadObj);
             Controls.Add(BackButton);
             DoubleBuffered = true;
@@ -253,7 +253,6 @@
 
         private System.Windows.Forms.Button BackButton;
         private System.Windows.Forms.Button btnLoadObj;
-        private System.Windows.Forms.Button LoadGruButton;
         private System.Windows.Forms.Button CtxrToPng;
         private System.Windows.Forms.Button PngToCtxr;
         private System.Windows.Forms.Button PngToDds;
@@ -263,5 +262,6 @@
         private System.Windows.Forms.CheckBox ShowMgs2ModelsCheckBox;
         private System.Windows.Forms.CheckBox ShowMgs3ModelsCheckBox;
         private System.Windows.Forms.Button HelpFaqButton;
+        private System.Windows.Forms.Button LoadPreDefinedModel;
     }
 }
