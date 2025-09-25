@@ -1,11 +1,9 @@
 ﻿using Microsoft.VisualBasic.FileIO;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using IOSearchOption = System.IO.SearchOption;
 
@@ -643,7 +641,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         }
 
         #endregion
-
 
         #region Hover Methods
         private void ShowModImage(string modName, Control modControl)

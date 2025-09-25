@@ -54,84 +54,20 @@ public static class CtxrConverter
         }
     }
 
-    public static void PngToCtxr(string modToolsPath, string texconvExePath, string inputPng)
-    {
-        string ddsPath = Path.ChangeExtension(inputPng, ".dds");
-        PngToDdsWithTexconv(texconvExePath, inputPng, ddsPath);
-
-        string ctxrToolExe = Path.Combine(modToolsPath, "CtxrTool.exe");
-        DdsToCtxr(ddsPath, ctxrToolExe);
-    }
-
-    public static void PngToDdsWithTexconv(string texconvExePath, string inputPng, string outputDds)
-    {
-        if (!File.Exists(texconvExePath))
-            throw new FileNotFoundException("texconv.exe not found.", texconvExePath);
-        if (!File.Exists(inputPng))
-            throw new FileNotFoundException("PNG file not found.", inputPng);
-
-        string outDir = Path.GetDirectoryName(outputDds);
-        if (string.IsNullOrEmpty(outDir))
-            outDir = Directory.GetCurrentDirectory();
-        Directory.CreateDirectory(outDir);
-        string baseName = Path.GetFileNameWithoutExtension(inputPng) + ".dds";
-        string generatedDds = Path.Combine(outDir, baseName);
-
-        // Use B8G8R8A8_UNORM to match the settings I would use in GIMP or Photoshop
-        string chosenFormat = "B8G8R8A8_UNORM";
-        string arguments = string.Join(" ", new string[]
-        {
-            "-ft dds",                // Output DDS format
-            $"-f {chosenFormat}",     // Use B8G8R8A8_UNORM ordering
-            "-if POINT",              // Use nearest filter for mipmaps
-            "-m 0",                   // Generate full mip chain
-            "-nologo",                // Don't print the texconv header
-            "-y",                     // Overwrite without prompting
-            $"-o \"{outDir}\"",
-            $"\"{inputPng}\""
-        });
-
-        ProcessStartInfo psi = new ProcessStartInfo
-        {
-            FileName = texconvExePath,
-            Arguments = arguments,
-            CreateNoWindow = true,
-            UseShellExecute = false,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true
-        };
-
-        using (Process proc = new Process { StartInfo = psi })
-        {
-            proc.Start();
-            string stdout = proc.StandardOutput.ReadToEnd();
-            string stderr = proc.StandardError.ReadToEnd();
-            proc.WaitForExit();
-
-            if (proc.ExitCode != 0)
-                throw new Exception($"texconv exited with code {proc.ExitCode}.\nStdOut:\n{stdout}\n\nStdErr:\n{stderr}");
-        }
-
-        if (!File.Exists(generatedDds))
-            throw new FileNotFoundException($"texconv claimed success, but '{generatedDds}' not found.");
-
-        if (!generatedDds.Equals(outputDds, StringComparison.OrdinalIgnoreCase))
-        {
-            if (File.Exists(outputDds))
-                File.Delete(outputDds);
-            File.Move(generatedDds, outputDds);
-        }
-    }
-
-    public static void DdsToCtxr(string ddsPath, string ctxrToolExe)
+    public static void DdsToCtxr(string ddsPath, string ctxrToolExe, string outputPath = null)
     {
         if (!File.Exists(ddsPath))
             throw new FileNotFoundException("DDS file not found.", ddsPath);
         if (!File.Exists(ctxrToolExe))
             throw new FileNotFoundException("CtxrTool.exe not found.", ctxrToolExe);
 
+        if (string.IsNullOrEmpty(outputPath))
+        {
+            outputPath = Path.ChangeExtension(ddsPath, ".ctxr");
+        }
+
         string ddsDir = Path.GetDirectoryName(ddsPath);
-        string arguments = $"\"{ddsPath}\"";
+        string arguments = $"\"{ddsPath}\" \"{outputPath}\"";
 
         ProcessStartInfo psi = new ProcessStartInfo
         {
@@ -156,11 +92,8 @@ public static class CtxrConverter
             }
         }
 
-        string generatedFileName = Path.GetFileNameWithoutExtension(ddsPath) + ".ctxr";
-        string generatedCtxrPath = Path.Combine(ddsDir, generatedFileName);
-
-        if (!File.Exists(generatedCtxrPath))
-            throw new FileNotFoundException($"CtxrTool.exe claimed success, but '{generatedCtxrPath}' was not found.");
+        if (!File.Exists(outputPath))
+            throw new FileNotFoundException($"CtxrTool.exe claimed success, but '{outputPath}' was not found.");
     }
 
     private static ushort ReadUInt16BE(byte[] data, int offset)

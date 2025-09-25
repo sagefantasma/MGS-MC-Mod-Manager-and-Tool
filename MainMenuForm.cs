@@ -16,7 +16,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         public static class AppInfo
         {
-            public const string CurrentVersion = "1.0.0.8";
+            public const string CurrentVersion = "1.0.0.9";
         }
         private void ShowChangelog()
         {
@@ -66,6 +66,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         {
             return
 @"Thanks for using the Mod Manager and Tools! - ANTIBigBoss
+
+Changelog - v1.0.0.9
+- Attempted a patch at MGS2 Mods not showing as enabled when a mod was enabled
+- Fixed some logic issues in 3D Model and Texture Import/Export tool
+- Created a new organization system for mods created in 
+  3D Model and Texture Import/Export tool
+- Mods should no longer falsely appear as enabled in MGS2/3 Mod folders 
+  when a mod is made in the 3D Model and Texture Import/Export tool
+
 Changelog - v1.0.0.8
 - Added in the ability to make a mod from any model or texture 
 (Would recommend still keeping them MGS2/3 related to avoid issues in naming) 
@@ -78,16 +87,18 @@ Changelog - v1.0.0.7
 
 Changelog - v1.0.0.6
 - Fixed a bug where the MGS3 Mods folder could be infinitely duplicated if 
-selected as a mod via 'Add Mod' in the MGS3 Modding Form
+  selected as a mod via 'Add Mod' in the MGS3 Modding Form
 - Fixed a bug where textures that shouldn't have mip maps were being given
-mip maps and causing weird issues in the Texture Import/Export tool
+  mip maps and causing weird issues in the Texture Import/Export tool
 - Fixed a bug in the Texture Import/Export tool where you could create an
-empty mod if no textures were selected
+  empty mod if no textures were selected
 - Added support for MGS2 Manifest and Resource text files for future model swaps
 
 Changelog - v1.0.0.5
-- Added in over 100 MGS3 3D models to the 3D Model and Texture Import/Export tool
-- Added in support for MGS2 mods made with the SeaLouse Model Import/Export tool
+- Added in over 100 MGS3 3D models to the 
+  3D Model and Texture Import/Export tool
+- Added in support for MGS2 mods made with the 
+  SeaLouse Model Import/Export tool
 
 Changelog - v1.0.0.4
 - Added in more 3D models to the 3D Model and Texture Import/Export tool
@@ -96,7 +107,7 @@ Changelog - v1.0.0.4
 - MGSFPSUnlock support added to MGS2 and MGS3 Modding Forms
 - MGS3CrouchWalk support added to MGS3 Modding Form
 - UI Fixes where MGS3 Modding Form would start from 
-top of the page everytime a mod was activated or deactivated";
+  top of the page everytime a mod was activated or deactivated";
         }
 
         private void MainMenuForm_FormClosing(object sender, FormClosingEventArgs e)

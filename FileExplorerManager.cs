@@ -82,28 +82,37 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
         }
 
-        public async Task ToggleModStateByNameAsync(string modName, string gameInstallPath)
+        public async Task<bool> ToggleModStateByNameAsync(string modName, string gameInstallPath)
         {
             bool isEnabled = config.Mods.ActiveMods.TryGetValue(modName, out var enabled) && enabled;
             string modPath = Path.Combine(modFolder, modName);
 
-            await Task.Run(() =>
+            try
             {
-                if (isEnabled)
+                await Task.Run(() =>
                 {
-                    RestoreVanillaFiles(modPath, gameInstallPath);
-                    config.Mods.ActiveMods[modName] = false;
-                    config.Mods.ActiveVariants.Remove(modName);
-                }
-                else
-                {
-                    string selectedVariant = config.Mods.ActiveVariants.TryGetValue(modName, out var variant) ? variant : null;
-                    ApplyModFiles(modPath, gameInstallPath, selectedVariant);
-                    config.Mods.ActiveMods[modName] = true;
-                }
-            });
+                    if (isEnabled)
+                    {
+                        RestoreVanillaFiles(modPath, gameInstallPath);
+                        config.Mods.ActiveMods[modName] = false;
+                        config.Mods.ActiveVariants.Remove(modName);
+                    }
+                    else
+                    {
+                        string selectedVariant = config.Mods.ActiveVariants.TryGetValue(modName, out var variant) ? variant : null;
+                        ApplyModFiles(modPath, gameInstallPath, selectedVariant);
+                        config.Mods.ActiveMods[modName] = true;
+                    }
+                });
 
-            ConfigManager.SaveSettings(config);
+                ConfigManager.SaveSettings(config);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LoggingManager.Instance.Log($"Error toggling mod state: {ex.Message}");
+                return false;
+            }
         }
 
         public List<string> FindVariantFolders(string modRoot)

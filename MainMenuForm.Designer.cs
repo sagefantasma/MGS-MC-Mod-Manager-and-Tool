@@ -175,7 +175,7 @@
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Name = "MainMenuForm";
-            Text = "ANTIBigBoss's MGS Mod Manager - Version 1.0.0.8";
+            Text = "ANTIBigBoss's MGS Mod Manager - Version 1.0.0.9";
             Load += MainMenuForm_Load;
             ResumeLayout(false);
             PerformLayout();
