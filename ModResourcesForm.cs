@@ -80,7 +80,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         private void modelSwapperButton_Click(object sender, EventArgs e)
         {
             ConfigSettings config = ConfigManager.LoadSettings();
-            ModelSwapperForm modelSwapperForm = new ModelSwapperForm(config.GamePaths["MGS2"]);
+            ModelSwapperForm modelSwapperForm = new ModelSwapperForm(config.GamePaths["MGS2"], config.ModToolsPath);
             modelSwapperForm.ShowDialog();
         }
     }

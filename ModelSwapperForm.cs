@@ -18,9 +18,17 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             public string LoLoDId { get; set; }
             public string HiLoDId { get; set; }
             public string Name { get; set; }
+            public string ResidentStage { get; set; }
+            public string Headpiece { get; set; }
             public List<string> LoLoDTextures { get; set; } = new List<string>();
             public List<string> HiLoDTextures { get; set; } = new List<string>();
+            public string LoLodKms { get; set; }
+            public string LoLoDTri { get; set; }
+            public string HiLodKms { get; set; }
+            public string HiLoDTri { get; set; }
             //TODO: probably need shadow too
+            //TODO: codec?
+            //TODO: first person arm?
 
             public override string ToString()
             {
@@ -28,7 +36,9 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
         }
 
+
         private string _gameDirectory;
+        private string _backupDirectory;
         private List<MGSModel> ModelsToSwapIn { get; set; } = new List<MGSModel>();
         private List<MGSModel> ModelsToSwapOut { get; set; } = new List<MGSModel>();
 
@@ -45,7 +55,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                                         where fileText.Contains(id, StringComparison.CurrentCultureIgnoreCase)
                                         select file.FullName).FirstOrDefault();
                 string lineContainingId = (from line in File.ReadAllLines(firstFileContainingId) 
-                                           where line.Contains(id, StringComparison.CurrentCultureIgnoreCase) && line.Contains(triFile, StringComparison.CurrentCultureIgnoreCase) 
+                                           where line.Contains(id, StringComparison.CurrentCultureIgnoreCase)// && line.Contains(triFile, StringComparison.CurrentCultureIgnoreCase) 
                                            select line).FirstOrDefault();
                 //"textures/flatlist/ema_arm_sub_alp_ovl.bmp.ctxr,stage/a16a/cache/ema_arm_sub_alp_ovl.bmp.ctxr,eu/stage/a16a/cache/00535469/000361b9.ctxr
 
@@ -60,11 +70,16 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private void BuildModelsToSwapInList()
         {
+            //TODO: fix the hardcode to r_plt0 in Tri files
             ModelsToSwapIn.Add(new MGSModel
             {
                 Name = "Emma",
                 LoLoDId = "00b35469", //assets/tri/us/ema_def_sh_mt.tri,us/stage/w31d/cache/00b35469.tri,cache/00b35469.tri
-                HiLoDId = "00535469", //assets/tri/us/ema_def_mh_mt.tri,us/stage/w31d/cache/00535469.tri,cache/00535469.tri
+                LoLodKms = "assets/kms/us/ema_def_sh_mt.kms,us/stage/XXXX/resident/00b35469.kms,resident/00b35469.kms",
+                LoLoDTri = "assets/tri/us/ema_def_mh_mt.tri,us/stage/r_plt0/resident/00535469.tri,resident/00535469.tri", //is this actually a cutscene model instead?
+                HiLoDId = "00535469", //assets/tri/us/ema_def_mh_mt.tri,us/stage/w31d/cache/00535469.tri,cache/00535469.tri -- not used
+                HiLodKms = "assets/kms/us/ema_def_sh_mt.kms,us/stage/XXXX/resident/00b35469.kms,resident/00b35469.kms", //reusing other LoD
+                HiLoDTri = "assets/tri/us/ema_def_sh_mt.tri,us/stage/r_plt0/resident/00b35469.tri,resident/00b35469.tri",
                 //assets/tri/us/ema_hair_mh.tri,us/stage/w31d/cache/00ce9e72.tri,cache/00ce9e72.tri -- needed?
                 LoLoDTextures = new List<string>
                 {
@@ -148,6 +163,98 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             });
             ModelsToSwapIn.Add(new MGSModel
             {
+                Name = "Fortune",
+                LoLoDId = "0051376b",
+                LoLodKms = "assets/kms/us/for_def_sh_mt.kms,us/stage/XXXX/resident/00b365ad.kms,resident/00b365ad.kms",
+                LoLoDTri = "assets/tri/us/for_def.tri,us/stage/r_plt0/resident/0051376b.tri,resident/0051376b.tri",
+                HiLoDId = "0004ad70",
+                HiLodKms = "assets/kms/us/for_def_sh_mt.kms,us/stage/XXXX/resident/00b365ad.kms,resident/00b365ad.kms", //reusing other LoD
+                HiLoDTri = "assets/tri/us/fortune_mh_mt.tri,us/stage/r_plt0/resident/0004ad70.tri,resident/0004ad70.tri",
+                LoLoDTextures = new()
+                {
+                    "00512D12",
+            "00517DFE",
+            "002007A5",
+            "00AF0DCB",
+            "001FDB23",
+            "00DA8B4C",
+            "00D31DDD",
+            "006EF8B3",
+            "006EF8B4",
+            "006FF37B",
+            "000D0276",
+            "00787367",
+            "005EFDFF",
+            "00574B69",
+            "002816FE",
+            "00744D49",
+            "0057A390",
+            "0028DECE",
+            "001BD9F7",
+            "00F3CC28",
+            "00A347A5",
+            "00BF5036",
+            "0070DB5E",
+            "00CAEC9E",
+            "00CAECAF",
+            "0074A7CD",
+            "0013B767",
+            "007D47E7",
+            "00F71E00",
+            "00B7B37E",
+            "007A52EE",
+            "002029A5",
+            "005174BD",
+            "00CC2E02",
+            "005178AA"
+                },
+                HiLoDTextures = new()
+                {
+                    "00512D12",
+            "00517DFE",
+            "002007A5",
+            "00AF0DCB",
+            "001FDB23",
+            "00DA8B4C",
+            "00D31DDD",
+            "006EF8B3",
+            "006EF8B4",
+            "006FF37B",
+            "00138BFD",
+            "003001DC",
+            "000D0276",
+            "005EFDFF",
+            "00574B69",
+            "002816FE",
+            "00744D49",
+            "00F3CC28",
+            "00A347A5",
+            "001AA2F9",
+            "00545F55",
+            "0054D480",
+            "0054D481",
+            "0054D482",
+            "00BF5036",
+            "0070DB5E",
+            "00CAEC9E",
+            "00CAECAF",
+            "0074A7CD",
+            "0013B767",
+            "007D47E7",
+            "00F71E00",
+            "00B7B37E",
+            "007A52EE",
+            "002029A5",
+            "005174BD",
+            "00CC2E02",
+            "00EB6E02",
+            "00EBCE02",
+            "005178AA",
+            "008F00C7"
+                }
+            });
+            ModelsToSwapIn.Add(new MGSModel
+            {
                 Name = "MGS1 Snake"
             });
             ModelsToSwapIn.Add(new MGSModel
@@ -179,15 +286,23 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private void BuildModelsToSwapOutList()
         {
-            /*
-             * Raiden - Story (r_plt0)
-Snake - Story (r_tnk0)
-             */
-            ModelsToSwapOut.Add(new MGSModel { Name = "Raiden - Story (r_plt0)"});
-            ModelsToSwapOut.Add(new MGSModel { Name = "Snake - Story (r_tnk0)" });
+            ModelsToSwapOut.Add(new MGSModel {
+                Name = "Raiden - Story (r_plt0)",
+                LoLodKms = "assets/kms/us/rai_def.kms,us/stage/r_plt0/resident/00c13a4e.kms,resident/00c13a4e.kms",
+                HiLodKms = "assets/kms/us/rai_def_sh_mt_stage_r_plt0_r.kms,us/stage/r_plt0/resident/00b41e89.kms,resident/00b41e89.kms",
+                Headpiece = "rai_hair_bounding_stage_r_plt0_r.kms",
+                ResidentStage = "r_plt0"
+            });
+            ModelsToSwapOut.Add(new MGSModel { 
+                Name = "Snake - Story (r_tnk0)", //TODO: confirm
+                LoLodKms = "assets/kms/us/sna_def_stage_r_plt10_r.kms,us/stage/r_tnk0/resident/00413aa8.kms,resident/00413aa8.kms",
+                HiLodKms = "assets/kms/us/sna_def_sh_stage_r_plt10_r.kms,us/stage/r_tnk0/resident/0055ab65.kms,resident/0055ab65.kms",
+                Headpiece = "sna_bdn1_stage_r_plt_s_r.kms",
+                ResidentStage = "r_tnk0"
+            });
         }
 
-        public ModelSwapperForm(string gameDirectory)
+        public ModelSwapperForm(string gameDirectory, string modToolsDirectory)
         {
             InitializeComponent();
             BuildModelsToSwapInList();
@@ -195,23 +310,121 @@ Snake - Story (r_tnk0)
             modelToSwapInComboBox.Items.AddRange(ModelsToSwapIn.ToArray());
             modelToSwapOutComboBox.Items.AddRange(ModelsToSwapOut.ToArray());
             _gameDirectory = gameDirectory;
+            _backupDirectory = Path.Combine(modToolsDirectory, "Model Swap Backups");
+            if (!Directory.Exists(_backupDirectory))
+            {
+                Directory.CreateDirectory(_backupDirectory);
+            }
+        }
+
+        private void SwapModelIn(MGSModel modelToSwapOut, MGSModel modelToSwapIn)
+        {
+            DirectoryInfo kmsDirectory = new(Path.Combine(_gameDirectory, "assets", "kms", "us"));
+            DirectoryInfo cmdlDirectory = new(Path.Combine(kmsDirectory.FullName, "_win"));
+            string loLodFileNameToSwapOut = modelToSwapOut.LoLodKms.Split('/', StringSplitOptions.RemoveEmptyEntries)[3].Split(',', StringSplitOptions.RemoveEmptyEntries)[0].Split('.', StringSplitOptions.RemoveEmptyEntries)[0];
+            string hiLodFileNameToSwapOut = modelToSwapOut.HiLodKms.Split('/', StringSplitOptions.RemoveEmptyEntries)[3].Split(',', StringSplitOptions.RemoveEmptyEntries)[0].Split('.', StringSplitOptions.RemoveEmptyEntries)[0];
+            FileInfo[] kmsFiles = kmsDirectory.GetFiles();
+            FileInfo[] cmdlFiles = cmdlDirectory.GetFiles();
+
+            File.Delete(kmsFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == loLodFileNameToSwapOut).FullName);
+            File.Delete(cmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == loLodFileNameToSwapOut).FullName);
+            File.Delete(kmsFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == hiLodFileNameToSwapOut).FullName);
+            File.Delete(cmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == hiLodFileNameToSwapOut).FullName);
+
+            string loLodFileNameToSwapIn = modelToSwapIn.LoLodKms.Split('/', StringSplitOptions.RemoveEmptyEntries)[3].Split(',', StringSplitOptions.RemoveEmptyEntries)[0].Split('.', StringSplitOptions.RemoveEmptyEntries)[0];
+            string hiLodFileNameToSwapIn = modelToSwapIn.HiLodKms.Split('/', StringSplitOptions.RemoveEmptyEntries)[3].Split(',', StringSplitOptions.RemoveEmptyEntries)[0].Split('.', StringSplitOptions.RemoveEmptyEntries)[0];
+
+            File.Copy(kmsFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == loLodFileNameToSwapIn).FullName, Path.Combine(kmsDirectory.FullName, $"{loLodFileNameToSwapOut}.kms"));
+            File.Copy(cmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == loLodFileNameToSwapIn).FullName, Path.Combine(cmdlDirectory.FullName, $"{loLodFileNameToSwapOut}.cmdl"));
+            File.Copy(kmsFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == hiLodFileNameToSwapIn).FullName, Path.Combine(kmsDirectory.FullName, $"{hiLodFileNameToSwapOut}.kms"));
+            File.Copy(cmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == hiLodFileNameToSwapIn).FullName, Path.Combine(cmdlDirectory.FullName, $"{hiLodFileNameToSwapOut}.cmdl"));
+        }
+
+        private void RemoveRaidenHair()
+        {
+            DirectoryInfo kmsDirectory = new(Path.Combine(_gameDirectory, "assets", "kms", "us"));
+            DirectoryInfo cmdlDirectory = new(Path.Combine(kmsDirectory.FullName, "_win"));
+            string raidenHair = "rai_hair_bounding_stage_r_plt0_r";
+            string nullModel = "null.kms";
+            FileInfo[] kmsFiles = kmsDirectory.GetFiles();
+            FileInfo[] cmdlFiles = cmdlDirectory.GetFiles();
+        }
+
+        private void BackupModel(MGSModel modelToBackup)
+        {
+            DirectoryInfo backupDirectory = new (_backupDirectory);
+            DirectoryInfo kmsDirectory = new (Path.Combine(_gameDirectory, "assets", "kms", "us"));
+            DirectoryInfo cmdlDirectory = new (Path.Combine(kmsDirectory.FullName, "_win"));
+            string loLodFileName = modelToBackup.LoLodKms.Split('/', StringSplitOptions.RemoveEmptyEntries)[3].Split(',', StringSplitOptions.RemoveEmptyEntries)[0].Split('.',StringSplitOptions.RemoveEmptyEntries)[0];
+            string hiLodFileName = modelToBackup.HiLodKms.Split('/', StringSplitOptions.RemoveEmptyEntries)[3].Split(',', StringSplitOptions.RemoveEmptyEntries)[0].Split('.', StringSplitOptions.RemoveEmptyEntries)[0];
+            FileInfo[] kmsFiles = kmsDirectory.GetFiles();
+            FileInfo[] cmdlFiles = cmdlDirectory.GetFiles();
+
+            List<FileInfo> filesToBackup = new() {
+                kmsFiles.FirstOrDefault(x => x.Name.Replace(x.Extension,"") == loLodFileName),
+                cmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension,"") == loLodFileName),
+                kmsFiles.FirstOrDefault(x => x.Name.Replace(x.Extension,"") == hiLodFileName),
+                cmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension,"") == hiLodFileName)
+            };
+
+            FileInfo[] backupFiles = backupDirectory.GetFiles();
+
+            foreach(FileInfo fileToBackup in filesToBackup)
+            {
+                if(!backupFiles.Any(x=>x.Name == fileToBackup.Name))
+                {
+                    File.Copy(fileToBackup.FullName, Path.Combine(_backupDirectory, fileToBackup.Name));
+                }
+            }
+        }
+
+        private void RestoreBackupModel(MGSModel model)
+        {
+            try
+            {
+                DirectoryInfo backupDirectory = new(_backupDirectory);
+                FileInfo[] backupFiles = backupDirectory.GetFiles();
+                DirectoryInfo kmsDirectory = new(Path.Combine(_gameDirectory, "assets", "kms", "us"));
+                DirectoryInfo cmdlDirectory = new(Path.Combine(kmsDirectory.FullName, "_win"));
+                string loLodFileName = model.LoLodKms.Split('/', StringSplitOptions.RemoveEmptyEntries)[3].Split(',', StringSplitOptions.RemoveEmptyEntries)[0].Split('.', StringSplitOptions.RemoveEmptyEntries)[0];
+                string hiLodFileName = model.HiLodKms.Split('/', StringSplitOptions.RemoveEmptyEntries)[3].Split(',', StringSplitOptions.RemoveEmptyEntries)[0].Split('.', StringSplitOptions.RemoveEmptyEntries)[0];
+
+
+                File.Copy(backupFiles.FirstOrDefault(x => x.Name == $"{loLodFileName}.kms").FullName, Path.Combine(kmsDirectory.FullName, $"{loLodFileName}.kms"), true);
+                File.Copy(backupFiles.FirstOrDefault(x => x.Name == $"{loLodFileName}.cmdl").FullName, Path.Combine(cmdlDirectory.FullName, $"{loLodFileName}.cmdl"), true);
+                File.Copy(backupFiles.FirstOrDefault(x => x.Name == $"{hiLodFileName}.kms").FullName, Path.Combine(kmsDirectory.FullName, $"{hiLodFileName}.kms"), true);
+                File.Copy(backupFiles.FirstOrDefault(x => x.Name == $"{hiLodFileName}.cmdl").FullName, Path.Combine(cmdlDirectory.FullName, $"{hiLodFileName}.cmdl"), true);
+            }
+            catch
+            {
+                //File not backed up yet, so no need to worry
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            //TODO: it probably makes the most sense to backup all the models when opening the form for the first time, and then using THAT to swap in.
             MGSModel modelToSwapIn = modelToSwapInComboBox.SelectedItem as MGSModel;
-            List<string> loLodTextureList = GetTexturesFromListOfIds(modelToSwapIn.LoLoDTextures, modelToSwapIn.LoLoDId, "r_plt0");
-            List<string> hiLodTextureList = GetTexturesFromListOfIds(modelToSwapIn.HiLoDTextures, modelToSwapIn.HiLoDId, "r_plt0");
-            InsertTexturesIntoResidentFile(loLodTextureList, "r_plt0");
-            InsertTexturesIntoResidentFile(hiLodTextureList, "r_plt0");
-            //assets/tri/us/rai_tex_mt.tri,us/stage/r_plt0/resident/0031ead1.tri,resident/0031ead1.tri
-            InsertTriIntoResidentFile("assets/tri/us/ema_def_mh_mt.tri,us/stage/r_plt0/resident/00535469.tri,resident/00535469.tri", "r_plt0");
-            InsertTriIntoResidentFile("assets/tri/us/ema_def_sh_mt.tri,us/stage/r_plt0/resident/00b35469.tri,resident/00b35469.tri", "r_plt0");
+            MGSModel modelToSwapOut = modelToSwapOutComboBox.SelectedItem as MGSModel;
+            RestoreBackupModel(modelToSwapOut);
+            BackupModel(modelToSwapOut);
+            
+            List<string> loLodTextureList = GetTexturesFromListOfIds(modelToSwapIn.LoLoDTextures, modelToSwapIn.LoLoDId, modelToSwapOut.ResidentStage);
+            List<string> hiLodTextureList = GetTexturesFromListOfIds(modelToSwapIn.HiLoDTextures, modelToSwapIn.HiLoDId, modelToSwapOut.ResidentStage);
+            InsertTexturesIntoResidentFile(loLodTextureList, modelToSwapOut.ResidentStage);
+            InsertTexturesIntoResidentFile(hiLodTextureList, modelToSwapOut.ResidentStage);
+
+            InsertTriIntoResidentFile(modelToSwapIn.LoLoDTri, modelToSwapOut.ResidentStage); //Are the tris necessary? Let's find out :) - tested it, and yes they are lmao
+            InsertTriIntoResidentFile(modelToSwapIn.HiLoDTri, modelToSwapOut.ResidentStage);
             //Swap kms and cmdl names
+            SwapModelIn(modelToSwapOut, modelToSwapIn);
             //Raiden loLod: rai_def
             //Raiden hiLoD: rai_def_sh_mt_stage_r_plt0_r
+            //can we do codec as well?
             //^this resulted in nothing, xdd -- WAIT NO, I HAVE IT. FUCK YEAH - just needed to correct a cache -> resident and it worked immediately~!
         }
+
+        
 
         private void InsertTriIntoResidentFile(string newTriFile, string resident)
         {
