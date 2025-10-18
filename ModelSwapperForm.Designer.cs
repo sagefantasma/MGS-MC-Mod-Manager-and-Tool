@@ -33,6 +33,7 @@
             modelToSwapInLabel = new System.Windows.Forms.Label();
             modelToSwapInComboBox = new System.Windows.Forms.ComboBox();
             swapInNewModelButton = new System.Windows.Forms.Button();
+            restoreModelsButton = new System.Windows.Forms.Button();
             SuspendLayout();
             // 
             // modelToSwapOutComboBox
@@ -51,9 +52,9 @@
             modelToSwapLabel.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             modelToSwapLabel.Location = new System.Drawing.Point(54, 67);
             modelToSwapLabel.Name = "modelToSwapLabel";
-            modelToSwapLabel.Size = new System.Drawing.Size(225, 32);
+            modelToSwapLabel.Size = new System.Drawing.Size(204, 32);
             modelToSwapLabel.TabIndex = 1;
-            modelToSwapLabel.Text = "Model To Swap Out";
+            modelToSwapLabel.Text = "Model To Change";
             // 
             // modelToSwapInLabel
             // 
@@ -85,12 +86,23 @@
             swapInNewModelButton.UseVisualStyleBackColor = true;
             swapInNewModelButton.Click += button1_Click;
             // 
+            // restoreModelsButton
+            // 
+            restoreModelsButton.Location = new System.Drawing.Point(198, 362);
+            restoreModelsButton.Name = "restoreModelsButton";
+            restoreModelsButton.Size = new System.Drawing.Size(206, 23);
+            restoreModelsButton.TabIndex = 5;
+            restoreModelsButton.Text = "Restore Models From Backup";
+            restoreModelsButton.UseVisualStyleBackColor = true;
+            restoreModelsButton.Click += restoreModelsButton_Click;
+            // 
             // ModelSwapperForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.FromArgb(51, 51, 51);
             ClientSize = new System.Drawing.Size(800, 450);
+            Controls.Add(restoreModelsButton);
             Controls.Add(swapInNewModelButton);
             Controls.Add(modelToSwapInLabel);
             Controls.Add(modelToSwapInComboBox);
@@ -109,5 +121,6 @@
         private System.Windows.Forms.Label modelToSwapInLabel;
         private System.Windows.Forms.ComboBox modelToSwapInComboBox;
         private System.Windows.Forms.Button swapInNewModelButton;
+        private System.Windows.Forms.Button restoreModelsButton;
     }
 }
