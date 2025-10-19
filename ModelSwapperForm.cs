@@ -28,7 +28,22 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             public string CodecTri { get; set; }
             public string CodecId { get; set; }
             public string CutsceneEvm { get; set; }
+            public string CutsceneTri { get; set; }
+            public string CutsceneId { get; set; }
+            public string ArmsEvm { get; set; }
+            public string ArmsTri { get; set; }
+            public string ArmsId { get; set; }
+            public string HandsEvm { get; set; }
+            public string HandsTri { get; set; }
+            public string HandsId { get; set; }
+            public string ShadowKms { get; set; }
+            public string ShadowId { get; set; }
+            public string ShadowTri { get; set; }
+            public List<string> HandTextures { get; set; } = new();
+            public List<string> ArmTextures { get; set; } = new();
+            public List<string> ShadowTextures { get; set; } = new();
             public List<string> CodecTextures { get; set; } = new List<string>();
+            public List<string> CutsceneTextures { get; set; } = new List<string>();
             public List<string> LoLoDTextures { get; set; } = new List<string>();
             public List<string> HiLoDTextures { get; set; } = new List<string>();
             public List<string> HeadpieceTextures { get; set; } = new List<string>();
@@ -36,9 +51,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             public string LoLoDTri { get; set; }
             public string HiLodKms { get; set; }
             public string HiLoDTri { get; set; }
-            //TODO: probably need shadow too
-            //TODO: codec?
-            //TODO: first person arm?
+            
             //TODO: Maybe change from LoLoDKms & HiLodKms to just a list of models that need to be replaced? And replace them all with the same model?
             //      i mean, why bother even having a low and high lod with today's hardware?
 
@@ -75,6 +88,29 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
                 //Create new resource string for asset in proper resident format
                 textureList.Add($"textures/flatlist/{assetName},face/{newResidentId}/cache/{assetName},eu/face/{newResidentId}/cache/{triFile}/{id.ToLower()}.ctxr");
+            }
+
+            return textureList;
+        }
+
+        private List<string> GetCacheTexturesFromListOfIds(List<string> idList, string triFile, string newStageId)
+        {
+            DirectoryInfo stagesDirectory = new DirectoryInfo(Path.Combine(_gameDirectory, "eu", "stage"));
+            FileInfo[] bpAssetsList = stagesDirectory.GetFiles("bp_assets.txt", SearchOption.AllDirectories);
+            List<string> textureList = new List<string>();
+            foreach(string id in idList)
+            {
+                string firstFileContainingId = (from file in bpAssetsList
+                                                let fileText = File.ReadAllText(file.FullName)
+                                                where fileText.Contains(id, StringComparison.CurrentCultureIgnoreCase)
+                                                select file.FullName).FirstOrDefault();
+                string lineContainingId = (from line in File.ReadAllLines(firstFileContainingId)
+                                           where line.Contains(id, StringComparison.CurrentCultureIgnoreCase)// && line.Contains(triFile, StringComparison.CurrentCultureIgnoreCase) 
+                                           select line).FirstOrDefault();
+
+                string assetName = lineContainingId.Split('/', StringSplitOptions.RemoveEmptyEntries)[2].Split(',', StringSplitOptions.None)[0];
+
+                textureList.Add($"textures/flatlist/{assetName},stage/{newStageId}/cache/{assetName},eu/stage/{newStageId}/cache/{triFile}/{id.ToLower()}.ctxr");
             }
 
             return textureList;
@@ -126,10 +162,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             ModelsToSwapIn.Add(new MGSModel
             {
                 Name = "Emma",
-                LoLoDId = "00b35469", //assets/tri/us/ema_def_sh_mt.tri,us/stage/w31d/cache/00b35469.tri,cache/00b35469.tri
+                LoLoDId = "00b35469",
                 LoLodKms = "assets/kms/us/ema_def_sh_mt.kms,us/stage/XXXX/resident/00b35469.kms,resident/00b35469.kms",
                 LoLoDTri = "assets/tri/us/ema_def_mh_mt.tri,us/stage/r_plt0/resident/00535469.tri,resident/00535469.tri", //is this actually a cutscene model instead?
-                HiLoDId = "00535469", //assets/tri/us/ema_def_mh_mt.tri,us/stage/w31d/cache/00535469.tri,cache/00535469.tri -- not used
+                HiLoDId = "00535469", 
                 HiLodKms = "assets/kms/us/ema_def_sh_mt.kms,us/stage/XXXX/resident/00b35469.kms,resident/00b35469.kms", //reusing other LoD
                 HiLoDTri = "assets/tri/us/ema_def_sh_mt.tri,us/stage/r_plt0/resident/00b35469.tri,resident/00b35469.tri",
                 Headpiece = "assets/evm/us/ema_hair_mh_stage_a16a.evm,us/stage/XXXX/cache/00ce9e72.evm,cache/00ce9e72.evm",
@@ -139,6 +175,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 CodecId = "00ad3007",
                 CodecTri = "assets/tri/us/ema_radio_mh_mt.tri,us/face/f04d/cache/00ad3007.tri,cache/00ad3007.tri",
                 CutsceneEvm = "assets/evm/us/ema_def_mh_mt.evm,us/stage/w31d/cache/00535469.evm,cache/00535469.evm",
+                CutsceneTri = "assets/tri/us/ema_def_mh_mt.tri,us/stage/w31d/cache/00535469.tri,cache/00535469.tri",
+                CutsceneId = "00535469",
                 HeadpieceTextures = new List<string>
                 {
                     "0034CE8A",
@@ -152,7 +190,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "004E8B20",
             "002ED51B"
                 },
-                //assets/tri/us/ema_hair_mh.tri,us/stage/w31d/cache/00ce9e72.tri,cache/00ce9e72.tri -- needed?
                 LoLoDTextures = new List<string>
                 {
                     "000361B9",
@@ -283,6 +320,12 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 HiLoDId = "0004ad70",
                 HiLodKms = "assets/kms/us/for_def_sh_mt.kms,us/stage/XXXX/resident/00b365ad.kms,resident/00b365ad.kms", //reusing other LoD
                 HiLoDTri = "assets/tri/us/fortune_mh_mt.tri,us/stage/r_plt0/resident/0004ad70.tri,resident/0004ad70.tri",
+                CutsceneEvm = "assets/evm/us/for_def_mh_mt.evm,us/stage/d080p01/resident/005365ad.evm,resident/005365ad.evm",
+                CutsceneTri = "assets/tri/us/for_def_stage_d078p01.tri,us/stage/d080p01/cache/005365ad.tri,cache/005365ad.tri",
+                CutsceneId = "005365ad",
+                CodecEvm = "assets/evm/us/for_def_mh_mt.evm,us/stage/d080p01/resident/005365ad.evm,resident/005365ad.evm",
+                CodecId = "005365ad",
+                CodecTri = "assets/tri/us/for_def_stage_d078p01.tri,us/stage/d080p01/resident/005365ad.tri,resident/005365ad.tri",
                 LoLoDTextures = new()
                 {
                     "00512D12",
@@ -364,6 +407,85 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "00EBCE02",
             "005178AA",
             "008F00C7"
+                },
+                CodecTextures = new()
+                {
+                    "00512D12",
+            "00517DFE",
+            "002007A5",
+            "00AF0DCB",
+            "001FDB23",
+            "00DA8B4C",
+            "00D31DDD",
+            "006EF8B3",
+            "006EF8B4",
+            "006FF37B",
+            "00138BFD",
+            "003001DC",
+            "000D0276",
+            "005EFDFF",
+            "00574B69",
+            "002816FE",
+            "00744D49",
+            "00F3CC28",
+            "00A347A5",
+            "001AA2F9",
+            "00545F55",
+            "0054D480",
+            "0054D481",
+            "0054D482",
+            "00BF5036",
+            "0070DB5E",
+            "00CAEC9E",
+            "00CAECAF",
+            "0074A7CD",
+            "0013B767",
+            "007D47E7",
+            "00F71E00",
+            "00B7B37E",
+            "007A52EE",
+            "002029A5",
+            "005174BD",
+            "00CC2E02",
+            "00EB6E02",
+            "00EBCE02",
+            "005178AA",
+            "008F00C7"
+                },
+                CutsceneTextures = new()
+                {
+                    "00512D12",
+            "00517DFE",
+            "002007A5",
+            "00AF0DCB",
+            "001FDB23",
+            "00DA8B4C",
+            "00D31DDD",
+            "006EF8B3",
+            "006EF8B4",
+            "000D0276",
+            "005EFDFF",
+            "00574B69",
+            "002816FE",
+            "00744D49",
+            "0028DECE",
+            "001BD9F7",
+            "00F3CC28",
+            "00A347A5",
+            "00BF5036",
+            "0070DB5E",
+            "00CAEC9E",
+            "00CAECAF",
+            "0074A7CD",
+            "0013B767",
+            "007D47E7",
+            "00F71E00",
+            "00B7B37E",
+            "007A52EE",
+            "002029A5",
+            "005174BD",
+            "00CC2E02",
+            "005178AA"
                 }
             });
             ModelsToSwapIn.Add(new MGSModel //working now 8)
@@ -374,7 +496,75 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 LoLoDTri = "assets/tri/us/txd_oss_nin_sh_mt.tri,us/stage/r_plt10/resident/007c918b.tri,resident/007c918b.tri",
                 HiLoDId = "007c918b",
                 HiLodKms = "assets/kms/us/sna_oss_sh_mt.kms,us/stage/r_plt10/resident/00bfa829.kms,resident/00bfa829.kms",
-                HiLoDTri = "assets/tri/us/txd_oss_nin_sh_mt.tri,us/stage/r_plt10/resident/007c918b.tri,resident/007c918b.tri", 
+                HiLoDTri = "assets/tri/us/txd_oss_nin_sh_mt.tri,us/stage/r_plt10/resident/007c918b.tri,resident/007c918b.tri",
+                HandsId = "0055aab4",
+                HandsTri = "assets/tri/us/sna_mgs_mt.tri,us/stage/r_vr_1/resident/007c2ac3.tri,resident/007c2ac3.tri",
+                ArmsEvm = "snh_def_mh_mt_stage_r_vr_1_r.evm",
+                ArmsId = "0055aab4",
+                ArmsTri = "assets/tri/us/sna_def_mw_stage_r_vr_1_r.tri,us/stage/r_vr_1/resident/0055aab4.tri,resident/0055aab4.tri",
+                ArmTextures = new()
+                {
+                    "001B7235",
+            "006E46D5",
+            "0034DAFA",
+            "0034DAFB",
+            "008DF696",
+            "0013A13E",
+            "009BCD67"
+                },
+                HandTextures = new()
+                {
+                    "0028CDB7",
+            "00E17BD9",
+            "00495322",
+            "00980F43",
+            "00981143",
+            "007152E3",
+            "006FB16D",
+            "00DB58DD",
+            "00AA8506",
+            "00AB8506",
+            "00CB4A34",
+            "0028BB78",
+            "0036E597",
+            "0051F44D",
+            "00AE666B",
+            "00C1F536",
+            "00C3020F",
+            "008D5B4B",
+            "00D7CD75",
+            "008DF696",
+            "00A51D74",
+            "0013A13E",
+            "009BCD67",
+            "00A599E9",
+            "001EF345",
+            "00853930",
+            "0013613F",
+            "00854417",
+            "00C1D13F",
+            "0073B05A",
+            "007BAFAB",
+            "007C5074",
+            "00B94140",
+            "00C8CD7C",
+            "00AA9D74",
+            "00AB71BB",
+            "00FFEC06",
+            "0011C9B2",
+            "00B973FE",
+            "00C04482",
+            "00FD249B",
+            "00AE1D74",
+            "0057A3CD",
+            "00ECC009",
+            "00FE30E9",
+            "008EF8CE",
+            "002C853C",
+            "002C893C",
+            "008CE8B2",
+            "008CECB2"
+                },
                 LoLoDTextures = new()
                 {
                     "00645593",
@@ -680,8 +870,92 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 LoLodKms = "assets/kms/us/rai_nin_sh_mt_fg.kms,us/stage/r_plt6/resident/00466847.kms,resident/00466847.kms",
                 LoLoDTri = "assets/tri/us/for_nin_sh_mt_stage_r_plt6_r.tri,us/stage/r_plt6/resident/00bd87ad.tri,resident/00bd87ad.tri",
                 HiLoDId = "00bd87ad",
+                ShadowKms = "rai_nin_shadow.kms",
+                ShadowTri = "assets/tri/us/rai_shadow.tri,us/stage/r_vr_b/resident/00567f12.tri,resident/00567f12.tri",
+                ShadowId = "00567f12",
+                HandsId = "0031ead1",
+                HandsTri = "assets/tri/us/rai_tex_mt_stage_r_vr_b_r.tri,us/stage/r_vr_b/resident/0031ead1.tri,resident/0031ead1.tri",
+                ArmsEvm = "rah_def_mh_mt_stage_r_vr_b_r.evm",
+                ArmsId = "0031ead4",
+                ArmsTri = "assets/tri/us/rai_tex_mw_stage_r_vr_b_r.tri,us/stage/r_vr_b/resident/0031ead4.tri,resident/0031ead4.tri",
                 HiLodKms = "assets/kms/us/rai_nin_sh_mt_fg.kms,us/stage/r_plt6/resident/00466847.kms,resident/00466847.kms",
                 HiLoDTri = "assets/tri/us/for_nin_sh_mt_stage_r_plt6_r.tri,us/stage/r_plt6/resident/00bd87ad.tri,resident/00bd87ad.tri",
+                ArmTextures = new()
+                {
+                    "00EACC11",
+            "00A5EDE8",
+            "00F7FC98",
+            "00CFCD5B",
+            "00F7FCB8",
+            "00D9950B",
+            "0032A1AD",
+            "000FE152",
+            "006EE7D7",
+            "00EACC10",
+            "00A5ECE8",
+            "00C12FF5",
+            "0009D1BF",
+            "00D1C6EE",
+            "008BBAFE",
+            "00455786",
+            "000D202A",
+            "00A76EA7",
+            "00586F0E",
+            "00432751",
+            "00A0519E",
+            "00CFF7FA",
+            "000268C0",
+            "00B36926",
+            "00A26A5C",
+            "00CEE796",
+            "0045578A",
+            "002D202A",
+            "00A76EAB",
+            "00586F12",
+            "004327D1",
+            "008C2EFE",
+            "005F6AE4",
+            "0044C05D"
+                },
+                HandTextures = new()
+                {
+                    "00621F4B",
+            "00E38F6A",
+            "0096C0CB",
+            "000F57E5",
+            "00EF98F2",
+            "00C12FF5",
+            "0009D1BF",
+            "00267211",
+            "00C850DB",
+            "002AB7C6",
+            "004BED24",
+            "007449F1",
+            "0028736C",
+            "00CDBCE2",
+            "0096BECB",
+            "00CDBCE3",
+            "0096BFCB",
+            "00CDBCE4",
+            "004D4826",
+            "008BBAFE",
+            "00293B3C",
+            "00ECFCE5",
+            "00ECFCE6",
+            "00D6C2EA",
+            "00ECFCE7",
+            "00D6C3EA",
+            "00ECFCE8",
+            "00D6C4EA",
+            "00151827",
+            "00B0857E",
+            "004C64E9",
+            "00C0C1EE",
+            "00EF98EF",
+            "00EF98F0",
+            "00EF98F1",
+            "00EF98F3"
+                },
                 LoLoDTextures = new()
                 {
                     "00621F4B",
@@ -764,7 +1038,18 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "00EE8376",
             "00EE8387"
                 },
-                HiLoDTextures = new()
+                HiLoDTextures = new(),
+                ShadowTextures = new()
+                {
+                    "00F7FC98",
+            "00CFCD5B",
+            "00F7FC9C",
+            "00F7FCB8",
+            "000D202A",
+            "00CFF7FA",
+            "0011202A",
+            "002D202A"
+                }
             });
             ModelsToSwapIn.Add(new MGSModel //working but looks like shit lmao
             {
@@ -1231,6 +1516,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 HiLodKms = "assets/kms/us/rai_def_sh_mt_stage_r_plt0_r.kms,us/stage/r_plt0/resident/00b41e89.kms,resident/00b41e89.kms",
                 CutsceneEvm = "assets/evm/us/rai_def.evm,us/stage/d021p01/cache/00541e89.evm,cache/00541e89.evm", //technically this doesnt exist, but using a fake name so we can replace ALL the raiden evms
                 CodecEvm = "assets/evm/us/rai_radio_mh_mt.evm,us/face/f04d/cache/00d5b00a.evm,cache/00d5b00a.evm",
+                ArmsEvm = "rah_def_mh_mt.evm",
+                ShadowKms = "rai_shadow.kms",
                 Headpiece = "assets/evm/us/rai_hair_mh_mt_stage_r_plt0_r.evm,us/stage/r_plt0/resident/00543563.evm,resident/00543563.evm",
                 ResidentStage = "r_plt0"
             });
@@ -1240,8 +1527,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 LoLodKms = "assets/kms/us/sna_def_stage_r_plt10_r.kms,us/stage/r_tnk0/resident/00413aa8.kms,resident/00413aa8.kms",
                 HiLodKms = "assets/kms/us/sna_def_sh_stage_r_plt10_r.kms,us/stage/r_tnk0/resident/0055ab65.kms,resident/0055ab65.kms",
                 Headpiece = "sna_bdn1_stage_r_plt_s_r.kms", //TODO: snake doesnt have a headpiece evm... fuck
+                ArmsEvm = "snh_def_mh_mt.evm",
                 CutsceneEvm = "assets/evm/us/sna_def_mh.evm,us/stage/d01t/cache/0055aaa5.evm,cache/0055aaa5.evm", //"assets/evm/us/sna_def_mh.evm,us/stage/r_tnk0/resident/00543505.evm,resident/00543505.evm",
                 CodecEvm = "assets/evm/us/sna_radio_mh_mt.evm,us/face/f00a/cache/002f300b.evm,cache/002f300b.evm",
+                ShadowKms = "sna_shadow_stage_r_plt_s_r.kms",
                 ResidentStage = "r_tnk0"
             });
         }
@@ -1273,6 +1562,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             CodecEvm = "assets/evm/us/rai_radio_naked_mh_mt.evm,us/face/f03b/cache/009d4991.evm,cache/009d4991.evm",
             Headpiece = "assets/evm/us/rai_hair_mh_mt_stage_r_plt0_r.evm,us/stage/r_plt0/resident/00543563.evm,resident/00543563.evm",
             ResidentStage = "r_plt2"
+        };
+        private MGSModel hostage_room_raiden = new() //TODO: determine if this is enough
+        {
+            Name = "Raiden - Story (r_plt4)",
+            ResidentStage = "r_plt4"
         };
 
         public ModelSwapperForm(string gameDirectory, string modToolsDirectory)
@@ -1308,13 +1602,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             FileInfo[] evmFiles = evmDirectory.GetFiles();
             FileInfo[] evmCmdlFiles = evmCmdlDirectory.GetFiles();
 
-            /*File.Delete(kmsFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == loLodFileNameToSwapOut).FullName);
-            File.Delete(kmsCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == loLodFileNameToSwapOut).FullName);
-            File.Delete(kmsFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == hiLodFileNameToSwapOut).FullName);
-            File.Delete(kmsCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == hiLodFileNameToSwapOut).FullName);*/
 
             string loLodFileNameToSwapIn = modelToSwapIn.LoLodKms.Split('/', StringSplitOptions.RemoveEmptyEntries)[3].Split(',', StringSplitOptions.RemoveEmptyEntries)[0].Split('.', StringSplitOptions.RemoveEmptyEntries)[0];
             string hiLodFileNameToSwapIn = modelToSwapIn.HiLodKms.Split('/', StringSplitOptions.RemoveEmptyEntries)[3].Split(',', StringSplitOptions.RemoveEmptyEntries)[0].Split('.', StringSplitOptions.RemoveEmptyEntries)[0];
+            string evmFileNameToSwapIn = modelToSwapIn.CutsceneEvm.Split('/', StringSplitOptions.RemoveEmptyEntries)[3].Split(',', StringSplitOptions.RemoveEmptyEntries)[0].Split('.', StringSplitOptions.RemoveEmptyEntries)[0];
+            string codecFileNameToSwapIn = modelToSwapIn.CodecEvm.Split('/', StringSplitOptions.RemoveEmptyEntries)[3].Split(',', StringSplitOptions.RemoveEmptyEntries)[0].Split('.', StringSplitOptions.RemoveEmptyEntries)[0];
             //string headpieceNameToSwapIn = modelToSwapIn.Headpiece.Split('/', StringSplitOptions.RemoveEmptyEntries)[3].Split(',', StringSplitOptions.RemoveEmptyEntries)[0].Split('.', StringSplitOptions.RemoveEmptyEntries)[0];
 
             DirectoryInfo kmsBackupDirectory = new(Path.Combine(_backupDirectory, "kms"));
@@ -1322,29 +1614,59 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             DirectoryInfo evmBackupDirectory = new(Path.Combine(_backupDirectory, "evm"));
             DirectoryInfo evmCmdlBackupDirectory = new(Path.Combine(kmsBackupDirectory.FullName, "_win"));
 
-            /*File.Copy(kmsFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == loLodFileNameToSwapIn).FullName, Path.Combine(kmsDirectory.FullName, $"{loLodFileNameToSwapOut}.kms"), true);
-            File.Copy(kmsCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == loLodFileNameToSwapIn).FullName, Path.Combine(kmsCmdlDirectory.FullName, $"{loLodFileNameToSwapOut}.cmdl"), true);
-            File.Copy(kmsFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == hiLodFileNameToSwapIn).FullName, Path.Combine(kmsDirectory.FullName, $"{hiLodFileNameToSwapOut}.kms"), true);
-            File.Copy(kmsCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == hiLodFileNameToSwapIn).FullName, Path.Combine(kmsCmdlDirectory.FullName, $"{hiLodFileNameToSwapOut}.cmdl"), true);
-            */
+
             ReplaceModel(loLodFileNameToSwapOut, loLodFileNameToSwapIn, true);
             ReplaceModel(hiLodFileNameToSwapOut, hiLodFileNameToSwapIn, true);
 
             if (!string.IsNullOrEmpty(modelToSwapIn.CutsceneEvm))
             {
                 ReplaceCutsceneEvms(modelToSwapIn, evmFileNameToSwapOut, evmFiles, evmCmdlFiles);
+                //ReplaceCutsceneEvms(modelToSwapIn, "rai_gbs_addhand_mh_mt", evmFiles, evmCmdlFiles);
+                //ReplaceCutsceneEvms(modelToSwapIn, "rai_gbshead_addhand_mh_mt", evmFiles, evmCmdlFiles);
             }
             if (!string.IsNullOrEmpty(modelToSwapIn.CodecEvm))
             {
                 ReplaceCodecEvms(modelToSwapIn, codecFileNametoSwapOut, evmFiles, evmCmdlFiles);   
+                if(modelToSwapOut.ResidentStage == "r_plt0")
+                {
+                    ReplaceCodecEvms(modelToSwapIn, "rai_radio_diver_mh_mt", evmFiles, evmCmdlFiles);
+                    ReplaceCodecEvms(modelToSwapIn, "rai_radio_gbsbody_mh_mt", evmFiles, evmCmdlFiles);
+                    ReplaceCodecEvms(modelToSwapIn, "rai_radio_gbshead_mh", evmFiles, evmCmdlFiles);
+                    ReplaceCodecEvms(modelToSwapIn, "rai_radio_naked_mh_mt", evmFiles, evmCmdlFiles);
+                }
+            }
+            if (!string.IsNullOrEmpty(modelToSwapIn.ShadowKms))
+            {
+                ReplaceShadow(modelToSwapIn, modelToSwapOut);
+            }
+            if (!string.IsNullOrEmpty(modelToSwapIn.ArmsEvm))
+            {
+                ReplaceArms(modelToSwapIn, modelToSwapOut);
+                if(modelToSwapOut.ResidentStage == "r_plt0")
+                {
+                    ReplaceModel("rah_naked_mh_mt", modelToSwapIn.ArmsEvm.Replace(".evm", ""), false);
+                    ReplaceModel("rah_naked_mh_mt_stage_r_plt2_r", modelToSwapIn.ArmsEvm.Replace(".evm", ""), false);
+                    ReplaceModel("rah_gbs_mh", modelToSwapIn.ArmsEvm.Replace(".evm", ""), false);
+                }
             }
             if (modelToSwapOut.ResidentStage == "r_plt0")
             {
-                /*File.Copy(kmsFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == loLodFileNameToSwapIn).FullName, Path.Combine(kmsDirectory.FullName, "rai_gbs_mt.kms"), true);
-                File.Copy(kmsCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == loLodFileNameToSwapIn).FullName, Path.Combine(kmsCmdlDirectory.FullName, "rai_gbs_mt.cmdl"), true);*/
                 ReplaceModel("rai_gbs_mt", loLodFileNameToSwapIn, true);
                 ReplaceModel("rai_gbs_sh_mt", hiLodFileNameToSwapIn, true);
-                //probably going to need to replace rai_gbs_gbshead too, but this should be enough to prove the concept, i think'
+                ReplaceModel("rai_def_stage_r_plt1_r", loLodFileNameToSwapIn, true);
+                ReplaceModel("rai_def_sh_mt_stage_r_plt1_r", hiLodFileNameToSwapIn, true);
+                ReplaceModel("rai_naked_sh", loLodFileNameToSwapIn, true);
+                ReplaceModel("rai_naked_stage_r_plt2_r", loLodFileNameToSwapIn, true);
+                ReplaceModel("rai_naked_sh_stage_r_plt2_r", hiLodFileNameToSwapIn, true);
+                ReplaceModel("rai_naked_sh", hiLodFileNameToSwapIn, true);
+
+                //ReplaceModel("rai_gbs_addhand_mh_mt", evmFileNameToSwapIn, false); //Too busted to change
+                //ReplaceModel("rai_gbshead_addhand_mh_mt", evmFileNameToSwapIn, false); //Too busted to change
+                ReplaceModel("rai_diver_addhand_mh_mt", evmFileNameToSwapIn, false);
+                ReplaceModel("rai_diver_mh_mt", evmFileNameToSwapIn, false);
+                ReplaceModel("rai_diver_mh_mt_stage_r_plt1_r", evmFileNameToSwapIn, false);
+                ReplaceModel("rai_naked_mh_mt", evmFileNameToSwapIn, false);
+                ReplaceModel("rai_naked_p073_mh_mt", evmFileNameToSwapIn, false);
                 //OKAY NEVERMIND, THIS IS SO FUNNY. no shot i'm replacing the head ahhaha
                 //TODO: replace evms and codecs for rai_gbs; also handle plt1(diver), plt2(naked) model replacements
             }
@@ -1352,6 +1674,16 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             {
                 ReplaceModel("sna_dive_sh_mt", hiLodFileNameToSwapIn, true);
             }
+        }
+
+        private void ReplaceArms(MGSModel modelToSwapIn, MGSModel modelToSwapOut)
+        {
+            ReplaceModel(modelToSwapOut.ArmsEvm.Replace(".evm", ""), modelToSwapIn.ArmsEvm.Replace(".evm", ""), false);
+        }
+
+        private void ReplaceShadow(MGSModel modelToSwapIn, MGSModel modelToSwapOut)
+        {
+            ReplaceModel(modelToSwapOut.ShadowKms.Replace(".kms", ""), modelToSwapIn.ShadowKms.Replace(".kms", ""), true);
         }
 
         private void ReplaceCodecEvms(MGSModel modelToSwapIn, string codecFileNametoSwapOut, FileInfo[] evmFiles, FileInfo[] evmCmdlFiles)
@@ -1372,6 +1704,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         private void ReplaceCutsceneEvms(MGSModel modelToSwapIn, string evmFileNameToSwapOut, FileInfo[] evmFiles, FileInfo[] evmCmdlFiles)
         {
             //TODO: reduce code duplication with ReplaceCodecEvms
+            InsertCutsceneFiles(modelToSwapIn);
             string evmFileNameToSwapIn = modelToSwapIn.CutsceneEvm.Split('/', StringSplitOptions.RemoveEmptyEntries)[3].Split(',', StringSplitOptions.RemoveEmptyEntries)[0].Split('.', StringSplitOptions.RemoveEmptyEntries)[0];
             foreach (var evmFile in evmFiles.Where(x => x.Name.Contains(evmFileNameToSwapOut)))
             {
@@ -1409,12 +1742,20 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         {
 
             List<string> codecTextureList = GetFaceTexturesFromListOfIds(model.CodecTextures, model.CodecId, "XXXX");
-            InsertTexturesInfoFaceFiles(codecTextureList);
+            InsertTexturesIntoFaceFiles(codecTextureList);
             InsertTriIntoFaceFiles(model.CodecTri);
+        }
+
+        private void InsertCutsceneFiles(MGSModel model)
+        {
+            List<string> cutsceneTextureList = GetCacheTexturesFromListOfIds(model.CutsceneTextures, model.CutsceneId, "XXXX");
+            InsertTexturesIntoStageFiles(cutsceneTextureList);
+            InsertTriIntoStageFiles(model.CutsceneTri);
         }
 
         private void NullMags()
         {
+            //TODO: add unnull function
             DirectoryInfo kmsDirectory = new(Path.Combine(_gameDirectory, "assets", "kms", "us"));
             DirectoryInfo kmsCmdlDirectory = new(Path.Combine(kmsDirectory.FullName, "_win"));
 
@@ -1429,6 +1770,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private void NullBandana()
         {
+            //TODO: add unnull function
             DirectoryInfo kmsDirectory = new(Path.Combine(_gameDirectory, "assets", "kms", "us"));
             DirectoryInfo kmsCmdlDirectory = new(Path.Combine(kmsDirectory.FullName, "_win"));
 
@@ -1452,12 +1794,37 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             FileInfo[] evmCmdlFiles = evmCmdlDirectory.GetFiles();
             string raidenHair = "rai_hair_mh_mt_stage_r_plt0_r";
             string raidenCodecHair = "rai_hair_mh_mt";
+            //TODO: handle diving hair
 
 
             File.Copy(Path.Combine(_backupDirectory, "evm", $"{raidenHair}.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHair).FullName, true);
             File.Copy(Path.Combine(_backupDirectory, "evm", "_win", $"{raidenHair}.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHair).FullName, true);
             File.Copy(Path.Combine(_backupDirectory, "evm", $"{raidenCodecHair}.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenCodecHair).FullName, true);
             File.Copy(Path.Combine(_backupDirectory, "evm", "_win", $"{raidenCodecHair}.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenCodecHair).FullName, true);
+        }
+
+        private void NullRaidenHeads()
+        {
+            //Causes crashes :( probably due to insufficient bone count?
+            DirectoryInfo evmDirectory = new(Path.Combine(_gameDirectory, "assets", "evm", "us"));
+            DirectoryInfo evmCmdlDirectory = new(Path.Combine(evmDirectory.FullName, "_win"));
+
+            FileInfo[] evmFiles = evmDirectory.GetFiles();
+            FileInfo[] evmCmdlFiles = evmCmdlDirectory.GetFiles();
+
+            string raidenHead1 = "rai_gbs_gbshead_mh_mt";
+            string raidenHead2 = "rai_gbs_gbshead_mh_mt_stage_r_plt4_r";
+            string raidenHead3 = "rai_gbs_raihead_mh_mt";
+            string raidenHead4 = "rai_gbs_raihead_mh_mt_stage_r_plt5_r";
+
+            File.Copy(Path.Combine("Resources", "null.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead1).FullName, true);
+            File.Copy(Path.Combine("Resources", "null.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead1).FullName, true);
+            File.Copy(Path.Combine("Resources", "null.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead2).FullName, true);
+            File.Copy(Path.Combine("Resources", "null.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead2).FullName, true);
+            File.Copy(Path.Combine("Resources", "null.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead3).FullName, true);
+            File.Copy(Path.Combine("Resources", "null.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead3).FullName, true);
+            File.Copy(Path.Combine("Resources", "null.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead4).FullName, true);
+            File.Copy(Path.Combine("Resources", "null.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead4).FullName, true);
         }
 
         private void NullRaidenHair()
@@ -1469,37 +1836,21 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             FileInfo[] evmCmdlFiles = evmCmdlDirectory.GetFiles();
             string raidenHair = "rai_hair_mh_mt_stage_r_plt0_r";
             string raidenCodecHair = "rai_hair_mh_mt";
+            string raidenDivingHair = "rai_hair_diver_mh_mt";
+            string raidenDivingHair2 = "rai_hair_diver_mh_mt_stage_d005p01";
+            string raidenCodecHair2 = "rai_hair_mh_mt_face_f01c";
 
 
             File.Copy(Path.Combine("Resources","null.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHair).FullName, true);
             File.Copy(Path.Combine("Resources","null.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHair).FullName, true);
             File.Copy(Path.Combine("Resources", "null.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenCodecHair).FullName, true);
             File.Copy(Path.Combine("Resources", "null.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenCodecHair).FullName, true);
-        }
-
-        private void RemoveRaidenHair()
-        {
-            //looks like the idea to just replace hair model with null doesnt work, as its an evm... hmm
-            //maybe i could replace hair too?
-            //Removing the hair evm *works* to just get rid of the hair, but leaves the model looking weird(emma doesnt have the hair held by chopsticks or hair hanging at her neck, nor her bangs
-            //but, replacing the hair with the relevant hair doesnt really work ootb, and i cba to work with it further. going to be easier to just delete it from resource file for now
-            /*
-            */
-            FileInfo plt0Manifest = new(Path.Combine(_gameDirectory, "eu", "stage", "r_plt0", "manifest.txt"));
-
-            string manifestText = File.ReadAllText(plt0Manifest.FullName);
-            manifestText = manifestText.Replace("assets/evm/us/rai_hair_mh_mt_stage_r_plt0_r.evm,us/stage/r_plt0/resident/00543563.evm,resident/00543563.evm\r\r\n", "");
-            File.WriteAllText(plt0Manifest.FullName, manifestText);
-        }
-
-        private void AddRaidenHair()
-        {
-            FileInfo plt0Manifest = new(Path.Combine(_gameDirectory, "eu", "stage", "r_plt0", "manifest.txt"));
-
-            string manifestText = File.ReadAllText(plt0Manifest.FullName);
-            string assetBeforeHairEvm = "assets/evm/us/rai_zura_mugen_mh_mt.evm,us/stage/r_plt0/resident/00cb92c4.evm,resident/00cb92c4.evm\r\r\n";
-            manifestText = manifestText.Replace(assetBeforeHairEvm, $"{assetBeforeHairEvm}assets/evm/us/rai_hair_mh_mt_stage_r_plt0_r.evm,us/stage/r_plt0/resident/00543563.evm,resident/00543563.evm\r\r\n");
-            File.WriteAllText(plt0Manifest.FullName, manifestText);
+            File.Copy(Path.Combine("Resources", "null.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenCodecHair2).FullName, true);
+            File.Copy(Path.Combine("Resources", "null.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenCodecHair2).FullName, true);
+            File.Copy(Path.Combine("Resources", "null.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenDivingHair).FullName, true);
+            File.Copy(Path.Combine("Resources", "null.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenDivingHair).FullName, true);
+            File.Copy(Path.Combine("Resources", "null.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenDivingHair2).FullName, true);
+            File.Copy(Path.Combine("Resources", "null.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenDivingHair2).FullName, true);
         }
 
         private void BackupModels()
@@ -1563,13 +1914,33 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         {
             List<string> loLodTextureList = GetTexturesFromListOfIds(modelToSwapIn.LoLoDTextures, modelToSwapIn.LoLoDId, modelToSwapOut.ResidentStage);
             List<string> hiLodTextureList = GetTexturesFromListOfIds(modelToSwapIn.HiLoDTextures, modelToSwapIn.HiLoDId, modelToSwapOut.ResidentStage);
+            List<string> shadowTextureList = GetTexturesFromListOfIds(modelToSwapIn.ShadowTextures, modelToSwapIn.ShadowId, modelToSwapOut.ResidentStage);
+            List<string> armsTextureList = GetTexturesFromListOfIds(modelToSwapIn.ArmTextures, modelToSwapIn.ArmsId, modelToSwapOut.ResidentStage);
+            List<string> handsTextureList = GetTexturesFromListOfIds(modelToSwapIn.HandTextures, modelToSwapIn.HandsId, modelToSwapOut.ResidentStage);
             //List<string> headPieceTextureList = GetTexturesFromListOfIds(modelToSwapIn.HeadpieceTextures, modelToSwapIn.HeadpieceId, modelToSwapOut.ResidentStage);
             InsertTexturesIntoResidentFile(loLodTextureList, modelToSwapOut.ResidentStage);
             InsertTexturesIntoResidentFile(hiLodTextureList, modelToSwapOut.ResidentStage);
+            InsertTexturesIntoResidentFile(shadowTextureList, modelToSwapOut.ResidentStage);
+            InsertTexturesIntoResidentFile(armsTextureList, modelToSwapOut.ResidentStage);
+            InsertTexturesIntoResidentFile(handsTextureList, modelToSwapOut.ResidentStage);
+
             //InsertTexturesIntoResidentFile(headPieceTextureList, modelToSwapOut.ResidentStage);
 
             InsertTriIntoResidentFile(modelToSwapIn.LoLoDTri, modelToSwapOut.ResidentStage); //Are the tris necessary? Let's find out :) - tested it, and yes they are lmao
             InsertTriIntoResidentFile(modelToSwapIn.HiLoDTri, modelToSwapOut.ResidentStage);
+            if (!string.IsNullOrEmpty(modelToSwapIn.ShadowTri))
+            {
+                InsertTriIntoResidentFile(modelToSwapIn.ShadowTri, modelToSwapOut.ResidentStage);
+            }
+            if (!string.IsNullOrEmpty(modelToSwapIn.ArmsTri))
+            {
+                InsertTriIntoResidentFile(modelToSwapIn.ArmsTri, modelToSwapOut.ResidentStage);
+            }
+            if (!string.IsNullOrEmpty(modelToSwapIn.HandsTri))
+            {
+                InsertTriIntoResidentFile(modelToSwapIn.HandsTri, modelToSwapOut.ResidentStage);
+            }
+
         }
 
         private void ForceBDUSupport()
@@ -1726,14 +2097,14 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             
         }
 
+        private void LoadCutscenes()
+        {
+
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            //Snake replacement works for entirety of tanker gameplay(except first person arms), but not codecs or cutscenes
-
-            //Raiden replacement doesnt work in first person.
             //Pliskin got green-faced in harrier fight?
-
-            //Raidens arms are rah_*
             MGSModel modelToSwapIn = modelToSwapInComboBox.SelectedItem as MGSModel;
             MGSModel modelToSwapOut = modelToSwapOutComboBox.SelectedItem as MGSModel;
 
@@ -1743,6 +2114,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 LoadTexturesAndTris(modelToSwapIn, diver_raiden); //r_plt1 is used for the start of the plant sequence as diver raiden
                 LoadTexturesAndTris(modelToSwapIn, naked_raiden); //r_plt2 is used at the start of arsenal while raiden is naked
                 LoadTexturesAndTris(modelToSwapIn, fatman_raiden); //r_plt3 is used for the fatman fight for some reason, so we need to replace it as well.
+                //LoadTexturesAndTris(modelToSwapIn, hostage_room_raiden); //r_plt4 is used for the hostage room for some reason, so we need to replace it as well.
             }
 
             SwapModelIn(modelToSwapOut, modelToSwapIn);
@@ -1756,6 +2128,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 else
                 {
                     NullRaidenHair();
+                    //NullRaidenHeads();
                     ForceBDUSupport();
                 }
             }
@@ -1773,6 +2146,36 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
 
             //can we do codec as well? -- maybe? seems like they're in the /eu/face assets
+        }
+
+        private void InsertTriIntoStageFiles(string newTriFile)
+        {
+            DirectoryInfo stageDirectory = new(Path.Combine(_gameDirectory, "eu", "stage"));
+            foreach (DirectoryInfo subStageDirectory in stageDirectory.GetDirectories().Where(x => x.Name.StartsWith('d') || 
+                                                                                            (x.Name.StartsWith('w') && x.Name.Length == 4)))
+            {
+                FileInfo manifest = subStageDirectory.GetFiles("manifest.txt").FirstOrDefault();
+                string[] manifestContents = File.ReadAllLines(manifest.FullName);
+                List<string> triFiles = manifestContents.Where(x => x.Contains(".tri")).ToList();
+                List<string> otherAssetsList = manifestContents.Where(x => !x.Contains(".tri")).ToList();
+                triFiles.RemoveAll(x => string.IsNullOrWhiteSpace(x));
+                otherAssetsList.RemoveAll(x => string.IsNullOrWhiteSpace(x));
+                if (!triFiles.Contains(newTriFile))
+                    triFiles.Add(newTriFile);
+                triFiles.Sort();
+
+                string newResidentFileContents = "";
+                foreach (string triFile in triFiles)
+                {
+                    newResidentFileContents += $"{triFile.Trim()}\r\r\n";
+                }
+                foreach (string otherAsset in otherAssetsList)
+                {
+                    newResidentFileContents += $"{otherAsset.Trim()}\r\r\n";
+                }
+
+                File.WriteAllText(manifest.FullName, newResidentFileContents);
+            }
         }
 
         private void InsertTriIntoFaceFiles(string newTriFile)
@@ -1830,7 +2233,44 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             File.WriteAllText(manifest.FullName, newResidentFileContents);
         }
 
-        private void InsertTexturesInfoFaceFiles(List<string> textureList)
+        private void InsertTexturesIntoStageFiles(List<string> textureList)
+        {
+            DirectoryInfo stageDirectory = new(Path.Combine(_gameDirectory, "eu", "stage"));
+            foreach(DirectoryInfo subStageDirectory in stageDirectory.GetDirectories().Where(x=>x.Name.StartsWith('d') || 
+                                                                                            (x.Name.StartsWith('w') && x.Name.Length == 4)))
+            {
+                FileInfo bpAssets = subStageDirectory.GetFiles("bp_assets.txt").FirstOrDefault();
+
+                string[] bpAssetsContents = File.ReadAllLines(bpAssets.FullName);
+                List<string> texturesList = bpAssetsContents.Where(x => x.Contains(".ctxr")).ToList();
+                List<string> otherAssetsList = bpAssetsContents.Where(x => !x.Contains(".ctxr")).ToList();
+                texturesList.RemoveAll(x => string.IsNullOrWhiteSpace(x));
+                otherAssetsList.RemoveAll(x => string.IsNullOrWhiteSpace(x));
+                foreach (string texture in textureList)
+                {
+                    string textureName = texture.Replace("XXXX", subStageDirectory.Name);
+                    if (!texturesList.Contains(textureName))
+                    {
+                        texturesList.Add(textureName);
+                    }
+                }
+                texturesList.Sort();
+
+                string newResidentFileContents = "";
+                foreach (string texture in texturesList)
+                {
+                    newResidentFileContents += $"{texture.Trim()}\r\r\n";
+                }
+                foreach (string otherAsset in otherAssetsList)
+                {
+                    newResidentFileContents += $"{otherAsset.Trim()}\r\r\n";
+                }
+
+                File.WriteAllText(bpAssets.FullName, newResidentFileContents);
+            }
+        }
+
+        private void InsertTexturesIntoFaceFiles(List<string> textureList)
         {
             DirectoryInfo faceDirectory = new DirectoryInfo(Path.Combine(_gameDirectory, "eu", "face"));
             foreach(DirectoryInfo subFaceDirectory in faceDirectory.GetDirectories().Where(x => x.Name.StartsWith('f')))
