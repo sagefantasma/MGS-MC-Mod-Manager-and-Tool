@@ -10,11 +10,23 @@
     <ApplicationIcon>Otacon Pray.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Resources\headnull.evm" />
+    <None Remove="Resources\headnull.evm.cmdl" />
     <None Remove="Resources\null.evm" />
+    <None Remove="Resources\null.evm.cmdl" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Otacon Pray.ico" />
+    <Content Include="Resources\headnull.evm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\headnull.evm.cmdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\null.evm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\null.evm.cmdl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -31,11 +43,6 @@
     <Compile Update="DownloadManager.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="Resources\null.evm.cmdl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Page Update="ModelViewerControl.xaml">

@@ -1621,18 +1621,27 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             if (!string.IsNullOrEmpty(modelToSwapIn.CutsceneEvm))
             {
                 ReplaceCutsceneEvms(modelToSwapIn, evmFileNameToSwapOut, evmFiles, evmCmdlFiles);
-                //ReplaceCutsceneEvms(modelToSwapIn, "rai_gbs_addhand_mh_mt", evmFiles, evmCmdlFiles);
-                //ReplaceCutsceneEvms(modelToSwapIn, "rai_gbshead_addhand_mh_mt", evmFiles, evmCmdlFiles);
+                if (modelToSwapOut.ResidentStage == "r_plt0")
+                {
+                    ReplaceCutsceneEvms(modelToSwapIn, "rai_gbs_body_mh_mt", evmFiles, evmCmdlFiles);
+                    //ReplaceCutsceneEvms(modelToSwapIn, "rai_gbs_body_mh_mt_stage_r_plt4_r", evmFiles, evmCmdlFiles); //above already does this
+                }
+                else if(modelToSwapOut.ResidentStage == "r_tnk0")
+                {
+                    ReplaceCutsceneEvms(modelToSwapIn, "sna_def", evmFiles, evmCmdlFiles);
+                }
             }
             if (!string.IsNullOrEmpty(modelToSwapIn.CodecEvm))
             {
                 ReplaceCodecEvms(modelToSwapIn, codecFileNametoSwapOut, evmFiles, evmCmdlFiles);   
                 if(modelToSwapOut.ResidentStage == "r_plt0")
                 {
-                    ReplaceCodecEvms(modelToSwapIn, "rai_radio_diver_mh_mt", evmFiles, evmCmdlFiles);
-                    ReplaceCodecEvms(modelToSwapIn, "rai_radio_gbsbody_mh_mt", evmFiles, evmCmdlFiles);
-                    ReplaceCodecEvms(modelToSwapIn, "rai_radio_gbshead_mh", evmFiles, evmCmdlFiles);
-                    ReplaceCodecEvms(modelToSwapIn, "rai_radio_naked_mh_mt", evmFiles, evmCmdlFiles);
+                    ReplaceCodecEvms(modelToSwapIn, "rai_radio", evmFiles, evmCmdlFiles);
+                    //The above should take care of all of the below
+                    //ReplaceCodecEvms(modelToSwapIn, "rai_radio_diver_mh_mt", evmFiles, evmCmdlFiles);
+                    //ReplaceCodecEvms(modelToSwapIn, "rai_radio_gbsbody_mh_mt", evmFiles, evmCmdlFiles);
+                    //ReplaceCodecEvms(modelToSwapIn, "rai_radio_gbshead_mh", evmFiles, evmCmdlFiles);
+                    //ReplaceCodecEvms(modelToSwapIn, "rai_radio_naked_mh_mt", evmFiles, evmCmdlFiles);
                 }
             }
             if (!string.IsNullOrEmpty(modelToSwapIn.ShadowKms))
@@ -1660,15 +1669,14 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 ReplaceModel("rai_naked_sh_stage_r_plt2_r", hiLodFileNameToSwapIn, true);
                 ReplaceModel("rai_naked_sh", hiLodFileNameToSwapIn, true);
 
-                //ReplaceModel("rai_gbs_addhand_mh_mt", evmFileNameToSwapIn, false); //Too busted to change
-                //ReplaceModel("rai_gbshead_addhand_mh_mt", evmFileNameToSwapIn, false); //Too busted to change
+                ReplaceModel("rai_gbs_addhand_mh_mt", evmFileNameToSwapIn, false);
+                ReplaceModel("rai_gbshead_addhand_mh_mt", evmFileNameToSwapIn, false);
                 ReplaceModel("rai_diver_addhand_mh_mt", evmFileNameToSwapIn, false);
                 ReplaceModel("rai_diver_mh_mt", evmFileNameToSwapIn, false);
                 ReplaceModel("rai_diver_mh_mt_stage_r_plt1_r", evmFileNameToSwapIn, false);
                 ReplaceModel("rai_naked_mh_mt", evmFileNameToSwapIn, false);
                 ReplaceModel("rai_naked_p073_mh_mt", evmFileNameToSwapIn, false);
                 //OKAY NEVERMIND, THIS IS SO FUNNY. no shot i'm replacing the head ahhaha
-                //TODO: replace evms and codecs for rai_gbs; also handle plt1(diver), plt2(naked) model replacements
             }
             if(modelToSwapOut.ResidentStage == "r_tnk0")
             {
@@ -1805,7 +1813,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private void NullRaidenHeads()
         {
-            //Causes crashes :( probably due to insufficient bone count?
             DirectoryInfo evmDirectory = new(Path.Combine(_gameDirectory, "assets", "evm", "us"));
             DirectoryInfo evmCmdlDirectory = new(Path.Combine(evmDirectory.FullName, "_win"));
 
@@ -1817,14 +1824,14 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             string raidenHead3 = "rai_gbs_raihead_mh_mt";
             string raidenHead4 = "rai_gbs_raihead_mh_mt_stage_r_plt5_r";
 
-            File.Copy(Path.Combine("Resources", "null.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead1).FullName, true);
-            File.Copy(Path.Combine("Resources", "null.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead1).FullName, true);
-            File.Copy(Path.Combine("Resources", "null.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead2).FullName, true);
-            File.Copy(Path.Combine("Resources", "null.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead2).FullName, true);
-            File.Copy(Path.Combine("Resources", "null.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead3).FullName, true);
-            File.Copy(Path.Combine("Resources", "null.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead3).FullName, true);
-            File.Copy(Path.Combine("Resources", "null.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead4).FullName, true);
-            File.Copy(Path.Combine("Resources", "null.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead4).FullName, true);
+            File.Copy(Path.Combine("Resources", "headnull.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead1).FullName, true);
+            File.Copy(Path.Combine("Resources", "headnull.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead1).FullName, true);
+            File.Copy(Path.Combine("Resources", "headnull.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead2).FullName, true);
+            File.Copy(Path.Combine("Resources", "headnull.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead2).FullName, true);
+            File.Copy(Path.Combine("Resources", "headnull.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead3).FullName, true);
+            File.Copy(Path.Combine("Resources", "headnull.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead3).FullName, true);
+            File.Copy(Path.Combine("Resources", "headnull.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead4).FullName, true);
+            File.Copy(Path.Combine("Resources", "headnull.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead4).FullName, true);
         }
 
         private void NullRaidenHair()
@@ -1943,165 +1950,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         }
 
-        private void ForceBDUSupport()
-        {
-            //still not working... sonofa... how can i replicate it working on w31d on any ol' level without just making all levels have core soldiers?
-            
-            //this, at least, doesnt crash on load... which is something. but we STILL can't load it. fugg.
-            //I *think* the next course of action is to try yeeting resources into every plant level and see if it sticks... ugh.
-            //I suppose another alternative would be to just do a model replacement of the BDU models... hmph.
-            /*List<string> raiGbsBody = new()
-            {
-                "00D8A6DD",
-            "0096D75F",
-            "00E146F7",
-            "00E38F6A",
-            "0070AB9D",
-            "006F0237",
-            "006F0238",
-            "00E19DE0",
-            "00613D34",
-            "00CABB7E",
-            "002F1A3E",
-            "0014E05A",
-            "0067F633",
-            "008BBAFE",
-            "00880166",
-            "004B8FE6",
-            "007CDD7D",
-            "00A5217E",
-            "009D3B34",
-            "00ADC198",
-            "00B83347",
-            "009D72D5",
-            "001B1F05",
-            "0070AA9D",
-            "002B1F05"
-            };
-            List<string> raiGbsGbshead = new()
-            {
-                "0027E231",
-            "007474B1",
-            "007D14CB",
-            "0033ED6F",
-            "00A71CC2",
-            "00B0857E",
-            "004C64E9",
-            "00C0C1EE"
-            };
-            List<string> raiGbsRaihead = new()
-            {
-                "008BF724",
-            "00D1C6EE",
-            "00EF4607",
-            "008B94FE",
-            "008BBAFE",
-            "00B0857E",
-            "00D773F5",
-            "004C64E9",
-            "00C0C1EE",
-            "00544B61",
-            "0041040E",
-            "0041040F",
-            "00410410",
-            "0041062F",
-            "00410630",
-            "00EE8376",
-            "00EE8387"
-            };
-            List<string> raiGbsHeadAddHand = new()
-            {
-                "00D8A6DD",
-            "0096D75F",
-            "00E146F7",
-            "0035C82C",
-            "006F0237",
-            "006F0238",
-            "00E19DE0",
-            "00613D34",
-            "0027E231",
-            "007474B1",
-            "007D14CB",
-            "0033ED6F",
-            "00CABB7E",
-            "002F1A3E",
-            "0014E05A",
-            "001B5BD1",
-            "006B7A55",
-            "0014DA47",
-            "0014DA48",
-            "008BBAFE",
-            "00880166",
-            "004B8FE6",
-            "007CDD7D",
-            "00A71CC2",
-            "00A5217E",
-            "009D3B34",
-            "00ADC198",
-            "00B83347",
-            "009D72D5",
-            "00B0857E",
-            "004C64E9",
-            "00C0C1EE"
-            };
-            List<string> raiGbsVsg = new()
-            {
-                "00D8A6DD",
-            "0096D75F",
-            "00E146F7",
-            "00CDD297",
-            "00502AB8",
-            "0005573C",
-            "002F3AEB",
-            "00E38F6A",
-            "0070AB9D",
-            "006F0237",
-            "006F0238",
-            "00E19DE0",
-            "00613D34",
-            "003730E7",
-            "0027E231",
-            "007474B1",
-            "007D14CB",
-            "0033ED6F",
-            "00CABB7E",
-            "002F1A3E",
-            "0014E05A",
-            "0067F633",
-            "008BBAFE",
-            "00880166",
-            "004B8FE6",
-            "007CDD7D",
-            "00A5217E",
-            "009D3B34",
-            "00ADC198",
-            "00B83347",
-            "009D72D5",
-            "001B1F05",
-            "0070AA9D",
-            "002B1F05"
-            };
-            List<string> bduTextures = GetTexturesFromListOfIds(raiGbsBody, "005ac882", "r_plt0");
-            bduTextures.AddRange(GetTexturesFromListOfIds(raiGbsGbshead, "0022a032", "r_plt0"));
-            bduTextures.AddRange(GetTexturesFromListOfIds(raiGbsRaihead, "00234f8a", "r_plt0"));
-            bduTextures.AddRange(GetTexturesFromListOfIds(raiGbsHeadAddHand, "002ac4b0", "r_plt0"));
-            bduTextures.AddRange(GetTexturesFromListOfIds(raiGbsVsg, "009500d1", "r_plt0"));
-            InsertTexturesIntoResidentFile(bduTextures, "r_plt0");
-            InsertTriIntoResidentFile("assets/tri/us/rai_gbs_body_mh_mt.tri,us/stage/d036p03/resident/005ac882.tri,resident/005ac882.tri", "r_plt0");
-            InsertTriIntoResidentFile("assets/tri/us/rai_gbs_gbshead_mh_mt.tri,us/stage/d036p03/resident/0022a032.tri,resident/0022a032.tri", "r_plt0");
-            InsertTriIntoResidentFile("assets/tri/us/rai_gbs_raihead_mh_mt.tri,us/stage/d036p03/resident/00234f8a.tri,resident/00234f8a.tri", "r_plt0");
-            InsertTriIntoResidentFile("assets/tri/us/rai_gbshead_addhand_mh_mt.tri,us/stage/d036p03/resident/002ac4b0.tri,resident/002ac4b0.tri", "r_plt0");
-            InsertTriIntoResidentFile("assets/tri/us/rai_gbs_vsg_mt.tri,us/stage/sp03a/resident/009500d1.tri,resident/009500d1.tri", "r_plt0");
-            */
-
-            
-        }
-
-        private void LoadCutscenes()
-        {
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             //Pliskin got green-faced in harrier fight?
@@ -2114,7 +1962,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 LoadTexturesAndTris(modelToSwapIn, diver_raiden); //r_plt1 is used for the start of the plant sequence as diver raiden
                 LoadTexturesAndTris(modelToSwapIn, naked_raiden); //r_plt2 is used at the start of arsenal while raiden is naked
                 LoadTexturesAndTris(modelToSwapIn, fatman_raiden); //r_plt3 is used for the fatman fight for some reason, so we need to replace it as well.
-                //LoadTexturesAndTris(modelToSwapIn, hostage_room_raiden); //r_plt4 is used for the hostage room for some reason, so we need to replace it as well.
+                LoadTexturesAndTris(modelToSwapIn, hostage_room_raiden); //r_plt4 is used for the hostage room for some reason, so we need to replace it as well.
             }
 
             SwapModelIn(modelToSwapOut, modelToSwapIn);
@@ -2128,8 +1976,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 else
                 {
                     NullRaidenHair();
-                    //NullRaidenHeads();
-                    ForceBDUSupport();
+                    NullRaidenHeads();
                 }
             }
             if (modelToSwapOut.ResidentStage == "r_tnk0")
@@ -2144,8 +1991,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     NullMags();
                 }
             }
-
-            //can we do codec as well? -- maybe? seems like they're in the /eu/face assets
         }
 
         private void InsertTriIntoStageFiles(string newTriFile)
