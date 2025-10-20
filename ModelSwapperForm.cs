@@ -27,6 +27,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             public string CodecEvm { get; set; }
             public string CodecTri { get; set; }
             public string CodecId { get; set; }
+            public bool UseCutsceneAsCodec { get; set; } = false;
             public string CutsceneEvm { get; set; }
             public string CutsceneTri { get; set; }
             public string CutsceneId { get; set; }
@@ -144,7 +145,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private void BuildModelsToSwapInList()
         {
-            /*
+            /* Template
              * 
             ModelsToSwapIn.Add(new MGSModel
             {
@@ -155,11 +156,16 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 HiLoDId = "",
                 HiLodKms = "",
                 HiLoDTri = "",
+                CutsceneEvm = "",
+                CutsceneTri = "",
+                CutsceneId = "",
+                UseCutsceneAsCodec = true,
                 LoLoDTextures = new(),
-                HiLoDTextures = new()
+                HiLoDTextures = new(),
+                CutsceneTextures = new()
             });
              */
-            ModelsToSwapIn.Add(new MGSModel
+            ModelsToSwapIn.Add(new MGSModel //done
             {
                 Name = "Emma",
                 LoLoDId = "00b35469",
@@ -269,6 +275,49 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "00F87BB9",
             "006E5D1F"
                 },
+                CutsceneTextures = new()
+                {
+                    "000361B9",
+            "00F33158",
+            "00995033",
+            "001ADA6E",
+            "00A901BB",
+            "00256123",
+            "00B33B34",
+            "00B34158",
+            "00CE23D8",
+            "00BF280E",
+            "00741A88",
+            "00980D82",
+            "00D42B43",
+            "0034962E",
+            "00980F82",
+            "00681CDE",
+            "00127870",
+            "008B6076",
+            "00114762",
+            "00FAD987",
+            "00D672E9",
+            "0058B6D5",
+            "00415727",
+            "007A021C",
+            "00ADDBA2",
+            "0071E293",
+            "003B9DA8",
+            "000577FC",
+            "000E1816",
+            "0025614B",
+            "002ED62F",
+            "00F87996",
+            "00F87997",
+            "00F87998",
+            "00F87999",
+            "00F87BB6",
+            "00F87BB7",
+            "00F87BB8",
+            "00F87BB9",
+            "006E5D1F"
+                },
                 CodecTextures = new()
                 {
                     "00F33158",
@@ -310,8 +359,145 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "00F87BB8",
             "00F87BB9"
                 }
-            });
+            }); //Emma: done
             ModelsToSwapIn.Add(new MGSModel
+            {
+                Name = "Fatman",
+                LoLoDId = "00b35eb5",
+                LoLodKms = "assets/kms/us/fat_def_sh_mt.kms,us/stage/a20c/resident/00b35eb5.kms,resident/00b35eb5.kms",
+                LoLoDTri = "assets/tri/us/fat_def_sh_mt.tri,us/stage/a41b/resident/00b35eb5.tri,resident/00b35eb5.tri",
+                HiLoDId = "00b35eb5",
+                HiLodKms = "assets/kms/us/fat_def_sh_mt.kms,us/stage/a20c/resident/00b35eb5.kms,resident/00b35eb5.kms",
+                HiLoDTri = "assets/tri/us/fat_def_sh_mt.tri,us/stage/a41b/resident/00b35eb5.tri,resident/00b35eb5.tri",
+                CutsceneEvm = "assets/evm/us/fat_def_mh_mt.evm,us/stage/a20c/cache/00535eb5.evm,cache/00535eb5.evm",
+                CutsceneTri = "assets/tri/us/fat_def_mh_mt.tri,us/stage/a20c/cache/00535eb5.tri,cache/00535eb5.tri",
+                CutsceneId = "00535eb5",
+                UseCutsceneAsCodec = true,
+                LoLoDTextures = new()
+                {
+                    "005029C5",
+            "00C5BF10",
+            "0025EB22",
+            "00BDEF11",
+            "00E1EDF6",
+            "00AFDC46",
+            "00E38E80",
+            "003BBF61",
+            "009780A9",
+            "00F44053",
+            "002BA3B2",
+            "003028BA",
+            "0018898F",
+            "00631F66",
+            "001C759D",
+            "0004FBE7",
+            "0047D422",
+            "00265B14",
+            "00E7D00B",
+            "00F2B069",
+            "002808CB",
+            "00050AB6",
+            "00EA0794",
+            "000DAAD0",
+            "00699063",
+            "00E8C343",
+            "00246B67",
+            "00300F97",
+            "0072747C",
+            "00FB1E91",
+            "0008473B",
+            "001B6A77",
+            "003F8FDF",
+            "00EBB033",
+            "00C2A6A3",
+            "0041B69E",
+            "0041B69F",
+            "0041B6A0",
+            "0041B6A1",
+            "0041B8BE",
+            "0041B8BF",
+            "0041B8C0",
+            "0041B8C1",
+            "004B8A60",
+            "0035DB4F",
+            "00728753",
+            "0064CDA8",
+            "00F58944",
+            "005E485B",
+            "007B6CBA",
+            "00BB4354",
+            "00C26257",
+            "00AA8E47",
+            "008D19B4",
+            "00461CC0",
+            "0062A1FA",
+            "00BE8E1F",
+            "000B589A"
+                },
+                HiLoDTextures = new(), //same as LoD
+                CutsceneTextures = new()
+                {
+                    "005029C5",
+            "00C5BF10",
+            "0025EB22",
+            "00BDEF11",
+            "00E1EDF6",
+            "00AFDC46",
+            "00E38E80",
+            "003BBF61",
+            "009780A9",
+            "00F44053",
+            "00F58944",
+            "002BA3B2",
+            "003028BA",
+            "0018898F",
+            "00631F66",
+            "001C759D",
+            "0004FBE7",
+            "0047D422",
+            "00265B14",
+            "00E7D00B",
+            "00F2B069",
+            "002808CB",
+            "00050AB6",
+            "00EA0794",
+            "000DAAD0",
+            "00699063",
+            "00E8C343",
+            "00246B67",
+            "00300F97",
+            "0072747C",
+            "00FB1E91",
+            "0008473B",
+            "001B6A77",
+            "003F8FDF",
+            "00EBB033",
+            "00C2A6A3",
+            "0041B69E",
+            "0041B69F",
+            "0041B6A0",
+            "0041B6A1",
+            "0041B8BE",
+            "0041B8BF",
+            "0041B8C0",
+            "0041B8C1",
+            "004B8A60",
+            "0035DB4F",
+            "00728753",
+            "0064CDA8",
+            "005E485B",
+            "007B6CBA",
+            "00BB4354",
+            "00C26257",
+            "00AA8E47",
+            "008D19B4",
+            "00461CC0",
+            "0062A1FA",
+            "00BE8E1F",
+            "000B589A"
+                }
+            });
+            ModelsToSwapIn.Add(new MGSModel //done
             {
                 Name = "Fortune",
                 LoLoDId = "0051376b",
@@ -320,9 +506,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 HiLoDId = "0004ad70",
                 HiLodKms = "assets/kms/us/for_def_sh_mt.kms,us/stage/XXXX/resident/00b365ad.kms,resident/00b365ad.kms", //reusing other LoD
                 HiLoDTri = "assets/tri/us/fortune_mh_mt.tri,us/stage/r_plt0/resident/0004ad70.tri,resident/0004ad70.tri",
-                CutsceneEvm = "assets/evm/us/for_def_mh_mt.evm,us/stage/d080p01/resident/005365ad.evm,resident/005365ad.evm",
+                CutsceneEvm = "assets/evm/us/for_def_mh_mt.evm,us/stage/d080p01/cache/005365ad.evm,cache/005365ad.evm",
                 CutsceneTri = "assets/tri/us/for_def_stage_d078p01.tri,us/stage/d080p01/cache/005365ad.tri,cache/005365ad.tri",
                 CutsceneId = "005365ad",
+                //ShadowKms = "assets/kms/us/for_cort_shadow.kms,us/stage/d012p01/resident/006d2838.kms,resident/006d2838.kms",
                 CodecEvm = "assets/evm/us/for_def_mh_mt.evm,us/stage/d080p01/resident/005365ad.evm,resident/005365ad.evm",
                 CodecId = "005365ad",
                 CodecTri = "assets/tri/us/for_def_stage_d078p01.tri,us/stage/d080p01/resident/005365ad.tri,resident/005365ad.tri",
@@ -487,7 +674,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "00CC2E02",
             "005178AA"
                 }
-            });
+            }); //Fortune: done
             ModelsToSwapIn.Add(new MGSModel //working now 8)
             {
                 Name = "MGS1 Snake(new)",
@@ -502,6 +689,104 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 ArmsEvm = "snh_def_mh_mt_stage_r_vr_1_r.evm",
                 ArmsId = "0055aab4",
                 ArmsTri = "assets/tri/us/sna_def_mw_stage_r_vr_1_r.tri,us/stage/r_vr_1/resident/0055aab4.tri,resident/0055aab4.tri",
+                CutsceneEvm = "assets/evm/us/sna_oss_mh_mt.evm,us/stage/r_plt10/resident/005fa829.evm,resident/005fa829.evm",
+                CutsceneId = "007c918b",
+                CutsceneTri = "assets/tri/us/txd_oss_nin_sh_mt.tri,us/stage/r_plt10/resident/007c918b.tri,resident/007c918b.tri",
+                CutsceneTextures = new()
+                {
+                    "00645593",
+            "00316CAF",
+            "00316D7C",
+            "0063CB6A",
+            "00094F12",
+            "002C0E2D",
+            "0028CDB7",
+            "00E17BD9",
+            "00495322",
+            "00080E08",
+            "0009382A",
+            "000A382A",
+            "007480B7",
+            "00B9B2FD",
+            "0056B429",
+            "00C2EE56",
+            "00D6A54F",
+            "00D55655",
+            "00DDA6B1",
+            "00B6B443",
+            "00DCD475",
+            "00FEC8DE",
+            "00161B31",
+            "00A80EC9",
+            "00980F43",
+            "00981143",
+            "00DB58DD",
+            "00AA8506",
+            "00CB4A34",
+            "0028BB78",
+            "0036E597",
+            "0051F44D",
+            "00AE666B",
+            "00C1F536",
+            "00C3020F",
+            "008D5B4B",
+            "00D7CD75",
+            "00ADCB61",
+            "009A840D",
+            "009A840E",
+            "009A840F",
+            "009A8410",
+            "009A862D",
+            "009A862E",
+            "009A862F",
+            "009A8630",
+            "008DF696",
+            "00A51D74",
+            "0013A13E",
+            "009BCD67",
+            "00A599E9",
+            "001EF345",
+            "00853930",
+            "0013613F",
+            "00854417",
+            "00C1D13F",
+            "0073B05A",
+            "007BAFAB",
+            "007C5074",
+            "00B94140",
+            "00C8CD7C",
+            "00AA9D74",
+            "00AB71BB",
+            "00FFEC06",
+            "0011C9B2",
+            "00B973FE",
+            "00C04482",
+            "00FD249B",
+            "00AE1D74",
+            "0057A3CD",
+            "00ECC009",
+            "00FE30E9",
+            "008EF8CE",
+            "002C853C",
+            "002C893C",
+            "008CE8B2",
+            "008CECB2",
+            "000A7840",
+            "0028323E",
+            "00A88C36",
+            "002B83BA",
+            "00D3DDD3",
+            "00BBFBA3",
+            "004F5CE7",
+            "00CDD240",
+            "00DB6963",
+            "007182F5",
+            "00C4F509",
+            "00AE2857",
+            "0005D3CE",
+            "00AF9CE6"
+                },
+                UseCutsceneAsCodec = true,
                 ArmTextures = new()
                 {
                     "001B7235",
@@ -660,24 +945,54 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "00AF9CE6"
                 },
                 HiLoDTextures = new()
-            });
+            }); //MGS1 Snake: done
             //006e1ff7 is olga ninja
-            //TODO: add olga, olga ninja(org_tng_sh_mt), ocelot, vamp, fatman, guards, ames, raiden diving suit, naked raiden, meryl, scott dolph(sco_def_light)
-            //      stillman, johnson, tengu, seal, genolas, nypd, cit_maley_ctg_sh, genome soldier, hostages, marines(us_def_1, us_def_pants)
-            //      cap_dead, jam_def, mgs1 ocelot?, tnc_def
-            ModelsToSwapIn.Add(new MGSModel //working
+            //TODO: guards, scott dolph(sco_def_light)
+            //      tengu, seal, genolas, nypd, cit_maley_ctg_sh, genome soldier(21 bones, might work?), hostages, marines(us_def_1, us_def_pants)
+            //      cap_dead(only 1 bone, will not work), tnc_def(21 bones, might work?)
+            /*
+            //Easy models to add with highish value:
+                - Vamp
+                - Ames(ric_def)
+                - MGS1 Ocelot
+                - Ocelot (Tanker)
+                - Ocelot (Plant)
+                - Stillman
+                - Johnson
+                - Fatman
+                - Olga (Ninja)
+
+            //Easy models to add with low value:
+                - Scott Dolph
+                - 
+
+            //Harder models to add with highish value:
+                - Olga (Tanker) (hair)
+                - Olga (Plant) (hair)
+                - Meryl (hair)
+                - Any Raiden model (hair)
+
+            //Currently impossible:
+                - Rose(no kms)
+            */
+            ModelsToSwapIn.Add(new MGSModel //working, reusing some of the other MGS1 snake's assets to fill in holes
             {
-                Name = "MGS1 Snake(classic)",
+                Name = "MGS1 Snake(1998)",
                 LoLoDId = "006e1ff7",
                 LoLodKms = "assets/kms/us/sna_mgs1.kms,us/stage/r_plt10/resident/002bded9.kms,resident/002bded9.kms",
                 LoLoDTri = "assets/tri/us/sna_mgs1_mh.tri,us/stage/r_plt10/resident/006e1ff7.tri,resident/006e1ff7.tri",//none?
                 HiLoDId = "006e1ff7",
                 HiLodKms = "assets/kms/us/sna_mgs1.kms,us/stage/r_plt10/resident/002bded9.kms,resident/002bded9.kms",
                 HiLoDTri = "assets/tri/us/sna_mgs1_mh.tri,us/stage/r_plt10/resident/006e1ff7.tri,resident/006e1ff7.tri", //none?
+                HandsId = "0055aab4",
+                HandsTri = "assets/tri/us/sna_mgs_mt.tri,us/stage/r_vr_1/resident/007c2ac3.tri,resident/007c2ac3.tri",
+                ArmsEvm = "snh_def_mh_mt_stage_r_vr_1_r.evm",
+                ArmsId = "0055aab4",
+                ArmsTri = "assets/tri/us/sna_def_mw_stage_r_vr_1_r.tri,us/stage/r_vr_1/resident/0055aab4.tri,resident/0055aab4.tri",
+                CutsceneId = "006e1ff7",
+                CutsceneTri = "assets/tri/us/sna_mgs1_mh.tri,us/stage/r_plt10/resident/006e1ff7.tri,resident/006e1ff7.tri",
                 CutsceneEvm = "assets/evm/us/sna_mgs1_mh.evm,us/stage/r_plt10/resident/006e1ff7.evm,resident/006e1ff7.evm",
-                CodecId = "006e1ff7",
-                CodecTri = "assets/tri/us/sna_mgs1_mh.tri,us/stage/r_plt10/resident/006e1ff7.tri,resident/006e1ff7.tri",
-                CodecEvm = "assets/evm/us/sna_mgs1_mh.evm,us/stage/r_plt10/resident/006e1ff7.evm,resident/006e1ff7.evm",
+                UseCutsceneAsCodec = true,
                 LoLoDTextures = new()
                 {
                     "0051D033",
@@ -861,8 +1176,254 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "003C40D0",
             "002A81C2"
                 },
-                HiLoDTextures = new()
-            });
+                HiLoDTextures = new(),
+                ArmTextures = new()
+                {
+                    "001B7235",
+            "006E46D5",
+            "0034DAFA",
+            "0034DAFB",
+            "008DF696",
+            "0013A13E",
+            "009BCD67"
+                },
+                HandTextures = new()
+                {
+                    "0028CDB7",
+            "00E17BD9",
+            "00495322",
+            "00980F43",
+            "00981143",
+            "007152E3",
+            "006FB16D",
+            "00DB58DD",
+            "00AA8506",
+            "00AB8506",
+            "00CB4A34",
+            "0028BB78",
+            "0036E597",
+            "0051F44D",
+            "00AE666B",
+            "00C1F536",
+            "00C3020F",
+            "008D5B4B",
+            "00D7CD75",
+            "008DF696",
+            "00A51D74",
+            "0013A13E",
+            "009BCD67",
+            "00A599E9",
+            "001EF345",
+            "00853930",
+            "0013613F",
+            "00854417",
+            "00C1D13F",
+            "0073B05A",
+            "007BAFAB",
+            "007C5074",
+            "00B94140",
+            "00C8CD7C",
+            "00AA9D74",
+            "00AB71BB",
+            "00FFEC06",
+            "0011C9B2",
+            "00B973FE",
+            "00C04482",
+            "00FD249B",
+            "00AE1D74",
+            "0057A3CD",
+            "00ECC009",
+            "00FE30E9",
+            "008EF8CE",
+            "002C853C",
+            "002C893C",
+            "008CE8B2",
+            "008CECB2"
+                },
+                CutsceneTextures = new()
+                {
+                    "0051D033",
+            "00926A67",
+            "007AEAE9",
+            "00482F73",
+            "00DD8A7B",
+            "00085B45",
+            "000B52F7",
+            "00EBB045",
+            "0084B7A6",
+            "0025E761",
+            "0025E762",
+            "0025E763",
+            "0025E764",
+            "0025E765",
+            "0025E766",
+            "0025E767",
+            "00265BE4",
+            "00FA9B4B",
+            "00FA9B4C",
+            "00FA9B4D",
+            "00FA9B4E",
+            "00FA9B4F",
+            "00F1229D",
+            "00F1A29D",
+            "00BFA5E0",
+            "00044AD6",
+            "00044AD7",
+            "002476B6",
+            "002476B7",
+            "002476B8",
+            "002476B9",
+            "002476BA",
+            "00264476",
+            "002943C1",
+            "002943C2",
+            "002943C3",
+            "002943C4",
+            "002B32A1",
+            "002B32A2",
+            "002B32A3",
+            "002B32A4",
+            "00864B96",
+            "00864B97",
+            "00864B98",
+            "002C976C",
+            "002C976D",
+            "002C976E",
+            "002C976F",
+            "002C9770",
+            "00BA5916",
+            "002C9772",
+            "00850209",
+            "005AD87C",
+            "005AE87C",
+            "0060399C",
+            "00D053A9",
+            "0060399D",
+            "0090B4EF",
+            "007495A3",
+            "0090C4EF",
+            "00762542",
+            "008AB508",
+            "00762543",
+            "008AC508",
+            "00762544",
+            "008AD508",
+            "001E0413",
+            "00996069",
+            "00EDE1C0",
+            "00260A19",
+            "00260A1A",
+            "00267E9C",
+            "00857B4C",
+            "00857B4D",
+            "00857B4E",
+            "00857B4F",
+            "001BA5F0",
+            "001BA5F1",
+            "0027C6B9",
+            "0027C6BA",
+            "00414330",
+            "0028663A",
+            "0028663B",
+            "0029466C",
+            "0028CDB7",
+            "00414AA6",
+            "00296679",
+            "0029667A",
+            "002B5559",
+            "002B555A",
+            "002B555B",
+            "002B555C",
+            "00415E93",
+            "00415E94",
+            "00415E95",
+            "002C5513",
+            "008AA297",
+            "00A7CDAE",
+            "00FA292D",
+            "00A7F808",
+            "00372AFD",
+            "00E55FD8",
+            "00C7CDAE",
+            "00452670",
+            "009A86A2",
+            "0050D485",
+            "00FF014A",
+            "005339D4",
+            "00C12C5B",
+            "001A80B0",
+            "001A80B2",
+            "00AC7538",
+            "00DF06AD",
+            "00CF3B99",
+            "00E19CF1",
+            "00E19E02",
+            "006ED893",
+            "00641E16",
+            "006A3B68",
+            "004A1EFA",
+            "00F73B0E",
+            "00EDBCE3",
+            "00F772AF",
+            "0077EAE9",
+            "00206E79",
+            "0023EE79",
+            "00FC3BAE",
+            "007E3BF4",
+            "003FA0CF",
+            "007E0837",
+            "00810837",
+            "00285D8A",
+            "004DF3C4",
+            "008F2B58",
+            "00F8634B",
+            "00A96BE9",
+            "004634E7",
+            "004634E8",
+            "00851209",
+            "004634E9",
+            "00852209",
+            "004634EA",
+            "00853209",
+            "005AF87C",
+            "002E2F47",
+            "002E2F48",
+            "002E2F49",
+            "007092ED",
+            "006564AF",
+            "00185B6F",
+            "00ED7F2B",
+            "0060399E",
+            "00D073A9",
+            "007495A2",
+            "007495A4",
+            "0090D4EF",
+            "007495A5",
+            "0090E4EF",
+            "00DE69A8",
+            "00D11B8C",
+            "00DE69A9",
+            "00D12B8C",
+            "00798B05",
+            "00E6E53E",
+            "001E2413",
+            "0046899A",
+            "00D0320E",
+            "0046899B",
+            "00D0420E",
+            "0046899C",
+            "0046899D",
+            "00D0620E",
+            "0046899E",
+            "00D0720E",
+            "007C4291",
+            "0041AB75",
+            "0041AB76",
+            "00EDF1C0",
+            "003C40D0",
+            "002A81C2"
+                }
+            }); //Snake(1998): done
             ModelsToSwapIn.Add(new MGSModel //working
             {
                 Name = "Ninja Raiden",
@@ -880,6 +1441,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 ArmsTri = "assets/tri/us/rai_tex_mw_stage_r_vr_b_r.tri,us/stage/r_vr_b/resident/0031ead4.tri,resident/0031ead4.tri",
                 HiLodKms = "assets/kms/us/rai_nin_sh_mt_fg.kms,us/stage/r_plt6/resident/00466847.kms,resident/00466847.kms",
                 HiLoDTri = "assets/tri/us/for_nin_sh_mt_stage_r_plt6_r.tri,us/stage/r_plt6/resident/00bd87ad.tri,resident/00bd87ad.tri",
+                CutsceneEvm = "assets/evm/us/rai_nin_mh_mt.evm,us/stage/r_plt10/resident/005e4089.evm,resident/005e4089.evm",
+                CutsceneId = "00bd87ad",
+                CutsceneTri = "assets/tri/us/for_nin_sh_mt.tri,us/stage/r_plt10/resident/00bd87ad.tri,resident/00bd87ad.tri",
+                UseCutsceneAsCodec = true,
                 ArmTextures = new()
                 {
                     "00EACC11",
@@ -1039,6 +1604,88 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "00EE8387"
                 },
                 HiLoDTextures = new(),
+                CutsceneTextures = new()
+                {
+                    "00512D12",
+            "00517DFE",
+            "00621F4B",
+            "00E38F6A",
+            "0096C0CB",
+            "008BF724",
+            "000F57E5",
+            "00EF98F2",
+            "002007A5",
+            "00AF0DCB",
+            "001FDB23",
+            "00DA8B4C",
+            "00D31DDD",
+            "006EF8B3",
+            "006EF8B4",
+            "000D0276",
+            "005EFDFF",
+            "00574B69",
+            "002816FE",
+            "00744D49",
+            "0028DECE",
+            "001BD9F7",
+            "00F3CC28",
+            "00A347A5",
+            "00BF5036",
+            "0070DB5E",
+            "00CAEC9E",
+            "00CAECAF",
+            "0074A7CD",
+            "0013B767",
+            "007D47E7",
+            "00F71E00",
+            "00B7B37E",
+            "007A52EE",
+            "00F16803",
+            "002029A5",
+            "005174BD",
+            "00CC2E02",
+            "005178AA",
+            "00C12FF5",
+            "0009D1BF",
+            "00267211",
+            "00C850DB",
+            "002AB7C6",
+            "004BED24",
+            "008B94FE",
+            "0028736C",
+            "00CDBCE2",
+            "0096BECB",
+            "00CDBCE3",
+            "0096BFCB",
+            "00CDBCE4",
+            "004D4826",
+            "008BBAFE",
+            "00293B3C",
+            "00ECFCE5",
+            "00ECFCE6",
+            "00D6C2EA",
+            "00ECFCE7",
+            "00D6C3EA",
+            "00ECFCE8",
+            "00D6C4EA",
+            "00151827",
+            "00B0857E",
+            "00D773F5",
+            "004C64E9",
+            "00C0C1EE",
+            "00544B61",
+            "0041040E",
+            "0041040F",
+            "00410410",
+            "0041062F",
+            "00410630",
+            "00EF98EF",
+            "00EF98F0",
+            "00EF98F1",
+            "00EF98F3",
+            "00EE8376",
+            "00EE8387"
+                },
                 ShadowTextures = new()
                 {
                     "00F7FC98",
@@ -1050,9 +1697,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "0011202A",
             "002D202A"
                 }
-            });
+            }); //Ninja Raiden: done
             ModelsToSwapIn.Add(new MGSModel //working but looks like shit lmao
             {
+                //Has hair we could use
                 Name = "Otacon",
                 LoLoDId = "00b3f7f1",
                 LoLodKms = "assets/kms/us/otc_def_sh_mt.kms,us/stage/d070p01/resident/00b3f7f1.kms,resident/00b3f7f1.kms",
@@ -1060,6 +1708,12 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 HiLoDId = "00b3f7f1",
                 HiLodKms = "assets/kms/us/otc_def_sh_mt.kms,us/stage/d070p01/resident/00b3f7f1.kms,resident/00b3f7f1.kms",
                 HiLoDTri = "assets/tri/us/otc_def_sh_mt.tri,us/stage/d070p01/resident/00b3f7f1.tri,resident/00b3f7f1.tri",
+                CutsceneEvm = "assets/evm/us/otc_def_mh_mt.evm,us/stage/d070p01/cache/0053f7f1.evm,cache/0053f7f1.evm",
+                CutsceneTri = "assets/tri/us/otc_def_sh_mt.tri,us/stage/d070p01/cache/00b3f7f1.tri,cache/00b3f7f1.tri",
+                CutsceneId = "00b3f7f1",
+                CodecEvm = "assets/evm/us/otc_radio_mh_mt.evm,us/face/f00a/cache/003b500a.evm,cache/003b500a.evm",
+                CodecTri = "assets/tri/us/otc_radio_mh_mt.tri,us/face/f00a/cache/003b500a.tri,cache/003b500a.tri",
+                CodecId = "003b500a",
                 LoLoDTextures = new()
                 {
                     "00ED0DCD",
@@ -1092,8 +1746,72 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "00D89A98",
             "000ED1C5"
                 },
-                HiLoDTextures = new()
-            });
+                HiLoDTextures = new(),
+                CutsceneTextures = new()
+                {
+                    "00ED0DCD",
+            "0001AEEC",
+            "00838EFF",
+            "00316CAF",
+            "00316D7C",
+            "004CD8A8",
+            "0063CB6A",
+            "005FCAC1",
+            "00A883AA",
+            "00981182",
+            "003F8FDF",
+            "00EBB033",
+            "0025EB9E",
+            "0030043F",
+            "00CBD8D7",
+            "00A80EC9",
+            "0027EB1E",
+            "00614033",
+            "00FFC9F1",
+            "00A810C9",
+            "00282691",
+            "002A8137",
+            "00748C74",
+            "00FA703B",
+            "009FC6D4",
+            "002EE7F0",
+            "002C3697",
+            "00D89A98",
+            "000ED1C5"
+                },
+                CodecTextures = new()
+                {
+                    "0025EB9E",
+            "00CBD8D7",
+            "00A80EC9",
+            "0027EB1E",
+            "0000D3B5",
+            "00838EFF",
+            "00A810C9",
+            "0043C780",
+            "0096EBBC",
+            "0043E879",
+            "004CD8A8",
+            "001B353D",
+            "00030858",
+            "009B225E",
+            "009B225F",
+            "007C1B13",
+            "00C9BDAA",
+            "002C3697",
+            "005FCAC1",
+            "002F27F3",
+            "00387C1F",
+            "00387C20",
+            "00387C21",
+            "00387C22",
+            "00387E3F",
+            "00387E40",
+            "00387E41",
+            "00387E42",
+            "000ED1C5"
+                }
+            }); //Otacon: done
             ModelsToSwapIn.Add(new MGSModel
             {
                 Name = "Pigeon",
@@ -1114,7 +1832,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "006F403C"
                 },
                 HiLoDTextures = new()
-            });
+            }); //pigeon: xdd
             ModelsToSwapIn.Add(new MGSModel //working PogBones
             {
                 Name = "Pliskin",
@@ -1124,6 +1842,17 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 HiLoDId = "00b39721",
                 HiLodKms = "assets/kms/us/iro_def_sh_mt.kms,us/stage/d014p01/resident/00b39721.kms,resident/00b39721.kms",
                 HiLoDTri = "assets/tri/us/iro_def_sh_mt.tri,us/stage/d014p01/resident/00b39721.tri,resident/00b39721.tri",
+                CutsceneEvm = "assets/evm/us/iro_def_mh_mt.cmdl,us/stage/d010p01/cache/00539721.cmdl,eu/stage/d010p01/cache/00539721.cmdl",
+                CutsceneTri = "assets/tri/us/iro_def_mh_mt.tri,us/stage/d014p01/cache/00539721.tri,cache/00539721.tri",
+                CutsceneId = "00539721",
+                CodecEvm = "assets/evm/us/iro_radio_mh_mt.evm,us/face/f01c/cache/00b81008.evm,cache/00b81008.evm",
+                CodecTri = "assets/tri/us/iro_radio_mh_mt.tri,us/face/f01c/cache/00b81008.tri,cache/00b81008.tri",
+                CodecId = "00b81008",
+                ArmsEvm = "assets/evm/us/snh_def_mh_mt_stage_r_vr_p_r.evm,us/stage/r_vr_p/resident/00543505.evm,resident/00543505.evm",
+                ArmsTri = "assets/tri/us/iro_def_mw.tri,us/stage/r_vr_p/resident/001a1ab3.tri,resident/001a1ab3.tri",
+                ArmsId = "001a1ab3",
+                HandsTri = "assets/tri/us/iro_def_mt_stage_r_vr_p_r.tri,us/stage/r_vr_p/resident/001a1ab0.tri,resident/001a1ab0.tri",
+                HandsId = "001a1ab0",
                 LoLoDTextures = new()
                 {
                     "00B76CD0",
@@ -1189,8 +1918,117 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "002E9EF2",
             "00FF37E6",
             "00FEC8DE"
+                },
+                CutsceneTextures = new()
+                {
+                    "00B76CD0",
+            "00B76CD6",
+            "0025F675",
+            "0025F676",
+            "0025F677",
+            "0025F678",
+            "0025F679",
+            "0025F67A",
+            "00260758",
+            "00262E5D",
+            "00C5F777",
+            "00080E08",
+            "00BD2DB2",
+            "0009382A",
+            "000A382A",
+            "007480B7",
+            "0028F788",
+            "00B9B2FD",
+            "0056B429",
+            "00C2EE56",
+            "00D6A54F",
+            "00D55655",
+            "00DDA6B1",
+            "00B6B443",
+            "00215832",
+            "002BF6F0",
+            "00DCD475",
+            "0057236C",
+            "00617DC6",
+            "00BECA14",
+            "0087FC71",
+            "002E9EF2",
+            "00FF37E6",
+            "00FEC8DE"
+                },
+                CodecTextures = new()
+                {
+                    "00B76CD0",
+            "00B76CD6",
+            "0025F675",
+            "00262E5D",
+            "00080E08",
+            "0009382A",
+            "000A382A",
+            "007480B7",
+            "00B9B2FD",
+            "0056B429",
+            "00C2EE56",
+            "00D6A54F",
+            "00D55655",
+            "00DDA6B1",
+            "00B6B443",
+            "00DCD475",
+            "0057236C",
+            "00617DC6",
+            "00BECA14",
+            "0087FC71",
+            "00FF37E6",
+            "00FEC8DE"
+                },
+                ArmTextures = new()
+                {
+                    "00B76CD0",
+            "00ED9B69",
+            "001AD46D",
+            "005A8DD5",
+            "00F4D60B",
+            "00F4D60C",
+            "002E9EF2"
+                },
+                HandTextures = new()
+                {
+                    "00B76CD0",
+            "00B76CD6",
+            "0025F675",
+            "0025F676",
+            "0025F677",
+            "0025F678",
+            "0025F679",
+            "0025F67A",
+            "00260758",
+            "00262E5D",
+            "00C5F777",
+            "00080E08",
+            "0027F629",
+            "00E2EB6A",
+            "00BD2DB2",
+            "0009382A",
+            "000A382A",
+            "007480B7",
+            "0028F788",
+            "00B9B2FD",
+            "0056B429",
+            "00C2EE56",
+            "00D6A54F",
+            "00D55655",
+            "00215832",
+            "002BF6F0",
+            "00DCD475",
+            "0057236C",
+            "00617DC6",
+            "00BECA14",
+            "0087FC71",
+            "002E9EF2",
+            "00FF37E6",
+            "00FEC8DE"
                 }
-            });
+            }); //Pliskin: done
             ModelsToSwapIn.Add(new MGSModel
             {
                 Name = "RAY",
@@ -1272,7 +2110,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "00D4D63E"
                 },
                 HiLoDTextures = new()
-            });
+            }); //ray: xdd
             ModelsToSwapIn.Add(new MGSModel //works, but ofc no hair
             {
                 Name = "Raiden",
@@ -1282,6 +2120,12 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 HiLoDId = "00b41e89",
                 HiLodKms = "assets/kms/us/rai_def_sh_mt.kms,us/stage/d014p01/resident/00b41e89.kms,resident/00b41e89.kms",
                 HiLoDTri = "assets/tri/us/rai_def_sh_mt.tri,us/stage/d014p01/resident/00b41e89.tri,resident/00b41e89.tri",
+                CutsceneEvm = "assets/evm/us/rai_def_mh_mt.evm,us/stage/a45a/cache/00541e89.evm,cache/00541e89.evm",
+                CutsceneTri = "assets/tri/us/raiden.tri,us/stage/d070p01/cache/00541e89.tri,cache/00541e89.tri",
+                CutsceneId = "00541e89",
+                CodecEvm = "assets/evm/us/rai_radio_mh_mt.evm,us/face/f04d/cache/00d5b00a.evm,cache/00d5b00a.evm",
+                CodecTri = "assets/tri/us/rai_radio_mh_mt.tri,us/face/f02a/cache/00d5b00a.tri,cache/00d5b00a.tri",
+                CodecId = "00d5b00a",
                 LoLoDTextures = new()
                 {
                     "00E38F6A",
@@ -1317,9 +2161,88 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "0052D5D4",
             "00DD9E18"
                 },
-                HiLoDTextures = new()
-            });
-            ModelsToSwapIn.Add(new MGSModel //works for raiden, but gives second pistol and holster... hmmm
+                HiLoDTextures = new(),
+                CutsceneTextures = new()
+                {
+                    "00E38F6A",
+            "0070AB9D",
+            "008BF724",
+            "0035C82C",
+            "008D3897",
+            "0009D1BF",
+            "00D1C6EE",
+            "00EF4607",
+            "00E1C6EE",
+            "00EF4707",
+            "008B94FE",
+            "0067F633",
+            "00F3ACCE",
+            "004D4826",
+            "008BBAFE",
+            "001B1F05",
+            "0070AA9D",
+            "002B1F05",
+            "00B0857E",
+            "00D773F5",
+            "004C64E9",
+            "00C0C1EE",
+            "00544B61",
+            "0041040E",
+            "0041040F",
+            "00410410",
+            "0041062F",
+            "00410630",
+            "0047BA4D",
+            "00252D67",
+            "00A7BA4D",
+            "00253367",
+            "00EE8376",
+            "00EE8387",
+            "00F40B56",
+            "00A0096B",
+            "00B0096B",
+            "003CCAC6",
+            "003CCBC6",
+            "0052D5D3",
+            "00DD8E18",
+            "0052D5D4",
+            "00DD9E18"
+                },
+                CodecTextures = new()
+                {
+                    "00F7FC9C",
+            "008BF724",
+            "0091333C",
+            "008D3897",
+            "0009D1BF",
+            "00D1C6EE",
+            "00EF4607",
+            "00E1C6EE",
+            "00EF4707",
+            "008BBAFE",
+            "00C55786",
+            "0011202A",
+            "00276EA8",
+            "00D86F0E",
+            "00CEE796",
+            "00432761",
+            "00B0857E",
+            "004C64E9",
+            "00C0C1EE",
+            "00544B61",
+            "0041040D",
+            "0041040E",
+            "0041040F",
+            "00410410",
+            "0041062D",
+            "0041062E",
+            "0041062F",
+            "00410630",
+            "008C2EFE"
+                }
+
+            }); //Raiden: done, but no hair or arms cuz i forgor
+            ModelsToSwapIn.Add(new MGSModel //Snake: works for raiden, but gives second pistol and holster... hmmm
             {
                 Name = "Snake",
                 LoLoDId = "0055aab1",
@@ -1328,6 +2251,17 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 HiLoDId = "0055aab1",
                 HiLodKms = "assets/kms/us/sna_def_sh_stage_r_plt10_r.kms,us/stage/r_plt10/resident/0055ab65.kms,resident/0055ab65.kms",
                 HiLoDTri = "assets/tri/us/sna_def_mt.tri,us/stage/r_plt10/resident/0055aab1.tri,resident/0055aab1.tri",
+                ArmsEvm = "assets/evm/us/snh_def_mh_mt.evm,us/stage/r_tnk0/resident/00543505.evm,resident/00543505.evm",
+                ArmsTri = "assets/tri/us/sna_def_mw.tri,us/stage/r_vr_s/resident/0055aab4.tri,resident/0055aab4.tri",
+                ArmsId = "0055aab4",
+                HandsTri = "assets/tri/us/sna_def_mt_stage_r_plt_s_r.tri,us/stage/r_vr_s/resident/0055aab1.tri,resident/0055aab1.tri",
+                HandsId = "0055aab1",
+                CutsceneEvm = "assets/evm/us/sna_def_mh.evm,us/stage/w01e/cache/0055aaa5.evm,cache/0055aaa5.evm",
+                CutsceneTri = "assets/tri/us/sna_def_mh.tri,us/stage/w01e/cache/0055aaa5.tri,cache/0055aaa5.tri",
+                CutsceneId = "0055aaa5",
+                CodecEvm = "assets/evm/us/sna_radio_mh_mt.evm,us/face/f00a/cache/002f300b.evm,cache/002f300b.evm",
+                CodecTri = "assets/tri/us/sna_radio_mh_mt.tri,us/face/f00a/cache/002f300b.tri,cache/002f300b.tri",
+                CodecId = "002f300b",
                 LoLoDTextures = new()
                 {
                     "0074BD1F",
@@ -1373,8 +2307,143 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "008CE8B2",
             "008CECB2"
                 },
-                HiLoDTextures = new()
-            });
+                HiLoDTextures = new(),
+                CutsceneTextures = new()
+                {
+                    "002C0E2D",
+            "0028CDB7",
+            "00E17BD9",
+            "00495322",
+            "00A5217E",
+            "009D3B34",
+            "00ADC198",
+            "00B83347",
+            "009D72D5",
+            "00854CFE",
+            "00292B6B",
+            "00980943",
+            "00F3A26A",
+            "000CDB9F",
+            "0032F2D5",
+            "00980F43",
+            "00981143",
+            "00DB58DD",
+            "00AA8506",
+            "00CB4A34",
+            "0028BB78",
+            "0036E597",
+            "0051F44D",
+            "00AE666B",
+            "00C1F536",
+            "00C3020F",
+            "008D5B4B",
+            "00D7CD75",
+            "00ADCB61",
+            "009A840D",
+            "009A840E",
+            "009A840F",
+            "009A8410",
+            "009A862D",
+            "009A862E",
+            "009A862F",
+            "009A8630",
+            "002AED01",
+            "008F7C09",
+            "0040F1E3",
+            "00562B80",
+            "002C853C",
+            "002C893C",
+            "00369635",
+            "00E3AC54",
+            "008CE8B2",
+            "008CECB2"
+                },
+                CodecTextures = new()
+                {
+                    "002C0E2D",
+            "00E17BD9",
+            "00854CFE",
+            "00292B6B",
+            "00980943",
+            "000CDB9F",
+            "0032F2D5",
+            "00980F43",
+            "00981143",
+            "00AA8506",
+            "00CB4A34",
+            "0028BB78",
+            "0051F44D",
+            "00AE666B",
+            "00C1F536",
+            "00C3020F",
+            "008D5B4B",
+            "00D7CD75",
+            "00ADCB61",
+            "009A840D",
+            "009A840E",
+            "009A840F",
+            "009A8410",
+            "009A862D",
+            "009A862E",
+            "009A862F",
+            "009A8630",
+            "00369635",
+            "00E3AC54"
+                },
+                ArmTextures = new()
+                {
+                    "00854CFE",
+            "00292B6B",
+            "00980943",
+            "001B7235",
+            "006E46D5",
+            "0034DAFA",
+            "0034DAFB"
+                },
+                HandTextures = new()
+                {
+                    "0028CDB7",
+            "00E17BD9",
+            "00495322",
+            "00A5217E",
+            "009D3B34",
+            "00ADC198",
+            "00B83347",
+            "009D72D5",
+            "00854CFE",
+            "00292B6B",
+            "00980943",
+            "00F3A26A",
+            "000CDB9F",
+            "0032F2D5",
+            "00980F43",
+            "00981143",
+            "007152E3",
+            "006FB16D",
+            "00DB58DD",
+            "00AA8506",
+            "00AB8506",
+            "00CB4A34",
+            "0028BB78",
+            "0036E597",
+            "0051F44D",
+            "00AE666B",
+            "00C1F536",
+            "00C3020F",
+            "008D5B4B",
+            "00D7CD75",
+            "002AED01",
+            "008F7C09",
+            "0040F1E3",
+            "00562B80",
+            "002C853C",
+            "002C893C",
+            "00369635",
+            "00E3AC54",
+            "008CE8B2",
+            "008CECB2"
+                }
+            }); //Snake: done
             ModelsToSwapIn.Add(new MGSModel //working
             {
                 Name = "Solidus",
@@ -1384,6 +2453,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 HiLoDId = "00851f3a",
                 HiLodKms = "assets/kms/us/sol_def_sh_mt.kms,us/stage/w24e/resident/00b43595.kms,resident/00b43595.kms",
                 HiLoDTri = "assets/tri/us/sol_def_mh_mt.tri,us/stage/w24e/resident/00851f3a.tri,resident/00851f3a.tri",
+                CutsceneEvm = "assets/evm/us/sol_def_mh_mt.evm,us/stage/w46a/cache/00543595.evm,cache/00543595.evm",
+                CutsceneTri = "assets/tri/us/sol_def_mh_mt.tri,us/stage/w46a/cache/00543595.tri,cache/00543595.tri",
+                CutsceneId = "00543595",
+                UseCutsceneAsCodec = true,
                 LoLoDTextures = new()
                 {
                     "004A9C1F",
@@ -1449,8 +2522,73 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "00A23E39",
             "0063F30F"
                 },
-                HiLoDTextures = new()
-            });
+                HiLoDTextures = new(),
+                CutsceneTextures = new()
+                {
+                    "004A9C1F",
+            "0074D41C",
+            "0059CF15",
+            "009CFEF0",
+            "000636DB",
+            "00EE094E",
+            "000636DC",
+            "00A44E09",
+            "007B9239",
+            "0070D165",
+            "0096AFF8",
+            "0070D166",
+            "0096BFF8",
+            "0070D167",
+            "0096CFF8",
+            "0070D168",
+            "0096DFF8",
+            "0070D169",
+            "0096EFF8",
+            "0070D16A",
+            "0096FFF8",
+            "008B38C1",
+            "00F00F44",
+            "00CF3472",
+            "008B34C1",
+            "0060F068",
+            "0074D41B",
+            "00C21038",
+            "00C22038",
+            "00CBD2AD",
+            "00CCD2AD",
+            "00629D97",
+            "00B3C66B",
+            "004B0E8C",
+            "00430225",
+            "00A894BF",
+            "00A8A4BF",
+            "000B2126",
+            "000B2127",
+            "006E4647",
+            "0052578F",
+            "0052D78F",
+            "0053578F",
+            "0053D78F",
+            "00625790",
+            "0062D790",
+            "00635790",
+            "0063D790",
+            "00068B8F",
+            "00394954",
+            "00068B90",
+            "00395954",
+            "00068B91",
+            "00396954",
+            "00068B92",
+            "00397954",
+            "00068B93",
+            "00EFBE0E",
+            "007EB3CC",
+            "002C0E76",
+            "00A23E39",
+            "0063F30F"
+                }
+            }); //Solidus: done
             ModelsToSwapIn.Add(new MGSModel //works... kinda, def has issues. prolly bounding issues
             {
                 Name = "Tuxedo Snake",
@@ -1503,7 +2641,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "007182F5"
                 },
                 HiLoDTextures = new()
-            });
+            }); //Tuxedo Snake: problem-city central.
 
         }
 
@@ -1605,8 +2743,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
             string loLodFileNameToSwapIn = modelToSwapIn.LoLodKms.Split('/', StringSplitOptions.RemoveEmptyEntries)[3].Split(',', StringSplitOptions.RemoveEmptyEntries)[0].Split('.', StringSplitOptions.RemoveEmptyEntries)[0];
             string hiLodFileNameToSwapIn = modelToSwapIn.HiLodKms.Split('/', StringSplitOptions.RemoveEmptyEntries)[3].Split(',', StringSplitOptions.RemoveEmptyEntries)[0].Split('.', StringSplitOptions.RemoveEmptyEntries)[0];
-            string evmFileNameToSwapIn = modelToSwapIn.CutsceneEvm.Split('/', StringSplitOptions.RemoveEmptyEntries)[3].Split(',', StringSplitOptions.RemoveEmptyEntries)[0].Split('.', StringSplitOptions.RemoveEmptyEntries)[0];
-            string codecFileNameToSwapIn = modelToSwapIn.CodecEvm.Split('/', StringSplitOptions.RemoveEmptyEntries)[3].Split(',', StringSplitOptions.RemoveEmptyEntries)[0].Split('.', StringSplitOptions.RemoveEmptyEntries)[0];
+            
             //string headpieceNameToSwapIn = modelToSwapIn.Headpiece.Split('/', StringSplitOptions.RemoveEmptyEntries)[3].Split(',', StringSplitOptions.RemoveEmptyEntries)[0].Split('.', StringSplitOptions.RemoveEmptyEntries)[0];
 
             DirectoryInfo kmsBackupDirectory = new(Path.Combine(_backupDirectory, "kms"));
@@ -1631,8 +2768,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     ReplaceCutsceneEvms(modelToSwapIn, "sna_def", evmFiles, evmCmdlFiles);
                 }
             }
-            if (!string.IsNullOrEmpty(modelToSwapIn.CodecEvm))
+            if (!string.IsNullOrEmpty(modelToSwapIn.CodecEvm) || modelToSwapIn.UseCutsceneAsCodec)
             {
+                if (modelToSwapIn.UseCutsceneAsCodec)
+                {
+                    modelToSwapIn.CodecEvm = modelToSwapIn.CutsceneEvm;
+                    modelToSwapIn.CodecId = modelToSwapIn.CutsceneId;
+                    modelToSwapIn.CodecTri = modelToSwapIn.CutsceneTri;
+                    modelToSwapIn.CodecTextures = modelToSwapIn.CutsceneTextures;
+                }
                 ReplaceCodecEvms(modelToSwapIn, codecFileNametoSwapOut, evmFiles, evmCmdlFiles);   
                 if(modelToSwapOut.ResidentStage == "r_plt0")
                 {
@@ -1660,23 +2804,27 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
             if (modelToSwapOut.ResidentStage == "r_plt0")
             {
-                ReplaceModel("rai_gbs_mt", loLodFileNameToSwapIn, true);
-                ReplaceModel("rai_gbs_sh_mt", hiLodFileNameToSwapIn, true);
-                ReplaceModel("rai_def_stage_r_plt1_r", loLodFileNameToSwapIn, true);
-                ReplaceModel("rai_def_sh_mt_stage_r_plt1_r", hiLodFileNameToSwapIn, true);
-                ReplaceModel("rai_naked_sh", loLodFileNameToSwapIn, true);
-                ReplaceModel("rai_naked_stage_r_plt2_r", loLodFileNameToSwapIn, true);
-                ReplaceModel("rai_naked_sh_stage_r_plt2_r", hiLodFileNameToSwapIn, true);
-                ReplaceModel("rai_naked_sh", hiLodFileNameToSwapIn, true);
+                if (!string.IsNullOrEmpty(modelToSwapIn.CutsceneEvm))
+                {
+                    string evmFileNameToSwapIn = modelToSwapIn.CutsceneEvm.Split('/', StringSplitOptions.RemoveEmptyEntries)[3].Split(',', StringSplitOptions.RemoveEmptyEntries)[0].Split('.', StringSplitOptions.RemoveEmptyEntries)[0];
+                    ReplaceModel("rai_gbs_mt", loLodFileNameToSwapIn, true);
+                    ReplaceModel("rai_gbs_sh_mt", hiLodFileNameToSwapIn, true);
+                    ReplaceModel("rai_def_stage_r_plt1_r", loLodFileNameToSwapIn, true);
+                    ReplaceModel("rai_def_sh_mt_stage_r_plt1_r", hiLodFileNameToSwapIn, true);
+                    ReplaceModel("rai_naked_sh", loLodFileNameToSwapIn, true);
+                    ReplaceModel("rai_naked_stage_r_plt2_r", loLodFileNameToSwapIn, true);
+                    ReplaceModel("rai_naked_sh_stage_r_plt2_r", hiLodFileNameToSwapIn, true);
+                    ReplaceModel("rai_naked_sh", hiLodFileNameToSwapIn, true);
 
-                ReplaceModel("rai_gbs_addhand_mh_mt", evmFileNameToSwapIn, false);
-                ReplaceModel("rai_gbshead_addhand_mh_mt", evmFileNameToSwapIn, false);
-                ReplaceModel("rai_diver_addhand_mh_mt", evmFileNameToSwapIn, false);
-                ReplaceModel("rai_diver_mh_mt", evmFileNameToSwapIn, false);
-                ReplaceModel("rai_diver_mh_mt_stage_r_plt1_r", evmFileNameToSwapIn, false);
-                ReplaceModel("rai_naked_mh_mt", evmFileNameToSwapIn, false);
-                ReplaceModel("rai_naked_p073_mh_mt", evmFileNameToSwapIn, false);
-                //OKAY NEVERMIND, THIS IS SO FUNNY. no shot i'm replacing the head ahhaha
+                    ReplaceModel("rai_gbs_addhand_mh_mt", evmFileNameToSwapIn, false);
+                    ReplaceModel("rai_gbshead_addhand_mh_mt", evmFileNameToSwapIn, false);
+                    ReplaceModel("rai_diver_addhand_mh_mt", evmFileNameToSwapIn, false);
+                    ReplaceModel("rai_diver_mh_mt", evmFileNameToSwapIn, false);
+                    ReplaceModel("rai_diver_mh_mt_stage_r_plt1_r", evmFileNameToSwapIn, false);
+                    ReplaceModel("rai_naked_mh_mt", evmFileNameToSwapIn, false);
+                    ReplaceModel("rai_naked_p073_mh_mt", evmFileNameToSwapIn, false);
+                    //OKAY NEVERMIND, THIS IS SO FUNNY. no shot i'm replacing the head ahhaha
+                }
             }
             if(modelToSwapOut.ResidentStage == "r_tnk0")
             {
