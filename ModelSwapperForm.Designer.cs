@@ -34,6 +34,11 @@
             modelToSwapInComboBox = new System.Windows.Forms.ComboBox();
             swapInNewModelButton = new System.Windows.Forms.Button();
             restoreModelsButton = new System.Windows.Forms.Button();
+            cutsceneCheckbox = new System.Windows.Forms.CheckBox();
+            codecCheckBox = new System.Windows.Forms.CheckBox();
+            armsCheckbox = new System.Windows.Forms.CheckBox();
+            extrasCheckBox = new System.Windows.Forms.CheckBox();
+            shadowCheckBox = new System.Windows.Forms.CheckBox();
             SuspendLayout();
             // 
             // modelToSwapOutComboBox
@@ -75,10 +80,11 @@
             modelToSwapInComboBox.Name = "modelToSwapInComboBox";
             modelToSwapInComboBox.Size = new System.Drawing.Size(205, 23);
             modelToSwapInComboBox.TabIndex = 2;
+            modelToSwapInComboBox.SelectedIndexChanged += modelToSwapInComboBox_SelectedIndexChanged;
             // 
             // swapInNewModelButton
             // 
-            swapInNewModelButton.Location = new System.Drawing.Point(240, 185);
+            swapInNewModelButton.Location = new System.Drawing.Point(246, 313);
             swapInNewModelButton.Name = "swapInNewModelButton";
             swapInNewModelButton.Size = new System.Drawing.Size(131, 23);
             swapInNewModelButton.TabIndex = 4;
@@ -96,12 +102,78 @@
             restoreModelsButton.UseVisualStyleBackColor = true;
             restoreModelsButton.Click += restoreModelsButton_Click;
             // 
+            // cutsceneCheckbox
+            // 
+            cutsceneCheckbox.AutoSize = true;
+            cutsceneCheckbox.Enabled = false;
+            cutsceneCheckbox.ForeColor = System.Drawing.Color.White;
+            cutsceneCheckbox.Location = new System.Drawing.Point(332, 131);
+            cutsceneCheckbox.Name = "cutsceneCheckbox";
+            cutsceneCheckbox.Size = new System.Drawing.Size(214, 19);
+            cutsceneCheckbox.TabIndex = 6;
+            cutsceneCheckbox.Text = "Replace Original's Cutscene Model?";
+            cutsceneCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // codecCheckBox
+            // 
+            codecCheckBox.AutoSize = true;
+            codecCheckBox.Enabled = false;
+            codecCheckBox.ForeColor = System.Drawing.Color.White;
+            codecCheckBox.Location = new System.Drawing.Point(332, 156);
+            codecCheckBox.Name = "codecCheckBox";
+            codecCheckBox.Size = new System.Drawing.Size(199, 19);
+            codecCheckBox.TabIndex = 7;
+            codecCheckBox.Text = "Replace Original's Codec Model?";
+            codecCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // armsCheckbox
+            // 
+            armsCheckbox.AutoSize = true;
+            armsCheckbox.Enabled = false;
+            armsCheckbox.ForeColor = System.Drawing.Color.White;
+            armsCheckbox.Location = new System.Drawing.Point(332, 181);
+            armsCheckbox.Name = "armsCheckbox";
+            armsCheckbox.Size = new System.Drawing.Size(216, 19);
+            armsCheckbox.TabIndex = 8;
+            armsCheckbox.Text = "Replace Original's FPV Arms Model?";
+            armsCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // extrasCheckBox
+            // 
+            extrasCheckBox.AutoSize = true;
+            extrasCheckBox.Enabled = false;
+            extrasCheckBox.ForeColor = System.Drawing.Color.White;
+            extrasCheckBox.Location = new System.Drawing.Point(332, 231);
+            extrasCheckBox.Name = "extrasCheckBox";
+            extrasCheckBox.Size = new System.Drawing.Size(353, 34);
+            extrasCheckBox.TabIndex = 9;
+            extrasCheckBox.Text = "Keep Original's Extra Parts? \r\n(e.g. Raiden hair + extra mags, Snake's bandana + extra mags)";
+            extrasCheckBox.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            extrasCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // shadowCheckBox
+            // 
+            shadowCheckBox.AutoSize = true;
+            shadowCheckBox.Enabled = false;
+            shadowCheckBox.ForeColor = System.Drawing.Color.White;
+            shadowCheckBox.Location = new System.Drawing.Point(332, 206);
+            shadowCheckBox.Name = "shadowCheckBox";
+            shadowCheckBox.Size = new System.Drawing.Size(170, 19);
+            shadowCheckBox.TabIndex = 10;
+            shadowCheckBox.Text = "Replace Original's Shadow?";
+            shadowCheckBox.UseVisualStyleBackColor = true;
+            // 
             // ModelSwapperForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.FromArgb(51, 51, 51);
             ClientSize = new System.Drawing.Size(800, 450);
+            Controls.Add(shadowCheckBox);
+            Controls.Add(extrasCheckBox);
+            Controls.Add(armsCheckbox);
+            Controls.Add(codecCheckBox);
+            Controls.Add(cutsceneCheckbox);
             Controls.Add(restoreModelsButton);
             Controls.Add(swapInNewModelButton);
             Controls.Add(modelToSwapInLabel);
@@ -122,5 +194,10 @@
         private System.Windows.Forms.ComboBox modelToSwapInComboBox;
         private System.Windows.Forms.Button swapInNewModelButton;
         private System.Windows.Forms.Button restoreModelsButton;
+        private System.Windows.Forms.CheckBox cutsceneCheckbox;
+        private System.Windows.Forms.CheckBox codecCheckBox;
+        private System.Windows.Forms.CheckBox armsCheckbox;
+        private System.Windows.Forms.CheckBox extrasCheckBox;
+        private System.Windows.Forms.CheckBox shadowCheckBox;
     }
 }

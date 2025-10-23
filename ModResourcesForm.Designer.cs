@@ -146,7 +146,7 @@
             modelSwapperButton.Name = "modelSwapperButton";
             modelSwapperButton.Size = new System.Drawing.Size(562, 61);
             modelSwapperButton.TabIndex = 14;
-            modelSwapperButton.Text = "MGS2/3 Model Swapper";
+            modelSwapperButton.Text = "MGS2 Model Swapper";
             modelSwapperButton.UseVisualStyleBackColor = false;
             modelSwapperButton.Click += modelSwapperButton_Click;
             // 
