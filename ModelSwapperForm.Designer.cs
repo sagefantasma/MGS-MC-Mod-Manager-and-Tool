@@ -39,6 +39,7 @@
             armsCheckbox = new System.Windows.Forms.CheckBox();
             extrasCheckBox = new System.Windows.Forms.CheckBox();
             shadowCheckBox = new System.Windows.Forms.CheckBox();
+            createModPackCheckBox = new System.Windows.Forms.CheckBox();
             SuspendLayout();
             // 
             // modelToSwapOutComboBox
@@ -163,12 +164,24 @@
             shadowCheckBox.Text = "Replace Original's Shadow?";
             shadowCheckBox.UseVisualStyleBackColor = true;
             // 
+            // createModPackCheckBox
+            // 
+            createModPackCheckBox.AutoSize = true;
+            createModPackCheckBox.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            createModPackCheckBox.Location = new System.Drawing.Point(383, 316);
+            createModPackCheckBox.Name = "createModPackCheckBox";
+            createModPackCheckBox.Size = new System.Drawing.Size(194, 19);
+            createModPackCheckBox.TabIndex = 11;
+            createModPackCheckBox.Text = "Create Mod Manager Mod Pack";
+            createModPackCheckBox.UseVisualStyleBackColor = true;
+            // 
             // ModelSwapperForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.FromArgb(51, 51, 51);
             ClientSize = new System.Drawing.Size(800, 450);
+            Controls.Add(createModPackCheckBox);
             Controls.Add(shadowCheckBox);
             Controls.Add(extrasCheckBox);
             Controls.Add(armsCheckbox);
@@ -199,5 +212,6 @@
         private System.Windows.Forms.CheckBox armsCheckbox;
         private System.Windows.Forms.CheckBox extrasCheckBox;
         private System.Windows.Forms.CheckBox shadowCheckBox;
+        private System.Windows.Forms.CheckBox createModPackCheckBox;
     }
 }

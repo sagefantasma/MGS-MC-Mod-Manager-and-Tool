@@ -17,11 +17,13 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         private string _backupDirectory;
         private List<MGSModel> ModelsToSwapIn { get; set; } = new List<MGSModel>();
         private List<MGSModel> ModelsToSwapOut { get; set; } = new List<MGSModel>();
+        private List<string> filesModded = new();
 
         private List<string> GetFaceTexturesFromListOfIds(List<string> idList, string triFile, string newResidentId)
         {
             DirectoryInfo stagesDirectory = new DirectoryInfo(Path.Combine(_gameDirectory, "eu", "stage"));
             FileInfo[] bpAssetsList = stagesDirectory.GetFiles("bp_assets.txt", SearchOption.AllDirectories);
+            
             List<string> textureList = new List<string>();
             foreach (string id in idList)
             {
@@ -67,7 +69,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             return textureList;
         }
 
-        private List<string> GetTexturesFromListOfIds(List<string> idList, string triFile, string newResidentId)
+        private List<string> GetResidentTexturesFromListOfIds(List<string> idList, string triFile, string newResidentId)
         {
             DirectoryInfo stagesDirectory = new DirectoryInfo(Path.Combine(_gameDirectory, "eu", "stage"));
             FileInfo[] bpAssetsList = stagesDirectory.GetFiles("bp_assets.txt", SearchOption.AllDirectories);
@@ -2601,7 +2603,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         {
             ModelsToSwapOut.Add(new MGSModel
             {
-                Name = "Raiden - Story (r_plt0)",
+                Name = "Raiden - Story",
                 LoLodKms = "assets/kms/us/rai_def.kms,us/stage/r_plt0/resident/00c13a4e.kms,resident/00c13a4e.kms",
                 HiLodKms = "assets/kms/us/rai_def_sh_mt_stage_r_plt0_r.kms,us/stage/r_plt0/resident/00b41e89.kms,resident/00b41e89.kms",
                 CutsceneEvm = "assets/evm/us/rai_def.evm,us/stage/d021p01/cache/00541e89.evm,cache/00541e89.evm", //technically this doesnt exist, but using a fake name so we can replace ALL the raiden evms
@@ -2613,7 +2615,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             });
             ModelsToSwapOut.Add(new MGSModel
             {
-                Name = "Snake - Story (r_tnk0)",
+                Name = "Snake - Story",
                 LoLodKms = "assets/kms/us/sna_def_stage_r_plt10_r.kms,us/stage/r_tnk0/resident/00413aa8.kms,resident/00413aa8.kms",
                 HiLodKms = "assets/kms/us/sna_def_sh_stage_r_plt10_r.kms,us/stage/r_tnk0/resident/0055ab65.kms,resident/0055ab65.kms",
                 Headpiece = "sna_bdn1_stage_r_plt_s_r.kms",
@@ -2803,10 +2805,18 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             foreach (var evmFile in evmFiles.Where(x => x.Name.Contains(codecFileNametoSwapOut)))
             {
                 File.Copy(evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == codecFileNameToSwapIn).FullName, evmFile.FullName, true);
+                if (!filesModded.Contains(evmFile.FullName))
+                {
+                    filesModded.Add(evmFile.FullName);
+                }
             }
             foreach (var evmCmdlFile in evmCmdlFiles.Where(x => x.Name.Contains(codecFileNametoSwapOut)))
             {
                 File.Copy(evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == codecFileNameToSwapIn).FullName, evmCmdlFile.FullName, true);
+                if (!filesModded.Contains(evmCmdlFile.FullName))
+                {
+                    filesModded.Add(evmCmdlFile.FullName);
+                }
             }
         }
 
@@ -2818,10 +2828,18 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             foreach (var evmFile in evmFiles.Where(x => x.Name.Contains(evmFileNameToSwapOut)))
             {
                 File.Copy(evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == evmFileNameToSwapIn).FullName, evmFile.FullName, true);
+                if (!filesModded.Contains(evmFile.FullName))
+                {
+                    filesModded.Add(evmFile.FullName);
+                }
             }
             foreach (var evmCmdlFile in evmCmdlFiles.Where(x => x.Name.Contains(evmFileNameToSwapOut)))
             {
                 File.Copy(evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == evmFileNameToSwapIn).FullName, evmCmdlFile.FullName, true);
+                if (!filesModded.Contains(evmCmdlFile.FullName))
+                {
+                    filesModded.Add(evmCmdlFile.FullName);
+                }
             }
         }
 
@@ -2833,8 +2851,19 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 DirectoryInfo kmsCmdlDirectory = new(Path.Combine(kmsDirectory.FullName, "_win"));
                 DirectoryInfo kmsBackupDirectory = new(Path.Combine(_backupDirectory, "kms"));
                 DirectoryInfo kmsCmdlBackupDirectory = new(Path.Combine(kmsBackupDirectory.FullName, "_win"));
-                File.Copy(Path.Combine(kmsBackupDirectory.FullName, $"{newFile}.kms"), Path.Combine(kmsDirectory.FullName, $"{fileToReplace}.kms"), true);
-                File.Copy(Path.Combine(kmsCmdlBackupDirectory.FullName, $"{newFile}.cmdl"), Path.Combine(kmsCmdlDirectory.FullName, $"{fileToReplace}.cmdl"), true);
+                string kmsDestination = Path.Combine(kmsDirectory.FullName, $"{fileToReplace}.kms");
+                string cmdlDestination = Path.Combine(kmsCmdlDirectory.FullName, $"{fileToReplace}.cmdl");
+                File.Copy(Path.Combine(kmsBackupDirectory.FullName, $"{newFile}.kms"), kmsDestination, true);
+                File.Copy(Path.Combine(kmsCmdlBackupDirectory.FullName, $"{newFile}.cmdl"), cmdlDestination, true);
+
+                if (!filesModded.Contains(kmsDestination))
+                {
+                    filesModded.Add(kmsDestination);
+                }
+                if (!filesModded.Contains(cmdlDestination))
+                {
+                    filesModded.Add(cmdlDestination);
+                }
             }
             else
             {
@@ -2842,8 +2871,19 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 DirectoryInfo evmCmdlDirectory = new(Path.Combine(evmDirectory.FullName, "_win"));
                 DirectoryInfo evmBackupDirectory = new(Path.Combine(_backupDirectory, "evm"));
                 DirectoryInfo evmCmdlBackupDirectory = new(Path.Combine(evmBackupDirectory.FullName, "_win"));
-                File.Copy(Path.Combine(evmBackupDirectory.FullName, $"{newFile}.evm"), Path.Combine(evmDirectory.FullName, $"{fileToReplace}.evm"), true);
-                File.Copy(Path.Combine(evmCmdlBackupDirectory.FullName, $"{newFile}.cmdl"), Path.Combine(evmCmdlDirectory.FullName, $"{fileToReplace}.cmdl"), true);
+                string evmDestination = Path.Combine(evmDirectory.FullName, $"{fileToReplace}.evm");
+                string cmdlDestination = Path.Combine(evmCmdlDirectory.FullName, $"{fileToReplace}.cmdl");
+                File.Copy(Path.Combine(evmBackupDirectory.FullName, $"{newFile}.evm"), evmDestination, true);
+                File.Copy(Path.Combine(evmCmdlBackupDirectory.FullName, $"{newFile}.cmdl"), cmdlDestination, true);
+
+                if (!filesModded.Contains(evmDestination))
+                {
+                    filesModded.Add(evmDestination);
+                }
+                if (!filesModded.Contains(cmdlDestination))
+                {
+                    filesModded.Add(cmdlDestination);
+                }
             }
         }
 
@@ -2877,9 +2917,40 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
         }
 
+        private void UnNullMags()
+        {
+            DirectoryInfo kmsDirectory = new(Path.Combine(_gameDirectory, "assets", "kms", "us"));
+            DirectoryInfo kmsCmdlDirectory = new(Path.Combine(kmsDirectory.FullName, "_win"));
+
+            FileInfo[] kmsFiles = kmsDirectory.GetFiles("sna_mag*");
+            FileInfo[] kmsCmdlFiles = kmsCmdlDirectory.GetFiles("sna_mag*");
+
+            foreach (FileInfo mag in kmsFiles)
+            {
+                ReplaceModel(mag.Name.Replace(mag.Extension, ""), mag.Name.Replace(mag.Extension,""), true);
+            }
+        }
+
+        private void UnNullBandana()
+        {
+            DirectoryInfo kmsDirectory = new(Path.Combine(_gameDirectory, "assets", "kms", "us"));
+            DirectoryInfo kmsCmdlDirectory = new(Path.Combine(kmsDirectory.FullName, "_win"));
+
+            FileInfo[] kmsFiles = kmsDirectory.GetFiles();
+            FileInfo[] kmsCmdlFiles = kmsCmdlDirectory.GetFiles();
+            string bananda1 = "sna_bdn1_stage_r_plt_s_r";
+            string bandana2 = "sna_bdn2_stage_r_plt_s_r";
+
+            ReplaceModel(bananda1, bananda1);
+            ReplaceModel(bandana2, bandana2);
+            /*File.Copy(Path.Combine(_backupDirectory, "kms", $"{bananda1}.evm"), kmsFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == bananda1).FullName, true);
+            File.Copy(Path.Combine(_backupDirectory, "kms", "_win", $"{bananda1}.cmdl"), kmsCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == bananda1).FullName, true);
+            File.Copy(Path.Combine(_backupDirectory, "kms", $"{bandana2}.evm"), kmsFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == bandana2).FullName, true);
+            File.Copy(Path.Combine(_backupDirectory, "kms", "_win", $"{bandana2}.cmdl"), kmsCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == bandana2).FullName, true);*/
+        }
+
         private void NullBandana()
         {
-            //TODO: add unnull function
             DirectoryInfo kmsDirectory = new(Path.Combine(_gameDirectory, "assets", "kms", "us"));
             DirectoryInfo kmsCmdlDirectory = new(Path.Combine(kmsDirectory.FullName, "_win"));
 
@@ -2888,10 +2959,12 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             string bandana1 = "sna_bdn1_stage_r_plt_s_r"; // necessary?
             string bandana2 = "sna_bdn2_stage_r_plt_s_r";
 
-            File.Copy(Path.Combine(_backupDirectory, "kms", "null.kms"), kmsFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == bandana1).FullName, true);
+            ReplaceModel(bandana1, "null");
+            ReplaceModel(bandana2, "null");
+            /*File.Copy(Path.Combine(_backupDirectory, "kms", "null.kms"), kmsFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == bandana1).FullName, true);
             File.Copy(Path.Combine(_backupDirectory, "kms", "_win", "null.cmdl"), kmsCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == bandana1).FullName, true);
             File.Copy(Path.Combine(_backupDirectory, "kms", "null.kms"), kmsFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == bandana2).FullName, true);
-            File.Copy(Path.Combine(_backupDirectory, "kms", "_win", "null.cmdl"), kmsCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == bandana2).FullName, true);
+            File.Copy(Path.Combine(_backupDirectory, "kms", "_win", "null.cmdl"), kmsCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == bandana2).FullName, true);*/
         }
 
         private void UnNullRaidenHair()
@@ -2903,13 +2976,47 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             FileInfo[] evmCmdlFiles = evmCmdlDirectory.GetFiles();
             string raidenHair = "rai_hair_mh_mt_stage_r_plt0_r";
             string raidenCodecHair = "rai_hair_mh_mt";
-            //TODO: handle diving hair
+            string raidenDivingHair = "rai_hair_diver_mh_mt";
+            string raidenDivingHair2 = "rai_hair_diver_mh_mt_stage_d005p01";
+            string raidenCodecHair2 = "rai_hair_mh_mt_face_f01c";
 
 
-            File.Copy(Path.Combine(_backupDirectory, "evm", $"{raidenHair}.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHair).FullName, true);
+            ReplaceModel(raidenHair, raidenHair, false);
+            ReplaceModel(raidenCodecHair, raidenCodecHair, false);
+            ReplaceModel(raidenDivingHair, raidenDivingHair, false);
+            ReplaceModel(raidenDivingHair2, raidenDivingHair2, false);
+            ReplaceModel(raidenCodecHair2, raidenCodecHair2, false);
+            /*File.Copy(Path.Combine(_backupDirectory, "evm", $"{raidenHair}.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHair).FullName, true);
             File.Copy(Path.Combine(_backupDirectory, "evm", "_win", $"{raidenHair}.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHair).FullName, true);
             File.Copy(Path.Combine(_backupDirectory, "evm", $"{raidenCodecHair}.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenCodecHair).FullName, true);
-            File.Copy(Path.Combine(_backupDirectory, "evm", "_win", $"{raidenCodecHair}.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenCodecHair).FullName, true);
+            File.Copy(Path.Combine(_backupDirectory, "evm", "_win", $"{raidenCodecHair}.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenCodecHair).FullName, true);*/
+        }
+
+        private void UnNullRaidenHeads()
+        {
+            DirectoryInfo evmDirectory = new(Path.Combine(_gameDirectory, "assets", "evm", "us"));
+            DirectoryInfo evmCmdlDirectory = new(Path.Combine(evmDirectory.FullName, "_win"));
+
+            FileInfo[] evmFiles = evmDirectory.GetFiles();
+            FileInfo[] evmCmdlFiles = evmCmdlDirectory.GetFiles();
+
+            string raidenHead1 = "rai_gbs_gbshead_mh_mt";
+            string raidenHead2 = "rai_gbs_gbshead_mh_mt_stage_r_plt4_r";
+            string raidenHead3 = "rai_gbs_raihead_mh_mt";
+            string raidenHead4 = "rai_gbs_raihead_mh_mt_stage_r_plt5_r";
+
+            ReplaceModel(raidenHead1, raidenHead1, false);
+            ReplaceModel(raidenHead2, raidenHead2, false);
+            ReplaceModel(raidenHead3, raidenHead3, false);
+            ReplaceModel(raidenHead4, raidenHead4, false);
+            /*File.Copy(Path.Combine(_backupDirectory, "evm", $"{raidenHead1}.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead1).FullName, true);
+            File.Copy(Path.Combine(_backupDirectory, "evm", "_win", $"{raidenHead1}.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead1).FullName, true);
+            File.Copy(Path.Combine(_backupDirectory, "evm", $"{raidenHead2}.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead2).FullName, true);
+            File.Copy(Path.Combine(_backupDirectory, "evm", "_win", $"{raidenHead2}.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead2).FullName, true);
+            File.Copy(Path.Combine(_backupDirectory, "evm", $"{raidenHead3}.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead3).FullName, true);
+            File.Copy(Path.Combine(_backupDirectory, "evm", "_win", $"{raidenHead3}.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead3).FullName, true);
+            File.Copy(Path.Combine(_backupDirectory, "evm", $"{raidenHead4}.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead4).FullName, true);
+            File.Copy(Path.Combine(_backupDirectory, "evm", "_win", $"{raidenHead4}.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead4).FullName, true);*/
         }
 
         private void NullRaidenHeads()
@@ -2925,14 +3032,18 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             string raidenHead3 = "rai_gbs_raihead_mh_mt";
             string raidenHead4 = "rai_gbs_raihead_mh_mt_stage_r_plt5_r";
 
-            File.Copy(Path.Combine("Resources", "headnull.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead1).FullName, true);
+            ReplaceModel(raidenHead1, "null", false);
+            ReplaceModel(raidenHead2, "null", false);
+            ReplaceModel(raidenHead3, "null", false);
+            ReplaceModel(raidenHead4, "null", false);
+            /*File.Copy(Path.Combine("Resources", "headnull.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead1).FullName, true);
             File.Copy(Path.Combine("Resources", "headnull.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead1).FullName, true);
             File.Copy(Path.Combine("Resources", "headnull.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead2).FullName, true);
             File.Copy(Path.Combine("Resources", "headnull.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead2).FullName, true);
             File.Copy(Path.Combine("Resources", "headnull.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead3).FullName, true);
             File.Copy(Path.Combine("Resources", "headnull.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead3).FullName, true);
             File.Copy(Path.Combine("Resources", "headnull.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead4).FullName, true);
-            File.Copy(Path.Combine("Resources", "headnull.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead4).FullName, true);
+            File.Copy(Path.Combine("Resources", "headnull.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead4).FullName, true);*/
         }
 
         private void NullRaidenHair()
@@ -2948,7 +3059,12 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             string raidenDivingHair2 = "rai_hair_diver_mh_mt_stage_d005p01";
             string raidenCodecHair2 = "rai_hair_mh_mt_face_f01c";
 
-
+            ReplaceModel(raidenHair, "null", false);
+            ReplaceModel(raidenCodecHair, "null", false);
+            ReplaceModel(raidenDivingHair, "null", false);
+            ReplaceModel(raidenDivingHair2, "null", false);
+            ReplaceModel(raidenCodecHair2, "null", false);
+            /*
             File.Copy(Path.Combine("Resources", "null.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHair).FullName, true);
             File.Copy(Path.Combine("Resources", "null.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHair).FullName, true);
             File.Copy(Path.Combine("Resources", "null.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenCodecHair).FullName, true);
@@ -2959,6 +3075,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             File.Copy(Path.Combine("Resources", "null.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenDivingHair).FullName, true);
             File.Copy(Path.Combine("Resources", "null.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenDivingHair2).FullName, true);
             File.Copy(Path.Combine("Resources", "null.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenDivingHair2).FullName, true);
+            */
         }
 
         private void BackupModels()
@@ -3025,11 +3142,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private void LoadTexturesAndTris(MGSModel modelToSwapIn, MGSModel modelToSwapOut)
         {
-            List<string> loLodTextureList = GetTexturesFromListOfIds(modelToSwapIn.LoLoDTextures, modelToSwapIn.LoLoDId, modelToSwapOut.ResidentStage);
-            List<string> hiLodTextureList = GetTexturesFromListOfIds(modelToSwapIn.HiLoDTextures, modelToSwapIn.HiLoDId, modelToSwapOut.ResidentStage);
-            List<string> shadowTextureList = GetTexturesFromListOfIds(modelToSwapIn.ShadowTextures, modelToSwapIn.ShadowId, modelToSwapOut.ResidentStage);
-            List<string> armsTextureList = GetTexturesFromListOfIds(modelToSwapIn.ArmTextures, modelToSwapIn.ArmsId, modelToSwapOut.ResidentStage);
-            List<string> handsTextureList = GetTexturesFromListOfIds(modelToSwapIn.HandTextures, modelToSwapIn.HandsId, modelToSwapOut.ResidentStage);
+            List<string> loLodTextureList = GetResidentTexturesFromListOfIds(modelToSwapIn.LoLoDTextures, modelToSwapIn.LoLoDId, modelToSwapOut.ResidentStage);
+            List<string> hiLodTextureList = GetResidentTexturesFromListOfIds(modelToSwapIn.HiLoDTextures, modelToSwapIn.HiLoDId, modelToSwapOut.ResidentStage);
+            List<string> shadowTextureList = GetResidentTexturesFromListOfIds(modelToSwapIn.ShadowTextures, modelToSwapIn.ShadowId, modelToSwapOut.ResidentStage);
+            List<string> armsTextureList = GetResidentTexturesFromListOfIds(modelToSwapIn.ArmTextures, modelToSwapIn.ArmsId, modelToSwapOut.ResidentStage);
+            List<string> handsTextureList = GetResidentTexturesFromListOfIds(modelToSwapIn.HandTextures, modelToSwapIn.HandsId, modelToSwapOut.ResidentStage);
             //List<string> headPieceTextureList = GetTexturesFromListOfIds(modelToSwapIn.HeadpieceTextures, modelToSwapIn.HeadpieceId, modelToSwapOut.ResidentStage);
             InsertTexturesIntoResidentFile(loLodTextureList, modelToSwapOut.ResidentStage);
             InsertTexturesIntoResidentFile(hiLodTextureList, modelToSwapOut.ResidentStage);
@@ -3059,7 +3176,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         private void button1_Click(object sender, EventArgs e)
         {
             //TODO: Pliskin got green-faced in harrier fight?
-            //TODO: crashing during opening cutscene. is this because my files are fucked from repeated changes, or something else?
+            //TODO: add create modpack option
             swapInNewModelButton.Text = "Swapping models...";
             Application.DoEvents();
             MGSModel modelToSwapIn = modelToSwapInComboBox.SelectedItem as MGSModel;
@@ -3079,8 +3196,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
             if (modelToSwapOut.ResidentStage == "r_plt0")
             {
-                if (modelToSwapIn.Name == "Raiden")
+                //TODO: handle raiden mags
+                if (extrasCheckBox.Checked)
                 {
+                    swapTasks.Add(Task.Run(UnNullRaidenHeads));
                     swapTasks.Add(Task.Run(UnNullRaidenHair));
                 }
                 else
@@ -3091,9 +3210,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
             if (modelToSwapOut.ResidentStage == "r_tnk0")
             {
-                if (modelToSwapIn.Name == "Snake")
+                if (extrasCheckBox.Checked)
                 {
-
+                    swapTasks.Add(Task.Run(UnNullBandana));
+                    swapTasks.Add(Task.Run(UnNullMags));
                 }
                 else
                 {
@@ -3102,9 +3222,69 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 }
             }
             Task.WaitAll(swapTasks.ToArray());
+
+            if (createModPackCheckBox.Checked)
+            {
+                string desktopDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+                DirectoryInfo modPackDirectory = Directory.CreateDirectory(Path.Combine(desktopDirectory, $"{modelToSwapIn.Name} Over {modelToSwapOut.Name} ModPack"));
+                DirectoryInfo euDirectory = Directory.CreateDirectory(Path.Combine(modPackDirectory.FullName, "eu"));
+                if (codecCheckBox.Checked)
+                {
+                    DirectoryInfo faceDirectory = Directory.CreateDirectory(Path.Combine(euDirectory.FullName, "face"));
+                    /*Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f00a"));
+                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f01a"));
+                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f01b"));
+                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f01c"));
+                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f01d"));
+                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f01e"));
+                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f01f"));
+                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f02a"));
+                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f03a"));
+                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f03b"));
+                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f04a"));
+                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f04b"));
+                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f04c"));
+                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f04d"));
+                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f04e"));
+                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f05a"));
+                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f06a"));*/
+                    foreach(var file in filesModded.Where(x => x.Contains("\\eu\\face\\")))
+                    {
+                        FileInfo fileInfo = new FileInfo(file);
+                        Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, fileInfo.Directory.Name));
+                    }
+                }
+                DirectoryInfo stageDirectory = Directory.CreateDirectory(Path.Combine(euDirectory.FullName, "stage"));
+                foreach(var file in filesModded.Where(x => x.Contains("\\eu\\stage\\")))
+                {
+                    FileInfo fileInfo = new FileInfo(file);
+                    Directory.CreateDirectory(Path.Combine(stageDirectory.FullName, fileInfo.Directory.Name));
+                }
+                DirectoryInfo assetsDirectory = Directory.CreateDirectory(Path.Combine(modPackDirectory.FullName, "assets"));
+                DirectoryInfo kmsDirectory = Directory.CreateDirectory(Path.Combine(assetsDirectory.FullName, "kms", "us"));
+                DirectoryInfo kmsCmdlDirectory = Directory.CreateDirectory(Path.Combine(kmsDirectory.FullName, "_win"));
+                //TODO: need stage directories as well :facepalm:
+                if(codecCheckBox.Checked || cutsceneCheckbox.Checked || !extrasCheckBox.Checked || armsCheckbox.Checked)
+                {
+                    DirectoryInfo evmDirectory = Directory.CreateDirectory(Path.Combine(assetsDirectory.FullName, "evm", "us"));
+                    DirectoryInfo evmCmdlDirectory = Directory.CreateDirectory(Path.Combine(evmDirectory.FullName, "_win"));
+                }
+                foreach (string modifiedFile in filesModded)
+                {
+                    string modifiedFilePath = modifiedFile.Replace(_gameDirectory, "");
+                    string modPackDestination = modPackDirectory.FullName + modifiedFilePath;
+                    File.Copy(modifiedFile, modPackDestination, true);
+                }
+            }
+            filesModded.Clear();
             swapInNewModelButton.Text = "Swap In New Model";
             Application.DoEvents();
-            MessageBox.Show("Finished swapping in new model!");
+            string message = "Finished swapping in new model!";
+            if (createModPackCheckBox.Checked)
+            {
+                message += " Modpack is now available on your Desktop.";
+            }
+            MessageBox.Show(message);
         }
 
         private void InsertTriIntoStageFiles(string newTriFile)
@@ -3134,6 +3314,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 }
 
                 File.WriteAllText(manifest.FullName, newResidentFileContents);
+
+                if (!filesModded.Contains(manifest.FullName))
+                {
+                    filesModded.Add(manifest.FullName);
+                }
             }
         }
 
@@ -3163,6 +3348,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 }
 
                 File.WriteAllText(manifest.FullName, newResidentFileContents);
+
+                if (!filesModded.Contains(manifest.FullName))
+                {
+                    filesModded.Add(manifest.FullName);
+                }
             }
         }
 
@@ -3190,6 +3380,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
 
             File.WriteAllText(manifest.FullName, newResidentFileContents);
+
+            if (!filesModded.Contains(manifest.FullName))
+            {
+                filesModded.Add(manifest.FullName);
+            }
         }
 
         private void InsertTexturesIntoStageFiles(List<string> textureList)
@@ -3226,6 +3421,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 }
 
                 File.WriteAllText(bpAssets.FullName, newResidentFileContents);
+
+                if (!filesModded.Contains(bpAssets.FullName))
+                {
+                    filesModded.Add(bpAssets.FullName);
+                }
             }
         }
 
@@ -3261,6 +3461,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 }
 
                 File.WriteAllText(bpAssets.FullName, newResidentFileContents);
+
+                if (!filesModded.Contains(bpAssets.FullName))
+                {
+                    filesModded.Add(bpAssets.FullName);
+                }
             }
         }
 
@@ -3293,6 +3498,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
 
             File.WriteAllText(bpAssets.FullName, newResidentFileContents);
+
+            if (!filesModded.Contains(bpAssets.FullName))
+            {
+                filesModded.Add(bpAssets.FullName);
+            }
         }
 
         private void modelToSwapOutComboBox_SelectedIndexChanged(object sender, EventArgs e)
