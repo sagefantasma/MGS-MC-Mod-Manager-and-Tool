@@ -642,9 +642,9 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 ArmsEvm = "snh_def_mh_mt_stage_r_vr_1_r.evm",
                 ArmsId = "0055aab4",
                 ArmsTri = "assets/tri/us/sna_def_mw_stage_r_vr_1_r.tri,us/stage/r_vr_1/resident/0055aab4.tri,resident/0055aab4.tri",
-                CutsceneEvm = "assets/evm/us/sna_oss_mh_mt.evm,us/stage/r_plt10/resident/005fa829.evm,resident/005fa829.evm",
+                CutsceneEvm = "assets/evm/us/sna_oss_mh_mt.evm,us/stage/r_plt10/cache/005fa829.evm,cache/005fa829.evm",
                 CutsceneId = "007c918b",
-                CutsceneTri = "assets/tri/us/txd_oss_nin_sh_mt.tri,us/stage/r_plt10/resident/007c918b.tri,resident/007c918b.tri",
+                CutsceneTri = "assets/tri/us/txd_oss_nin_sh_mt.tri,us/stage/r_plt10/cache/007c918b.tri,cache/007c918b.tri",
                 CutsceneTextures = new()
                 {
                     "00645593",
@@ -948,75 +948,75 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 UseCutsceneAsCodec = true,
                 LoLoDTextures = new()
                 {
-                    "0051D033",
-            "00926A67",
-            "007AEAE9",
-            "00482F73",
-            "00DD8A7B",
-            "00085B45",
+                    //"0051D033", //cit3_shoes
+            //"00926A67", //htc
+            //"007AEAE9", //htc
+            //"00482F73", //htc 
+            //"00DD8A7B", //htc
+            //"00085B45", //htc
             "000B52F7",
-            "00EBB045",
-            "0084B7A6",
-            "0025E761",
-            "0025E762",
-            "0025E763",
-            "0025E764",
-            "0025E765",
-            "0025E766",
-            "0025E767",
-            "00265BE4",
-            "00FA9B4B",
-            "00FA9B4C",
-            "00FA9B4D",
-            "00FA9B4E",
-            "00FA9B4F",
-            "00F1229D",
-            "00F1A29D",
-            "00BFA5E0",
-            "00044AD6",
-            "00044AD7",
-            "002476B6",
-            "002476B7",
-            "002476B8",
-            "002476B9",
-            "002476BA",
-            "00264476",
-            "002943C1",
-            "002943C2",
-            "002943C3",
-            "002943C4",
-            "002B32A1",
-            "002B32A2",
-            "002B32A3",
-            "002B32A4",
-            "00864B96",
-            "00864B97",
-            "00864B98",
-            "002C976C",
-            "002C976D",
-            "002C976E",
-            "002C976F",
-            "002C9770",
-            "00BA5916",
-            "002C9772",
-            "00850209",
-            "005AD87C",
-            "005AE87C",
-            "0060399C",
-            "00D053A9",
-            "0060399D",
-            "0090B4EF",
-            "007495A3",
-            "0090C4EF",
-            "00762542",
-            "008AB508",
-            "00762543",
-            "008AC508",
-            "00762544",
-            "008AD508",
-            "001E0413",
-            "00996069",
-            "00EDE1C0",
+            //"00EBB045", //htc
+            //"0084B7A6", //htc
+            //"0025E761", //ocelot
+            //"0025E762", //ocelot
+            //"0025E763", //ocelot
+            //"0025E764", //ocelot
+            //"0025E765", //ocelot
+            //"0025E766", //ocelot
+            //"0025E767", //ocelot
+            //"00265BE4", //ocelot
+            //"00FA9B4B", //ocelot
+            //"00FA9B4C", //ocelot
+            //"00FA9B4D", //ocelot
+            //"00FA9B4E", //ocelot
+            //"00FA9B4F", //ocelot
+            //"00F1229D", //ocelot
+            //"00F1A29D", //ocelot
+            //"00BFA5E0", //ocelot
+            //"00044AD6", //ocelot
+            //"00044AD7", //ocelot 
+            //"002476B6", //ocelot
+            //"002476B7", //ocelot
+            //"002476B8", //ocelot
+            //"002476B9", //ocelot
+            //"002476BA", //ocelot
+            //"00264476", //ocelot
+            //"002943C1", //ocelot
+            //"002943C2", //ocelot
+            //"002943C3", //ocelot
+            //"002943C4", //ocelot
+            //"002B32A1", //ocelot
+            //"002B32A2", //ocelot
+            //"002B32A3", //ocelot
+            //"002B32A4", //ocelot
+            //"00864B96", //ocelot
+            //"00864B97", //ocelot
+            //"00864B98", //ocelot
+            //"002C976C", //ocelot
+            //"002C976D", //ocelot
+            //"002C976E", //ocelot
+            //"002C976F", //ocelot
+            //"002C9770", //ocelot
+            //"00BA5916", //ocelot
+            //"002C9772", //ocelot
+            //"00850209", //olga ninja
+            //"005AD87C", //olga ninja
+            //"005AE87C", //olga ninja
+            //"0060399C", //olga ninja
+            //"00D053A9", //olga ninja
+            //"0060399D", //olga ninja
+            //"0090B4EF", //olga ninja
+            //"007495A3", //olga ninja
+            //"0090C4EF", //olga ninja
+            //"00762542", //olga ninja
+            //"008AB508", //olga ninja
+            //"00762543", //olga ninja
+            //"008AC508", //olga ninja
+            //"00762544", //olga ninja
+            //"008AD508", //olga ninja
+            //"001E0413", //olga ninja
+            //"00996069", //olga ninja
+            //"00EDE1C0", //olga ninja
             "00260A19",
             "00260A1A",
             "00267E9C",
@@ -1045,89 +1045,89 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "00415E95",
             "002C5513",
             "008AA297",
-            "00A7CDAE",
-            "00FA292D",
-            "00A7F808",
-            "00372AFD",
-            "00E55FD8",
-            "00C7CDAE",
-            "00452670",
-            "009A86A2",
-            "0050D485",
-            "00FF014A",
-            "005339D4",
-            "00C12C5B",
-            "001A80B0",
-            "001A80B2",
-            "00AC7538",
-            "00DF06AD",
-            "00CF3B99",
-            "00E19CF1",
-            "00E19E02",
-            "006ED893",
-            "00641E16",
-            "006A3B68",
-            "004A1EFA",
-            "00F73B0E",
-            "00EDBCE3",
-            "00F772AF",
-            "0077EAE9",
-            "00206E79",
-            "0023EE79",
-            "00FC3BAE",
-            "007E3BF4",
-            "003FA0CF",
-            "007E0837",
-            "00810837",
-            "00285D8A",
-            "004DF3C4",
-            "008F2B58",
-            "00F8634B",
-            "00A96BE9",
-            "004634E7",
-            "004634E8",
-            "00851209",
-            "004634E9",
-            "00852209",
-            "004634EA",
-            "00853209",
-            "005AF87C",
-            "002E2F47",
-            "002E2F48",
-            "002E2F49",
-            "007092ED",
-            "006564AF",
-            "00185B6F",
-            "00ED7F2B",
-            "0060399E",
-            "00D073A9",
-            "007495A2",
-            "007495A4",
-            "0090D4EF",
-            "007495A5",
-            "0090E4EF",
-            "00DE69A8",
-            "00D11B8C",
-            "00DE69A9",
-            "00D12B8C",
-            "00798B05",
-            "00E6E53E",
-            "001E2413",
-            "0046899A",
-            "00D0320E",
-            "0046899B",
-            "00D0420E",
-            "0046899C",
-            "0046899D",
-            "00D0620E",
-            "0046899E",
-            "00D0720E",
-            "007C4291",
-            "0041AB75",
-            "0041AB76",
-            "00EDF1C0",
-            "003C40D0",
-            "002A81C2"
+            //"00A7CDAE", //cti_1
+            //"00FA292D", //cti_1
+            //"00A7F808", //cti_1
+            //"00372AFD", //cti_1
+            //"00E55FD8", //cti_1
+            //"00C7CDAE", //cti_3
+            //"00452670", //cti_3
+            //"009A86A2", //cti_3
+            //"0050D485", //cti_3
+            //"00FF014A", //cti_3
+            //"005339D4", //cti_3
+            //"00C12C5B", //cti_arm
+            //"001A80B0", //cti_1
+            //"001A80B2", //cti_3
+            //"00AC7538", //cti_3
+            //"00DF06AD", //hos
+            /*"00CF3B99", //htc
+            "00E19CF1", //htc
+            "00E19E02", //htc
+            "006ED893", //htc
+            "00641E16", //htc
+            "006A3B68", //htc
+            "004A1EFA", //htc
+            "00F73B0E", //htc
+            "00EDBCE3", //htc
+            "00F772AF", //htc
+            "0077EAE9", //htc
+            "00206E79", //htc
+            "0023EE79", //htc
+            "00FC3BAE", //htc
+            "007E3BF4", //htc
+            "003FA0CF", //htc
+            "007E0837", //htc
+            "00810837", //htc
+            "00285D8A", //htc
+            "004DF3C4", //htc
+            "008F2B58", //htc
+            "00F8634B", //htc
+            "00A96BE9", //htc
+            "004634E7", //olga ninja
+            "004634E8", //olga ninja
+            "00851209", //olga ninja
+            "004634E9", //olga ninja
+            "00852209", //olga ninja
+            "004634EA", //olga ninja
+            "00853209", //olga ninja
+            "005AF87C", //olga ninja
+            "002E2F47", //olga ninja
+            "002E2F48", //olga ninja
+            "002E2F49", //olga ninja
+            "007092ED", //olga ninja
+            "006564AF", //olga ninja
+            "00185B6F", //olga ninja
+            "00ED7F2B", //olga ninja
+            "0060399E", //olga ninja
+            "00D073A9", //olga ninja
+            "007495A2", //olga ninja
+            "007495A4", //olga ninja
+            "0090D4EF", //olga ninja
+            "007495A5", //olga ninja
+            "0090E4EF", //olga ninja
+            "00DE69A8", //olga ninja
+            "00D11B8C", //olga ninja
+            "00DE69A9", //olga ninja
+            "00D12B8C", //olga ninja
+            "00798B05", //olga ninja
+            "00E6E53E", //olga ninja
+            "001E2413", //olga ninja
+            "0046899A", //olga ninja
+            "00D0320E", //olga ninja
+            "0046899B", //olga ninja
+            "00D0420E", //olga ninja
+            "0046899C", //olga ninja
+            "0046899D", //olga ninja
+            "00D0620E", //olga ninja
+            "0046899E", //olga ninja
+            "00D0720E", //olga ninja
+            "007C4291", //olga ninja
+            "0041AB75", //olga ninja
+            "0041AB76", //olga ninja
+            "00EDF1C0", //olga ninja
+            "003C40D0", //olga ninja
+            "002A81C2" //cit hair 1*/
                 },
                 HiLoDTextures = new(),
                 ArmTextures = new()
@@ -1195,75 +1195,75 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 },
                 CutsceneTextures = new()
                 {
-                    "0051D033",
-            "00926A67",
-            "007AEAE9",
-            "00482F73",
-            "00DD8A7B",
-            "00085B45",
+                    //"0051D033", //cit3_shoes
+            //"00926A67", //htc
+            //"007AEAE9", //htc
+            //"00482F73", //htc 
+            //"00DD8A7B", //htc
+            //"00085B45", //htc
             "000B52F7",
-            "00EBB045",
-            "0084B7A6",
-            "0025E761",
-            "0025E762",
-            "0025E763",
-            "0025E764",
-            "0025E765",
-            "0025E766",
-            "0025E767",
-            "00265BE4",
-            "00FA9B4B",
-            "00FA9B4C",
-            "00FA9B4D",
-            "00FA9B4E",
-            "00FA9B4F",
-            "00F1229D",
-            "00F1A29D",
-            "00BFA5E0",
-            "00044AD6",
-            "00044AD7",
-            "002476B6",
-            "002476B7",
-            "002476B8",
-            "002476B9",
-            "002476BA",
-            "00264476",
-            "002943C1",
-            "002943C2",
-            "002943C3",
-            "002943C4",
-            "002B32A1",
-            "002B32A2",
-            "002B32A3",
-            "002B32A4",
-            "00864B96",
-            "00864B97",
-            "00864B98",
-            "002C976C",
-            "002C976D",
-            "002C976E",
-            "002C976F",
-            "002C9770",
-            "00BA5916",
-            "002C9772",
-            "00850209",
-            "005AD87C",
-            "005AE87C",
-            "0060399C",
-            "00D053A9",
-            "0060399D",
-            "0090B4EF",
-            "007495A3",
-            "0090C4EF",
-            "00762542",
-            "008AB508",
-            "00762543",
-            "008AC508",
-            "00762544",
-            "008AD508",
-            "001E0413",
-            "00996069",
-            "00EDE1C0",
+            //"00EBB045", //htc
+            //"0084B7A6", //htc
+            //"0025E761", //ocelot
+            //"0025E762", //ocelot
+            //"0025E763", //ocelot
+            //"0025E764", //ocelot
+            //"0025E765", //ocelot
+            //"0025E766", //ocelot
+            //"0025E767", //ocelot
+            //"00265BE4", //ocelot
+            //"00FA9B4B", //ocelot
+            //"00FA9B4C", //ocelot
+            //"00FA9B4D", //ocelot
+            //"00FA9B4E", //ocelot
+            //"00FA9B4F", //ocelot
+            //"00F1229D", //ocelot
+            //"00F1A29D", //ocelot
+            //"00BFA5E0", //ocelot
+            //"00044AD6", //ocelot
+            //"00044AD7", //ocelot 
+            //"002476B6", //ocelot
+            //"002476B7", //ocelot
+            //"002476B8", //ocelot
+            //"002476B9", //ocelot
+            //"002476BA", //ocelot
+            //"00264476", //ocelot
+            //"002943C1", //ocelot
+            //"002943C2", //ocelot
+            //"002943C3", //ocelot
+            //"002943C4", //ocelot
+            //"002B32A1", //ocelot
+            //"002B32A2", //ocelot
+            //"002B32A3", //ocelot
+            //"002B32A4", //ocelot
+            //"00864B96", //ocelot
+            //"00864B97", //ocelot
+            //"00864B98", //ocelot
+            //"002C976C", //ocelot
+            //"002C976D", //ocelot
+            //"002C976E", //ocelot
+            //"002C976F", //ocelot
+            //"002C9770", //ocelot
+            //"00BA5916", //ocelot
+            //"002C9772", //ocelot
+            //"00850209", //olga ninja
+            //"005AD87C", //olga ninja
+            //"005AE87C", //olga ninja
+            //"0060399C", //olga ninja
+            //"00D053A9", //olga ninja
+            //"0060399D", //olga ninja
+            //"0090B4EF", //olga ninja
+            //"007495A3", //olga ninja
+            //"0090C4EF", //olga ninja
+            //"00762542", //olga ninja
+            //"008AB508", //olga ninja
+            //"00762543", //olga ninja
+            //"008AC508", //olga ninja
+            //"00762544", //olga ninja
+            //"008AD508", //olga ninja
+            //"001E0413", //olga ninja
+            //"00996069", //olga ninja
+            //"00EDE1C0", //olga ninja
             "00260A19",
             "00260A1A",
             "00267E9C",
@@ -1292,89 +1292,89 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "00415E95",
             "002C5513",
             "008AA297",
-            "00A7CDAE",
-            "00FA292D",
-            "00A7F808",
-            "00372AFD",
-            "00E55FD8",
-            "00C7CDAE",
-            "00452670",
-            "009A86A2",
-            "0050D485",
-            "00FF014A",
-            "005339D4",
-            "00C12C5B",
-            "001A80B0",
-            "001A80B2",
-            "00AC7538",
-            "00DF06AD",
-            "00CF3B99",
-            "00E19CF1",
-            "00E19E02",
-            "006ED893",
-            "00641E16",
-            "006A3B68",
-            "004A1EFA",
-            "00F73B0E",
-            "00EDBCE3",
-            "00F772AF",
-            "0077EAE9",
-            "00206E79",
-            "0023EE79",
-            "00FC3BAE",
-            "007E3BF4",
-            "003FA0CF",
-            "007E0837",
-            "00810837",
-            "00285D8A",
-            "004DF3C4",
-            "008F2B58",
-            "00F8634B",
-            "00A96BE9",
-            "004634E7",
-            "004634E8",
-            "00851209",
-            "004634E9",
-            "00852209",
-            "004634EA",
-            "00853209",
-            "005AF87C",
-            "002E2F47",
-            "002E2F48",
-            "002E2F49",
-            "007092ED",
-            "006564AF",
-            "00185B6F",
-            "00ED7F2B",
-            "0060399E",
-            "00D073A9",
-            "007495A2",
-            "007495A4",
-            "0090D4EF",
-            "007495A5",
-            "0090E4EF",
-            "00DE69A8",
-            "00D11B8C",
-            "00DE69A9",
-            "00D12B8C",
-            "00798B05",
-            "00E6E53E",
-            "001E2413",
-            "0046899A",
-            "00D0320E",
-            "0046899B",
-            "00D0420E",
-            "0046899C",
-            "0046899D",
-            "00D0620E",
-            "0046899E",
-            "00D0720E",
-            "007C4291",
-            "0041AB75",
-            "0041AB76",
-            "00EDF1C0",
-            "003C40D0",
-            "002A81C2"
+            //"00A7CDAE", //cti_1
+            //"00FA292D", //cti_1
+            //"00A7F808", //cti_1
+            //"00372AFD", //cti_1
+            //"00E55FD8", //cti_1
+            //"00C7CDAE", //cti_3
+            //"00452670", //cti_3
+            //"009A86A2", //cti_3
+            //"0050D485", //cti_3
+            //"00FF014A", //cti_3
+            //"005339D4", //cti_3
+            //"00C12C5B", //cti_arm
+            //"001A80B0", //cti_1
+            //"001A80B2", //cti_3
+            //"00AC7538", //cti_3
+            //"00DF06AD", //hos
+            /*"00CF3B99", //htc
+            "00E19CF1", //htc
+            "00E19E02", //htc
+            "006ED893", //htc
+            "00641E16", //htc
+            "006A3B68", //htc
+            "004A1EFA", //htc
+            "00F73B0E", //htc
+            "00EDBCE3", //htc
+            "00F772AF", //htc
+            "0077EAE9", //htc
+            "00206E79", //htc
+            "0023EE79", //htc
+            "00FC3BAE", //htc
+            "007E3BF4", //htc
+            "003FA0CF", //htc
+            "007E0837", //htc
+            "00810837", //htc
+            "00285D8A", //htc
+            "004DF3C4", //htc
+            "008F2B58", //htc
+            "00F8634B", //htc
+            "00A96BE9", //htc
+            "004634E7", //olga ninja
+            "004634E8", //olga ninja
+            "00851209", //olga ninja
+            "004634E9", //olga ninja
+            "00852209", //olga ninja
+            "004634EA", //olga ninja
+            "00853209", //olga ninja
+            "005AF87C", //olga ninja
+            "002E2F47", //olga ninja
+            "002E2F48", //olga ninja
+            "002E2F49", //olga ninja
+            "007092ED", //olga ninja
+            "006564AF", //olga ninja
+            "00185B6F", //olga ninja
+            "00ED7F2B", //olga ninja
+            "0060399E", //olga ninja
+            "00D073A9", //olga ninja
+            "007495A2", //olga ninja
+            "007495A4", //olga ninja
+            "0090D4EF", //olga ninja
+            "007495A5", //olga ninja
+            "0090E4EF", //olga ninja
+            "00DE69A8", //olga ninja
+            "00D11B8C", //olga ninja
+            "00DE69A9", //olga ninja
+            "00D12B8C", //olga ninja
+            "00798B05", //olga ninja
+            "00E6E53E", //olga ninja
+            "001E2413", //olga ninja
+            "0046899A", //olga ninja
+            "00D0320E", //olga ninja
+            "0046899B", //olga ninja
+            "00D0420E", //olga ninja
+            "0046899C", //olga ninja
+            "0046899D", //olga ninja
+            "00D0620E", //olga ninja
+            "0046899E", //olga ninja
+            "00D0720E", //olga ninja
+            "007C4291", //olga ninja
+            "0041AB75", //olga ninja
+            "0041AB76", //olga ninja
+            "00EDF1C0", //olga ninja
+            "003C40D0", //olga ninja
+            "002A81C2" //cit hair 1*/
                 }
             }); //Snake(1998): done
             ModelsToSwapIn.Add(new MGSModel //working
@@ -1795,13 +1795,13 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 HiLoDId = "00b39721",
                 HiLodKms = "assets/kms/us/iro_def_sh_mt.kms,us/stage/d014p01/resident/00b39721.kms,resident/00b39721.kms",
                 HiLoDTri = "assets/tri/us/iro_def_sh_mt.tri,us/stage/d014p01/resident/00b39721.tri,resident/00b39721.tri",
-                CutsceneEvm = "assets/evm/us/iro_def_mh_mt.cmdl,us/stage/d010p01/cache/00539721.cmdl,eu/stage/d010p01/cache/00539721.cmdl",
+                CutsceneEvm = "assets/evm/us/iro_def_mh_mt_stage_d014p01.evm,us/stage/d014p01/cache/00539721.evm,cache/00539721.evm",
                 CutsceneTri = "assets/tri/us/iro_def_mh_mt.tri,us/stage/d014p01/cache/00539721.tri,cache/00539721.tri",
                 CutsceneId = "00539721",
                 CodecEvm = "assets/evm/us/iro_radio_mh_mt.evm,us/face/f01c/cache/00b81008.evm,cache/00b81008.evm",
                 CodecTri = "assets/tri/us/iro_radio_mh_mt.tri,us/face/f01c/cache/00b81008.tri,cache/00b81008.tri",
                 CodecId = "00b81008",
-                ArmsEvm = "assets/evm/us/snh_def_mh_mt_stage_r_vr_p_r.evm,us/stage/r_vr_p/resident/00543505.evm,resident/00543505.evm",
+                ArmsEvm = "snh_def_mh_mt_stage_r_vr_p_r.evm",
                 ArmsTri = "assets/tri/us/iro_def_mw.tri,us/stage/r_vr_p/resident/001a1ab3.tri,resident/001a1ab3.tri",
                 ArmsId = "001a1ab3",
                 HandsTri = "assets/tri/us/iro_def_mt_stage_r_vr_p_r.tri,us/stage/r_vr_p/resident/001a1ab0.tri,resident/001a1ab0.tri",
@@ -2706,7 +2706,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             DirectoryInfo evmBackupDirectory = new(Path.Combine(_backupDirectory, "evm"));
             DirectoryInfo evmCmdlBackupDirectory = new(Path.Combine(kmsBackupDirectory.FullName, "_win"));
 
-
+            //TODO: replicate mag behavior to replace all sna/rai models
             ReplaceModel(loLodFileNameToSwapOut, loLodFileNameToSwapIn, true);
             ReplaceModel(hiLodFileNameToSwapOut, hiLodFileNameToSwapIn, true);
 
@@ -2904,7 +2904,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private void NullMags()
         {
-            //TODO: add unnull function
             DirectoryInfo kmsDirectory = new(Path.Combine(_gameDirectory, "assets", "kms", "us"));
             DirectoryInfo kmsCmdlDirectory = new(Path.Combine(kmsDirectory.FullName, "_win"));
 
@@ -2938,6 +2937,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
             FileInfo[] kmsFiles = kmsDirectory.GetFiles();
             FileInfo[] kmsCmdlFiles = kmsCmdlDirectory.GetFiles();
+            //replicate mag behavior to get all bandanas
             string bananda1 = "sna_bdn1_stage_r_plt_s_r";
             string bandana2 = "sna_bdn2_stage_r_plt_s_r";
 
@@ -2956,7 +2956,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
             FileInfo[] kmsFiles = kmsDirectory.GetFiles();
             FileInfo[] kmsCmdlFiles = kmsCmdlDirectory.GetFiles();
-            string bandana1 = "sna_bdn1_stage_r_plt_s_r"; // necessary?
+            //replicate mag behavior to get all bandanas
+            string bandana1 = "sna_bdn1_stage_r_plt_s_r";
             string bandana2 = "sna_bdn2_stage_r_plt_s_r";
 
             ReplaceModel(bandana1, "null");
@@ -3080,6 +3081,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private void BackupModels()
         {
+            //TODO: insert nulls from spacecore into backups on load
             DirectoryInfo backupDirectory = new(_backupDirectory);
             DirectoryInfo kmsDirectory = new(Path.Combine(_gameDirectory, "assets", "kms", "us"));
             DirectoryInfo evmDirectory = new(Path.Combine(_gameDirectory, "assets", "evm", "us"));
@@ -3176,9 +3178,9 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         private void button1_Click(object sender, EventArgs e)
         {
             //TODO: Pliskin got green-faced in harrier fight?
-            //TODO: add create modpack option
             swapInNewModelButton.Text = "Swapping models...";
             Application.DoEvents();
+            restoreModelsButton_Click(null, null); //Restore to base first before doing anything else to avoid as many issues as possible
             MGSModel modelToSwapIn = modelToSwapInComboBox.SelectedItem as MGSModel;
             MGSModel modelToSwapOut = modelToSwapOutComboBox.SelectedItem as MGSModel;
 
@@ -3217,7 +3219,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 }
                 else
                 {
-                    swapTasks.Add(Task.Run(NullBandana));
+                    if(modelToSwapIn.Name != "MGS1 Snake(new)")
+                        swapTasks.Add(Task.Run(NullBandana));
                     swapTasks.Add(Task.Run(NullMags));
                 }
             }
@@ -3231,23 +3234,6 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 if (codecCheckBox.Checked)
                 {
                     DirectoryInfo faceDirectory = Directory.CreateDirectory(Path.Combine(euDirectory.FullName, "face"));
-                    /*Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f00a"));
-                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f01a"));
-                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f01b"));
-                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f01c"));
-                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f01d"));
-                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f01e"));
-                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f01f"));
-                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f02a"));
-                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f03a"));
-                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f03b"));
-                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f04a"));
-                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f04b"));
-                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f04c"));
-                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f04d"));
-                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f04e"));
-                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f05a"));
-                    Directory.CreateDirectory(Path.Combine(faceDirectory.FullName, "f06a"));*/
                     foreach(var file in filesModded.Where(x => x.Contains("\\eu\\face\\")))
                     {
                         FileInfo fileInfo = new FileInfo(file);
@@ -3263,7 +3249,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 DirectoryInfo assetsDirectory = Directory.CreateDirectory(Path.Combine(modPackDirectory.FullName, "assets"));
                 DirectoryInfo kmsDirectory = Directory.CreateDirectory(Path.Combine(assetsDirectory.FullName, "kms", "us"));
                 DirectoryInfo kmsCmdlDirectory = Directory.CreateDirectory(Path.Combine(kmsDirectory.FullName, "_win"));
-                //TODO: need stage directories as well :facepalm:
+
                 if(codecCheckBox.Checked || cutsceneCheckbox.Checked || !extrasCheckBox.Checked || armsCheckbox.Checked)
                 {
                     DirectoryInfo evmDirectory = Directory.CreateDirectory(Path.Combine(assetsDirectory.FullName, "evm", "us"));
@@ -3513,7 +3499,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private void restoreModelsButton_Click(object sender, EventArgs e)
         {
-            //TODO: could make this more efficient by always replacing the cmdl when replacing the kms
+            //TODO: could make this more efficient by always replacing the cmdl when replacing the kms            
             restoreModelsButton.Text = "Restoring models...";
             Application.DoEvents();
             DirectoryInfo backupKmsDirectory = new DirectoryInfo(Path.Combine(_backupDirectory, "kms"));
@@ -3576,7 +3562,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     FileInfo gameFile = gameDirectory.GetFiles(backupFile.Name, SearchOption.TopDirectoryOnly).FirstOrDefault();
                     if (!CompareTwoFiles(backupFile, gameFile))
                     {
-                        backupFile.Replace(gameFile.FullName, null);
+                        //backupFile.Replace(gameFile.FullName, null);
+                        File.Copy(backupFile.FullName, gameFile.FullName, true);
                         fileReplaced = true;
                     }
                 }
