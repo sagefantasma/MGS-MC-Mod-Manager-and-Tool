@@ -2603,7 +2603,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         {
             ModelsToSwapOut.Add(new MGSModel
             {
-                Name = "Raiden - Story",
+                Name = "Raiden (Story)",
                 LoLodKms = "assets/kms/us/rai_def.kms,us/stage/r_plt0/resident/00c13a4e.kms,resident/00c13a4e.kms",
                 HiLodKms = "assets/kms/us/rai_def_sh_mt_stage_r_plt0_r.kms,us/stage/r_plt0/resident/00b41e89.kms,resident/00b41e89.kms",
                 CutsceneEvm = "assets/evm/us/rai_def.evm,us/stage/d021p01/cache/00541e89.evm,cache/00541e89.evm", //technically this doesnt exist, but using a fake name so we can replace ALL the raiden evms
@@ -2615,8 +2615,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             });
             ModelsToSwapOut.Add(new MGSModel
             {
-                Name = "Snake - Story",
-                LoLodKms = "assets/kms/us/sna_def_stage_r_plt10_r.kms,us/stage/r_tnk0/resident/00413aa8.kms,resident/00413aa8.kms",
+                Name = "Snake (Story)",
+                LoLodKms = "assets/kms/us/sna_def.kms,us/stage/r_tnk0/resident/00413aa8.kms,resident/00413aa8.kms", //technically invalid, but using as a spoof so we can replace ALL the snake kms files
                 HiLodKms = "assets/kms/us/sna_def_sh_stage_r_plt10_r.kms,us/stage/r_tnk0/resident/0055ab65.kms,resident/0055ab65.kms",
                 Headpiece = "sna_bdn1_stage_r_plt_s_r.kms",
                 ArmsEvm = "snh_def_mh_mt.evm",
@@ -2706,9 +2706,12 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             DirectoryInfo evmBackupDirectory = new(Path.Combine(_backupDirectory, "evm"));
             DirectoryInfo evmCmdlBackupDirectory = new(Path.Combine(kmsBackupDirectory.FullName, "_win"));
 
-            //TODO: replicate mag behavior to replace all sna/rai models
-            ReplaceModel(loLodFileNameToSwapOut, loLodFileNameToSwapIn, true);
-            ReplaceModel(hiLodFileNameToSwapOut, hiLodFileNameToSwapIn, true);
+            foreach(FileInfo playerModel in kmsFiles.Where(x => x.Name.Contains(loLodFileNameToSwapOut)))
+            {
+                ReplaceModel(playerModel.Name.Replace(playerModel.Extension, ""), loLodFileNameToSwapIn, true);
+            }
+            //ReplaceModel(loLodFileNameToSwapOut, loLodFileNameToSwapIn, true);
+            //ReplaceModel(hiLodFileNameToSwapOut, hiLodFileNameToSwapIn, true); //Technically not needed at all, as the loLods should handle everything now
 
             if (!string.IsNullOrEmpty(modelToSwapIn.CutsceneEvm) && cutsceneCheckbox.Checked)
             {
@@ -2902,13 +2905,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             InsertTriIntoStageFiles(model.CutsceneTri);
         }
 
-        private void NullMags()
+        private void NullRaidenMags()
         {
             DirectoryInfo kmsDirectory = new(Path.Combine(_gameDirectory, "assets", "kms", "us"));
-            DirectoryInfo kmsCmdlDirectory = new(Path.Combine(kmsDirectory.FullName, "_win"));
 
-            FileInfo[] kmsFiles = kmsDirectory.GetFiles("sna_mag*");
-            FileInfo[] kmsCmdlFiles = kmsCmdlDirectory.GetFiles("sna_mag*");
+            FileInfo[] kmsFiles = kmsDirectory.GetFiles("rai_mag*");
 
             foreach (FileInfo mag in kmsFiles)
             {
@@ -2916,13 +2917,35 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             }
         }
 
-        private void UnNullMags()
+        private void UnNullRaidenMags()
         {
             DirectoryInfo kmsDirectory = new(Path.Combine(_gameDirectory, "assets", "kms", "us"));
-            DirectoryInfo kmsCmdlDirectory = new(Path.Combine(kmsDirectory.FullName, "_win"));
+
+            FileInfo[] kmsFiles = kmsDirectory.GetFiles("rai_mag*");
+
+            foreach (FileInfo mag in kmsFiles)
+            {
+                ReplaceModel(mag.Name.Replace(mag.Extension, ""), mag.Name.Replace(mag.Extension, ""), true);
+            }
+        }
+
+        private void NullSnakeMags()
+        {
+            DirectoryInfo kmsDirectory = new(Path.Combine(_gameDirectory, "assets", "kms", "us"));
 
             FileInfo[] kmsFiles = kmsDirectory.GetFiles("sna_mag*");
-            FileInfo[] kmsCmdlFiles = kmsCmdlDirectory.GetFiles("sna_mag*");
+
+            foreach (FileInfo mag in kmsFiles)
+            {
+                ReplaceModel(mag.Name.Replace(mag.Extension, ""), "null", true);
+            }
+        }
+
+        private void UnNullSnakeMags()
+        {
+            DirectoryInfo kmsDirectory = new(Path.Combine(_gameDirectory, "assets", "kms", "us"));
+
+            FileInfo[] kmsFiles = kmsDirectory.GetFiles("sna_mag*");
 
             foreach (FileInfo mag in kmsFiles)
             {
@@ -2933,73 +2956,44 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         private void UnNullBandana()
         {
             DirectoryInfo kmsDirectory = new(Path.Combine(_gameDirectory, "assets", "kms", "us"));
-            DirectoryInfo kmsCmdlDirectory = new(Path.Combine(kmsDirectory.FullName, "_win"));
 
-            FileInfo[] kmsFiles = kmsDirectory.GetFiles();
-            FileInfo[] kmsCmdlFiles = kmsCmdlDirectory.GetFiles();
-            //replicate mag behavior to get all bandanas
-            string bananda1 = "sna_bdn1_stage_r_plt_s_r";
-            string bandana2 = "sna_bdn2_stage_r_plt_s_r";
+            FileInfo[] kmsFiles = kmsDirectory.GetFiles("sna_bdn*");
 
-            ReplaceModel(bananda1, bananda1);
-            ReplaceModel(bandana2, bandana2);
-            /*File.Copy(Path.Combine(_backupDirectory, "kms", $"{bananda1}.evm"), kmsFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == bananda1).FullName, true);
-            File.Copy(Path.Combine(_backupDirectory, "kms", "_win", $"{bananda1}.cmdl"), kmsCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == bananda1).FullName, true);
-            File.Copy(Path.Combine(_backupDirectory, "kms", $"{bandana2}.evm"), kmsFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == bandana2).FullName, true);
-            File.Copy(Path.Combine(_backupDirectory, "kms", "_win", $"{bandana2}.cmdl"), kmsCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == bandana2).FullName, true);*/
+            foreach(FileInfo bandana in kmsFiles)
+            {
+                string extensionlessName = bandana.Name.Replace(bandana.Extension, "");
+                ReplaceModel(extensionlessName, extensionlessName, true);
+            }
         }
 
         private void NullBandana()
         {
             DirectoryInfo kmsDirectory = new(Path.Combine(_gameDirectory, "assets", "kms", "us"));
-            DirectoryInfo kmsCmdlDirectory = new(Path.Combine(kmsDirectory.FullName, "_win"));
 
-            FileInfo[] kmsFiles = kmsDirectory.GetFiles();
-            FileInfo[] kmsCmdlFiles = kmsCmdlDirectory.GetFiles();
-            //replicate mag behavior to get all bandanas
-            string bandana1 = "sna_bdn1_stage_r_plt_s_r";
-            string bandana2 = "sna_bdn2_stage_r_plt_s_r";
+            FileInfo[] kmsFiles = kmsDirectory.GetFiles("sna_bdn*");
 
-            ReplaceModel(bandana1, "null");
-            ReplaceModel(bandana2, "null");
-            /*File.Copy(Path.Combine(_backupDirectory, "kms", "null.kms"), kmsFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == bandana1).FullName, true);
-            File.Copy(Path.Combine(_backupDirectory, "kms", "_win", "null.cmdl"), kmsCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == bandana1).FullName, true);
-            File.Copy(Path.Combine(_backupDirectory, "kms", "null.kms"), kmsFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == bandana2).FullName, true);
-            File.Copy(Path.Combine(_backupDirectory, "kms", "_win", "null.cmdl"), kmsCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == bandana2).FullName, true);*/
+            foreach (FileInfo bandana in kmsFiles)
+            {
+                ReplaceModel(bandana.Name.Replace(bandana.Extension, ""), "null", true);
+            }
         }
 
         private void UnNullRaidenHair()
         {
             DirectoryInfo evmDirectory = new(Path.Combine(_gameDirectory, "assets", "evm", "us"));
-            DirectoryInfo evmCmdlDirectory = new(Path.Combine(evmDirectory.FullName, "_win"));
 
-            FileInfo[] evmFiles = evmDirectory.GetFiles();
-            FileInfo[] evmCmdlFiles = evmCmdlDirectory.GetFiles();
-            string raidenHair = "rai_hair_mh_mt_stage_r_plt0_r";
-            string raidenCodecHair = "rai_hair_mh_mt";
-            string raidenDivingHair = "rai_hair_diver_mh_mt";
-            string raidenDivingHair2 = "rai_hair_diver_mh_mt_stage_d005p01";
-            string raidenCodecHair2 = "rai_hair_mh_mt_face_f01c";
-
-
-            ReplaceModel(raidenHair, raidenHair, false);
-            ReplaceModel(raidenCodecHair, raidenCodecHair, false);
-            ReplaceModel(raidenDivingHair, raidenDivingHair, false);
-            ReplaceModel(raidenDivingHair2, raidenDivingHair2, false);
-            ReplaceModel(raidenCodecHair2, raidenCodecHair2, false);
-            /*File.Copy(Path.Combine(_backupDirectory, "evm", $"{raidenHair}.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHair).FullName, true);
-            File.Copy(Path.Combine(_backupDirectory, "evm", "_win", $"{raidenHair}.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHair).FullName, true);
-            File.Copy(Path.Combine(_backupDirectory, "evm", $"{raidenCodecHair}.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenCodecHair).FullName, true);
-            File.Copy(Path.Combine(_backupDirectory, "evm", "_win", $"{raidenCodecHair}.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenCodecHair).FullName, true);*/
+            FileInfo[] evmFiles = evmDirectory.GetFiles("rai_hair*");
+            
+            foreach(FileInfo raiHair in evmFiles)
+            {
+                string extensionlessName = raiHair.Name.Replace(raiHair.Extension, "");
+                ReplaceModel(extensionlessName, extensionlessName, false);
+            }
         }
 
         private void UnNullRaidenHeads()
         {
             DirectoryInfo evmDirectory = new(Path.Combine(_gameDirectory, "assets", "evm", "us"));
-            DirectoryInfo evmCmdlDirectory = new(Path.Combine(evmDirectory.FullName, "_win"));
-
-            FileInfo[] evmFiles = evmDirectory.GetFiles();
-            FileInfo[] evmCmdlFiles = evmCmdlDirectory.GetFiles();
 
             string raidenHead1 = "rai_gbs_gbshead_mh_mt";
             string raidenHead2 = "rai_gbs_gbshead_mh_mt_stage_r_plt4_r";
@@ -3010,78 +3004,39 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             ReplaceModel(raidenHead2, raidenHead2, false);
             ReplaceModel(raidenHead3, raidenHead3, false);
             ReplaceModel(raidenHead4, raidenHead4, false);
-            /*File.Copy(Path.Combine(_backupDirectory, "evm", $"{raidenHead1}.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead1).FullName, true);
-            File.Copy(Path.Combine(_backupDirectory, "evm", "_win", $"{raidenHead1}.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead1).FullName, true);
-            File.Copy(Path.Combine(_backupDirectory, "evm", $"{raidenHead2}.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead2).FullName, true);
-            File.Copy(Path.Combine(_backupDirectory, "evm", "_win", $"{raidenHead2}.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead2).FullName, true);
-            File.Copy(Path.Combine(_backupDirectory, "evm", $"{raidenHead3}.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead3).FullName, true);
-            File.Copy(Path.Combine(_backupDirectory, "evm", "_win", $"{raidenHead3}.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead3).FullName, true);
-            File.Copy(Path.Combine(_backupDirectory, "evm", $"{raidenHead4}.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead4).FullName, true);
-            File.Copy(Path.Combine(_backupDirectory, "evm", "_win", $"{raidenHead4}.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead4).FullName, true);*/
         }
 
         private void NullRaidenHeads()
         {
             DirectoryInfo evmDirectory = new(Path.Combine(_gameDirectory, "assets", "evm", "us"));
-            DirectoryInfo evmCmdlDirectory = new(Path.Combine(evmDirectory.FullName, "_win"));
 
             FileInfo[] evmFiles = evmDirectory.GetFiles();
-            FileInfo[] evmCmdlFiles = evmCmdlDirectory.GetFiles();
 
             string raidenHead1 = "rai_gbs_gbshead_mh_mt";
             string raidenHead2 = "rai_gbs_gbshead_mh_mt_stage_r_plt4_r";
             string raidenHead3 = "rai_gbs_raihead_mh_mt";
             string raidenHead4 = "rai_gbs_raihead_mh_mt_stage_r_plt5_r";
 
-            ReplaceModel(raidenHead1, "null", false);
-            ReplaceModel(raidenHead2, "null", false);
-            ReplaceModel(raidenHead3, "null", false);
-            ReplaceModel(raidenHead4, "null", false);
-            /*File.Copy(Path.Combine("Resources", "headnull.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead1).FullName, true);
-            File.Copy(Path.Combine("Resources", "headnull.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead1).FullName, true);
-            File.Copy(Path.Combine("Resources", "headnull.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead2).FullName, true);
-            File.Copy(Path.Combine("Resources", "headnull.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead2).FullName, true);
-            File.Copy(Path.Combine("Resources", "headnull.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead3).FullName, true);
-            File.Copy(Path.Combine("Resources", "headnull.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead3).FullName, true);
-            File.Copy(Path.Combine("Resources", "headnull.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead4).FullName, true);
-            File.Copy(Path.Combine("Resources", "headnull.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHead4).FullName, true);*/
+            ReplaceModel(raidenHead1, "headnull", false);
+            ReplaceModel(raidenHead2, "headnull", false);
+            ReplaceModel(raidenHead3, "headnull", false);
+            ReplaceModel(raidenHead4, "headnull", false);
         }
 
         private void NullRaidenHair()
         {
             DirectoryInfo evmDirectory = new(Path.Combine(_gameDirectory, "assets", "evm", "us"));
-            DirectoryInfo evmCmdlDirectory = new(Path.Combine(evmDirectory.FullName, "_win"));
 
-            FileInfo[] evmFiles = evmDirectory.GetFiles();
-            FileInfo[] evmCmdlFiles = evmCmdlDirectory.GetFiles();
-            string raidenHair = "rai_hair_mh_mt_stage_r_plt0_r";
-            string raidenCodecHair = "rai_hair_mh_mt";
-            string raidenDivingHair = "rai_hair_diver_mh_mt";
-            string raidenDivingHair2 = "rai_hair_diver_mh_mt_stage_d005p01";
-            string raidenCodecHair2 = "rai_hair_mh_mt_face_f01c";
+            FileInfo[] evmFiles = evmDirectory.GetFiles("rai_hair*");
 
-            ReplaceModel(raidenHair, "null", false);
-            ReplaceModel(raidenCodecHair, "null", false);
-            ReplaceModel(raidenDivingHair, "null", false);
-            ReplaceModel(raidenDivingHair2, "null", false);
-            ReplaceModel(raidenCodecHair2, "null", false);
-            /*
-            File.Copy(Path.Combine("Resources", "null.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHair).FullName, true);
-            File.Copy(Path.Combine("Resources", "null.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenHair).FullName, true);
-            File.Copy(Path.Combine("Resources", "null.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenCodecHair).FullName, true);
-            File.Copy(Path.Combine("Resources", "null.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenCodecHair).FullName, true);
-            File.Copy(Path.Combine("Resources", "null.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenCodecHair2).FullName, true);
-            File.Copy(Path.Combine("Resources", "null.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenCodecHair2).FullName, true);
-            File.Copy(Path.Combine("Resources", "null.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenDivingHair).FullName, true);
-            File.Copy(Path.Combine("Resources", "null.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenDivingHair).FullName, true);
-            File.Copy(Path.Combine("Resources", "null.evm"), evmFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenDivingHair2).FullName, true);
-            File.Copy(Path.Combine("Resources", "null.evm.cmdl"), evmCmdlFiles.FirstOrDefault(x => x.Name.Replace(x.Extension, "") == raidenDivingHair2).FullName, true);
-            */
+            foreach (FileInfo raiHair in evmFiles)
+            {
+                ReplaceModel(raiHair.Name.Replace(raiHair.Extension, ""), "null", false);
+            }
         }
 
         private void BackupModels()
         {
-            //TODO: insert nulls from spacecore into backups on load
             DirectoryInfo backupDirectory = new(_backupDirectory);
             DirectoryInfo kmsDirectory = new(Path.Combine(_gameDirectory, "assets", "kms", "us"));
             DirectoryInfo evmDirectory = new(Path.Combine(_gameDirectory, "assets", "evm", "us"));
@@ -3101,6 +3056,11 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             DirectoryInfo evmCmdlBackupDirectory = evmBackupDirectory.CreateSubdirectory("_win");
             DirectoryInfo stageBackupDirectory = backupDirectory.CreateSubdirectory("stage");
             DirectoryInfo faceBackupDirectory = backupDirectory.CreateSubdirectory("face");
+
+            File.Copy(Path.Combine("Resources", "headnull.evm"), Path.Combine(evmBackupDirectory.FullName, "headnull.evm"));
+            File.Copy(Path.Combine("Resources", "headnull.evm.cmdl"), Path.Combine(evmCmdlBackupDirectory.FullName, "headnull.cmdl"));
+            File.Copy(Path.Combine("Resources", "null.evm"), Path.Combine(evmBackupDirectory.FullName, "null.evm"));
+            File.Copy(Path.Combine("Resources", "null.evm.cmdl"), Path.Combine(evmCmdlBackupDirectory.FullName, "null.cmdl"));
 
             foreach (FileInfo kmsFile in kmsFiles)
             {
@@ -3132,6 +3092,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 if (faceFile.Name == "pages.txt")
                 {
                     File.Copy(faceFile.FullName, Path.Combine(faceBackupDirectory.FullName, faceFile.Name));
+                    continue;
                 }
                 string specificFaceDirectory = Path.Combine(faceBackupDirectory.FullName, faceFile.Directory.Name);
                 if (!Directory.Exists(specificFaceDirectory))
@@ -3178,9 +3139,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         private void button1_Click(object sender, EventArgs e)
         {
             //TODO: Pliskin got green-faced in harrier fight?
+            //Considered instituting a forced rebase whenever clicking this button, but that will mean that it is impossible to have
+            //multiple models swapped at the same time, which I don't really want to enforce...
             swapInNewModelButton.Text = "Swapping models...";
             Application.DoEvents();
-            restoreModelsButton_Click(null, null); //Restore to base first before doing anything else to avoid as many issues as possible
             MGSModel modelToSwapIn = modelToSwapInComboBox.SelectedItem as MGSModel;
             MGSModel modelToSwapOut = modelToSwapOutComboBox.SelectedItem as MGSModel;
 
@@ -3198,14 +3160,15 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
             if (modelToSwapOut.ResidentStage == "r_plt0")
             {
-                //TODO: handle raiden mags
                 if (extrasCheckBox.Checked)
                 {
+                    swapTasks.Add(Task.Run(UnNullRaidenMags));
                     swapTasks.Add(Task.Run(UnNullRaidenHeads));
                     swapTasks.Add(Task.Run(UnNullRaidenHair));
                 }
                 else
                 {
+                    swapTasks.Add(Task.Run(NullRaidenMags));
                     swapTasks.Add(Task.Run(NullRaidenHair));
                     swapTasks.Add(Task.Run(NullRaidenHeads));
                 }
@@ -3215,13 +3178,13 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 if (extrasCheckBox.Checked)
                 {
                     swapTasks.Add(Task.Run(UnNullBandana));
-                    swapTasks.Add(Task.Run(UnNullMags));
+                    swapTasks.Add(Task.Run(UnNullSnakeMags));
                 }
                 else
                 {
                     if(modelToSwapIn.Name != "MGS1 Snake(new)")
                         swapTasks.Add(Task.Run(NullBandana));
-                    swapTasks.Add(Task.Run(NullMags));
+                    swapTasks.Add(Task.Run(NullSnakeMags));
                 }
             }
             Task.WaitAll(swapTasks.ToArray());
@@ -3494,14 +3457,12 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         private void modelToSwapOutComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             modelToSwapInComboBox.Enabled = true;
-            //TODO: select currently swapped in model in modelToSwapInComboBox
+            //TODO: select currently swapped in model in modelToSwapInComboBox? -- probably too complex to implement tbqh
         }
 
-        private void restoreModelsButton_Click(object sender, EventArgs e)
+        private void RestoreModelsFromBackup()
         {
-            //TODO: could make this more efficient by always replacing the cmdl when replacing the kms            
-            restoreModelsButton.Text = "Restoring models...";
-            Application.DoEvents();
+            //TODO: could make this more efficient by always replacing the cmdl when replacing the kms
             DirectoryInfo backupKmsDirectory = new DirectoryInfo(Path.Combine(_backupDirectory, "kms"));
             DirectoryInfo backupKmsCmdlDirectory = new DirectoryInfo(Path.Combine(_backupDirectory, "kms", "_win"));
             DirectoryInfo backupEvmDirectory = new DirectoryInfo(Path.Combine(_backupDirectory, "evm"));
@@ -3544,6 +3505,13 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             });
 
             Task.WaitAll(kmsTask, evmTask, stageTask, faceTask);
+        }
+
+        private void restoreModelsButton_Click(object sender, EventArgs e)
+        {            
+            restoreModelsButton.Text = "Restoring models...";
+            Application.DoEvents();
+            RestoreModelsFromBackup();
             restoreModelsButton.Text = "Restore Models From Backup";
             Application.DoEvents();
             MessageBox.Show("Finished restoring files from backup!");
