@@ -3542,18 +3542,21 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
         private bool CompareTwoFiles(FileInfo file1, FileInfo file2)
         {
-            if (file1.Length != file2.Length)
-                return false;
-
-            using (FileStream file1Stream = File.OpenRead(file1.FullName))
+            if (file2 != null)
             {
-                using (FileStream file2Stream = File.OpenRead(file2.FullName))
+                if (file1.Length != file2.Length)
+                    return false;
+
+                using (FileStream file1Stream = File.OpenRead(file1.FullName))
                 {
-                    while (file1Stream.Position != file1Stream.Length)
+                    using (FileStream file2Stream = File.OpenRead(file2.FullName))
                     {
-                        if (file1Stream.ReadByte() != file2Stream.ReadByte())
+                        while (file1Stream.Position != file1Stream.Length)
                         {
-                            return false;
+                            if (file1Stream.ReadByte() != file2Stream.ReadByte())
+                            {
+                                return false;
+                            }
                         }
                     }
                 }
