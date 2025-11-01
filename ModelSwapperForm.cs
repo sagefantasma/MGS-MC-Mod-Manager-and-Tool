@@ -2660,6 +2660,26 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             Name = "Raiden - Story (r_plt4)",
             ResidentStage = "r_plt4"
         };
+        private MGSModel vr_snake = new()
+        {
+            Name = "Snake - VR",
+            ResidentStage = "r_vr_s"
+        };
+        private MGSModel snaketales_snake = new()
+        {
+            Name = "Snake - Snake Tales",
+            ResidentStage = "r_vr_sp"
+        };
+        private MGSModel vr_raiden = new()
+        {
+            Name = "Raiden - VR",
+            ResidentStage = "r_vr_r"
+        };
+        private MGSModel special_raiden = new()
+        {
+            Name = "Raiden - Special",
+            ResidentStage = "r_vr_rp"
+        };
         #endregion
 
         public ModelSwapperForm(string gameDirectory, string modToolsDirectory)
@@ -2708,6 +2728,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 
             foreach(FileInfo playerModel in kmsFiles.Where(x => x.Name.Contains(loLodFileNameToSwapOut)))
             {
+                if (playerModel.Name.Contains("r_vr_1") || playerModel.Name.Contains("r_vr_t")) //this is only a problem with snake and this is a lazy solution to a problem created by laziness, but o well
+                    continue;
                 ReplaceModel(playerModel.Name.Replace(playerModel.Extension, ""), loLodFileNameToSwapIn, true);
             }
             //ReplaceModel(loLodFileNameToSwapOut, loLodFileNameToSwapIn, true);
@@ -3154,6 +3176,14 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 swapTasks.Add(Task.Run(() => LoadTexturesAndTris(modelToSwapIn, naked_raiden))); //r_plt2 is used at the start of arsenal while raiden is naked
                 swapTasks.Add(Task.Run(() => LoadTexturesAndTris(modelToSwapIn, fatman_raiden))); //r_plt3 is used for the fatman fight for some reason, so we need to replace it as well.
                 swapTasks.Add(Task.Run(() => LoadTexturesAndTris(modelToSwapIn, hostage_room_raiden))); //r_plt4 is used for the hostage room for some reason, so we need to replace it as well.
+                swapTasks.Add(Task.Run(() => LoadTexturesAndTris(modelToSwapIn, vr_raiden))); //r_vr_r is used for vr missions
+                swapTasks.Add(Task.Run(() => LoadTexturesAndTris(modelToSwapIn, special_raiden))); //r_vr_rp is used for... something maybe?
+            }
+            else if(modelToSwapOut.ResidentStage == "r_tnk0")
+            {
+                swapTasks.Add(Task.Run(() => LoadTexturesAndTris(modelToSwapIn, vr_snake))); //r_vr_s is used for vr missions
+                swapTasks.Add(Task.Run(() => LoadTexturesAndTris(modelToSwapIn, snaketales_snake))); //r_vr_sp is used for external gazer snake tale
+                //swapTasks.Add(Task.Run(() => LoadTexturesAndTris(modelToSwapIn, mgs1_snake))); //r_vr_1 is used for confidential legacy snake tale and vr(gets broken 
             }
 
             swapTasks.Add(Task.Run(() => SwapModelIn(modelToSwapOut, modelToSwapIn)));
