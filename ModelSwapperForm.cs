@@ -98,6 +98,9 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         #region Models To Swap IN
         private void BuildModelsToSwapInList()
         {
+            //Anything that does not have the same kms/tri for all of them needs to look like fortune:
+            //a complete amalgamation of different ids and tris that make a complete set, simply so that the
+            //initial diving sequence comes out right for the plant. jeebus.
             /* Template
              * 
             ModelsToSwapIn.Add(new MGSModel
@@ -455,10 +458,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 Name = "Fortune",
                 LoLoDId = "0051376b",
                 LoLodKms = "assets/kms/us/for_def_sh_mt.kms,us/stage/XXXX/resident/00b365ad.kms,resident/00b365ad.kms",
-                LoLoDTri = "assets/tri/us/for_def.tri,us/stage/r_plt0/resident/0051376b.tri,resident/0051376b.tri",
-                HiLoDId = "0004ad70",
+                LoLoDTri = "assets/tri/us/for_def_stage_d078p01.tri,us/stage/r_plt0/resident/005365ad.tri,resident/005365ad.tri",
+                HiLoDId = "005365ad",
                 HiLodKms = "assets/kms/us/for_def_sh_mt.kms,us/stage/XXXX/resident/00b365ad.kms,resident/00b365ad.kms", //reusing other LoD
-                HiLoDTri = "assets/tri/us/fortune_mh_mt.tri,us/stage/r_plt0/resident/0004ad70.tri,resident/0004ad70.tri",
+                HiLoDTri = "assets/tri/us/for_def.tri,us/stage/r_plt0/resident/0051376b.tri,resident/0051376b.tri",
                 CutsceneEvm = "assets/evm/us/for_def_mh_mt.evm,us/stage/d080p01/cache/005365ad.evm,cache/005365ad.evm",
                 CutsceneTri = "assets/tri/us/for_def_stage_d078p01.tri,us/stage/d080p01/cache/005365ad.tri,cache/005365ad.tri",
                 CutsceneId = "005365ad",
@@ -516,20 +519,17 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "006EF8B3",
             "006EF8B4",
             "006FF37B",
-            "00138BFD",
-            "003001DC",
             "000D0276",
+            "00787367",
             "005EFDFF",
             "00574B69",
             "002816FE",
             "00744D49",
+            "0057A390",
+            "0028DECE",
+            "001BD9F7",
             "00F3CC28",
             "00A347A5",
-            "001AA2F9",
-            "00545F55",
-            "0054D480",
-            "0054D481",
-            "0054D482",
             "00BF5036",
             "0070DB5E",
             "00CAEC9E",
@@ -543,10 +543,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "002029A5",
             "005174BD",
             "00CC2E02",
-            "00EB6E02",
-            "00EBCE02",
-            "005178AA",
-            "008F00C7"
+            "005178AA"
                 },
                 CodecTextures = new()
                 {
@@ -603,11 +600,14 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "00D31DDD",
             "006EF8B3",
             "006EF8B4",
+            "006FF37B",
             "000D0276",
+            "00787367",
             "005EFDFF",
             "00574B69",
             "002816FE",
             "00744D49",
+            "0057A390",
             "0028DECE",
             "001BD9F7",
             "00F3CC28",
@@ -2675,6 +2675,16 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             Name = "Raiden - VR",
             ResidentStage = "r_vr_r"
         };
+        private MGSModel vr_ninja_raiden = new()
+        {
+            Name = "Ninja Raiden - VR",
+            ResidentStage = "r_vr_b"
+        };
+        private MGSModel vr_naked_raiden = new()
+        {
+            Name = "Naked Raiden - VR",
+            ResidentStage = "r_vr_x"
+        };
         private MGSModel special_raiden = new()
         {
             Name = "Raiden - Special",
@@ -2795,6 +2805,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     ReplaceModel("rai_naked_stage_r_plt2_r", loLodFileNameToSwapIn, true);
                     ReplaceModel("rai_naked_sh_stage_r_plt2_r", hiLodFileNameToSwapIn, true);
                     ReplaceModel("rai_naked_sh", hiLodFileNameToSwapIn, true);
+                    ReplaceModel("rai_def_mt", loLodFileNameToSwapIn, true);
+                    ReplaceModel("rai_def_sh_mt", hiLodFileNameToSwapIn, true);
 
                     ReplaceModel("rai_gbs_addhand_mh_mt", evmFileNameToSwapIn, false);
                     ReplaceModel("rai_gbshead_addhand_mh_mt", evmFileNameToSwapIn, false);
@@ -3177,6 +3189,8 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 swapTasks.Add(Task.Run(() => LoadTexturesAndTris(modelToSwapIn, fatman_raiden))); //r_plt3 is used for the fatman fight for some reason, so we need to replace it as well.
                 swapTasks.Add(Task.Run(() => LoadTexturesAndTris(modelToSwapIn, hostage_room_raiden))); //r_plt4 is used for the hostage room for some reason, so we need to replace it as well.
                 swapTasks.Add(Task.Run(() => LoadTexturesAndTris(modelToSwapIn, vr_raiden))); //r_vr_r is used for vr missions
+                swapTasks.Add(Task.Run(() => LoadTexturesAndTris(modelToSwapIn, vr_ninja_raiden)));
+                swapTasks.Add(Task.Run(() => LoadTexturesAndTris(modelToSwapIn, vr_naked_raiden)));
                 swapTasks.Add(Task.Run(() => LoadTexturesAndTris(modelToSwapIn, special_raiden))); //r_vr_rp is used for... something maybe?
             }
             else if(modelToSwapOut.ResidentStage == "r_tnk0")
@@ -3278,6 +3292,7 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                 List<string> otherAssetsList = manifestContents.Where(x => !x.Contains(".tri")).ToList();
                 triFiles.RemoveAll(x => string.IsNullOrWhiteSpace(x));
                 otherAssetsList.RemoveAll(x => string.IsNullOrWhiteSpace(x));
+
                 if (!triFiles.Contains(newTriFile))
                     triFiles.Add(newTriFile);
                 triFiles.Sort();
