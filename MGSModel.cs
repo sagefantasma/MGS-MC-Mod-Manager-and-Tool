@@ -45,6 +45,10 @@ namespace ANTIBigBoss_MGS_Mod_Manager
         public string LoLoDTri { get; set; }
         public string HiLodKms { get; set; }
         public string HiLoDTri { get; set; }
+        public string Bounding { get; set; }
+        public List<string> ExtraTriFiles { get; set; } = new List<string>();
+        public List<string> ExtraKmsFiles { get; set; } = new List<string>();
+        public List<string> ExtraCmdlFiles { get; set; } = new List<string>();
 
         //TODO: Maybe change from LoLoDKms & HiLodKms to just a list of models that need to be replaced? And replace them all with the same model?
         //      i mean, why bother even having a low and high lod with today's hardware?

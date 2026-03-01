@@ -10,6 +10,14 @@ namespace ANTIBigBoss_MGS_Mod_Manager
 {
     public static class ResourceFileEditorSupport
     {
+        public class CmdlComparer : IComparer<Cmdl>
+        {
+            public int Compare(Cmdl x, Cmdl y)
+            {
+                return string.Compare(x.Name, y.Name);
+            }
+        }
+
         internal static string BaseDirectory { get; set; }
         public interface IResource
         {

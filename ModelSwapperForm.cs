@@ -229,7 +229,17 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "00F87BB7",
             "00F87BB8",
             "00F87BB9",
-            "006E5D1F"
+            "006E5D1F", //below are her hair textures
+            "0034CE8A",
+            "00981182",
+            "0000E994",
+            "00FAD987",
+            "00C3F987",
+            "00DBDDC6",
+            "008AEB0A",
+            "00917197",
+            "004E8B20",
+            "002ED51B"
                 },
                 CutsceneTextures = new()
                 {
@@ -314,6 +324,18 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "00F87BB7",
             "00F87BB8",
             "00F87BB9"
+                },
+                ExtraTriFiles = new()
+                {
+                    "assets/tri/us/ema_hair_mh.tri,us/stage/r_plt0/resident/00ce9e72.tri,resident/00ce9e72.tri"
+                },
+                ExtraKmsFiles = new()
+                {
+                    "assets/kms/us/ema_hair_for_sngle.kms,us/stage/r_plt0/resident/0055959f.kms,resident/0055959f.kms"
+                },
+                ExtraCmdlFiles = new()
+                {
+                    "assets/kms/us/ema_hair_for_sngle.cmdl,us/stage/r_plt0/resident/0055959f.cmdl,eu/stage/r_plt0/resident/0055959f.cmdl"
                 }
             }); //Emma: done
             ModelsToSwapIn.Add(new MGSModel
@@ -2591,9 +2613,23 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             "00D3DDD3",
             "00BBFBA3",
             "00DB6963",
-            "007182F5"
+            "007182F5", //below here are for the coat tails
+            /*"0010072B",
+            "00F309EB",
+            "00D3DDD3",
+            "00BBFBA3",
+            "00DB6963",
+            "007182F5"*/
                 },
-                HiLoDTextures = new()
+                HiLoDTextures = new(),
+                ExtraKmsFiles = new()
+                {
+                    "assets/kms/us/sna_txd_suso_sh_mt.kms,us/stage/r_vr_t/resident/00fcc344.kms,resident/00fcc344.kms",
+                },
+                ExtraTriFiles = new()
+                {
+                    "assets/tri/us/sna_txd_suso_sh_mt.tri,us/stage/r_vr_t/resident/00fcc344.tri,resident/00fcc344.tri",
+                }
             }); //Tuxedo Snake: problem-city central.
         }
         #endregion
@@ -3167,7 +3203,21 @@ namespace ANTIBigBoss_MGS_Mod_Manager
             {
                 InsertTriIntoResidentFile(modelToSwapIn.HandsTri, modelToSwapOut.ResidentStage);
             }
-
+            if (modelToSwapIn.ExtraTriFiles.Count > 0)
+            {
+                foreach (string extraTri in modelToSwapIn.ExtraTriFiles)
+                    InsertTriIntoResidentFile(extraTri, modelToSwapOut.ResidentStage);
+            }
+            if(modelToSwapIn.ExtraKmsFiles.Count > 0)
+            {
+                foreach (string extraKms in modelToSwapIn.ExtraKmsFiles)
+                    InsertKmsIntoResidentFiles(extraKms, modelToSwapOut.ResidentStage);
+            }
+            if (modelToSwapIn.ExtraCmdlFiles.Count > 0)
+            {
+                foreach (string extraCmdl in modelToSwapIn.ExtraCmdlFiles)
+                    InsertCmdlIntoResidentFiles(extraCmdl, modelToSwapOut.ResidentStage);
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -3348,6 +3398,40 @@ namespace ANTIBigBoss_MGS_Mod_Manager
                     filesModded.Add(manifest.FullName);
                 }
             }
+        }
+
+        private void InsertKmsIntoResidentFiles(string newKmsResource, string resident)
+        {
+            DirectoryInfo residentDirectory = new DirectoryInfo(Path.Combine(_gameDirectory, "eu", "stage", resident));
+            FileInfo manifest = residentDirectory.GetFiles("manifest.txt").FirstOrDefault();
+            //string[] manifestContents = File.ReadAllLines(manifest.FullName);
+            
+            //string[] bpAssetsContents = File.ReadAllLines(bpAssets.FullName);
+
+            /*List<string> kmsFiles = manifestContents.Where(x => x.Contains(".kms")).ToList();
+            List<string> otherManifestAssetsList = manifestContents.Where(x => !x.Contains(".kms")).ToList();
+            kmsFiles.RemoveAll(x => string.IsNullOrWhiteSpace(x));
+            otherManifestAssetsList.RemoveAll(x => string.IsNullOrWhiteSpace(x));
+            if (!kmsFiles.Contains(newKmsFile))
+                kmsFiles.Add(newKmsFile);
+            kmsFiles.Sort();
+
+            string newResidentManifestFileContents = "";*/
+            ResourceFileEditorSupport.ManifestFile manifestFile = new ResourceFileEditorSupport.ManifestFile(manifest.FullName);
+            manifestFile.KmsResources.Add(new ResourceFileEditorSupport.Kms(newKmsResource));
+            manifestFile.WriteToFile();
+
+            
+        }
+
+        private void InsertCmdlIntoResidentFiles(string newCmdlResource, string resident)
+        {
+            DirectoryInfo residentDirectory = new DirectoryInfo(Path.Combine(_gameDirectory, "eu", "stage", resident));
+            FileInfo bpAssets = residentDirectory.GetFiles("bp_assets.txt").FirstOrDefault();
+            ResourceFileEditorSupport.BpAssetsFile bpAssetsFile = new ResourceFileEditorSupport.BpAssetsFile(bpAssets.FullName);
+            bpAssetsFile.CmdlResources.Add(new ResourceFileEditorSupport.Cmdl(newCmdlResource));
+            bpAssetsFile.CmdlResources.Sort(new ResourceFileEditorSupport.CmdlComparer());
+            bpAssetsFile.WriteToFile();
         }
 
         private void InsertTriIntoResidentFile(string newTriFile, string resident)
